@@ -4,8 +4,19 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="My New Post, Yixiang&#39;s Blog">
-    <meta name="description" content="">
+    <meta name="keywords" content="Yixiang&#39;s Blog">
+    <meta name="description" content="buffer_deque 设计文档功能示意
+文件结构
+main
+config_reader
+crossbar_latency_queue
+memberfetch
+crossbar.config
+
+函数接口
+I&amp;#x2F;O处理
+设置参数
+c">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +28,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>My New Post | Yixiang&#39;s Blog</title>
+    <title>Yixiang&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -334,12 +345,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">My New Post</h1>
+                    <h1 class="description center-align post-title"></h1>
                 </div>
             </div>
         </div>
@@ -375,7 +386,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2023-01-18
+                    2023-01-19
                 </div>
                 
 
@@ -396,7 +407,34 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h1 id="buffer-deque-设计文档"><a href="#buffer-deque-设计文档" class="headerlink" title="buffer_deque 设计文档"></a>buffer_deque 设计文档</h1><h2 id="功能示意"><a href="#功能示意" class="headerlink" title="功能示意"></a>功能示意</h2><p><img src="/XBar_latency_queue%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="图1"></p>
+<h2 id="文件结构"><a href="#文件结构" class="headerlink" title="文件结构"></a>文件结构</h2><ul>
+<li>main</li>
+<li>config_reader</li>
+<li>crossbar_latency_queue</li>
+<li>memberfetch</li>
+<li>crossbar.config</li>
+</ul>
+<h2 id="函数接口"><a href="#函数接口" class="headerlink" title="函数接口"></a>函数接口</h2><ul>
+<li>I&#x2F;O处理</li>
+<li>设置参数<ul>
+<li>crossbar_config()</li>
+</ul>
+</li>
+<li>crossbar_queue.crossbar_latency_queue_cycle()</li>
+<li>善后工作<ul>
+<li>释放内存</li>
+</ul>
+</li>
+</ul>
+<h2 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h2><ul>
+<li>待完成</li>
+</ul>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><ul>
+<li>最终效果就是实现从一端的<code>out_buffers</code>向另一端的<code>in_buffers</code>传输数据</li>
+</ul>
+<p><img src="/%E6%95%88%E6%9E%9C%E5%9B%BE.png" alt="图2"></p>
+
                 
             </div>
             <hr/>
@@ -422,7 +460,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://zxdfcv.github.io/2023/01/18/My-New-Post/">http://zxdfcv.github.io/2023/01/18/My-New-Post/</a>
+                    <a href="http://zxdfcv.github.io/2023/01/19/GPM-icnts-first-stage/buffer_deque%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/">http://zxdfcv.github.io/2023/01/19/GPM-icnts-first-stage/buffer_deque%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -536,54 +574,18 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
-                <a href="/2023/01/19/GPM-icnts-second-stage/">
+                <a href="/2023/01/19/GPM-icnts-first-stage/buffer_deque%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="GPM_icnts second stage">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">GPM_icnts second stage</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-01-19
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-user fa-fw"></i>
-                            Yixiang Zhang
-                            
-                        </span>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                Next&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2023/01/18/hello-world/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
-                        
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -594,7 +596,45 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-01-18
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-01-19
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Yixiang Zhang
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2023/01/19/GPM-icnts-first-stage/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="GPM_icnts first stage">
+                        
+                        <span class="card-title">GPM_icnts first stage</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-01-19
                             </span>
                         <span class="publish-author">
                             
