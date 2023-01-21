@@ -384,6 +384,9 @@
         <hr class="clearfix">
 
         
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
 
         
 
@@ -434,10 +437,22 @@
 <li>MARS:函数递归，命令行操作，导出指令</li>
 </ul>
 <p>读取字符串比较坑，比如:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">.data</span><br><span class="line">arr: .space 16</span><br><span class="line">.text</span><br><span class="line">li $v0, 8</span><br><span class="line">la $a0, arr</span><br><span class="line">li $a1, 5</span><br><span class="line">syscall</span><br><span class="line">li $v0, 4</span><br><span class="line">syscall</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-assemble" data-language="assemble"><code class="language-assemble">.data
+arr: .space 16
+.text
+li $v0, 8
+la $a0, arr
+li $a1, 5
+syscall
+li $v0, 4
+syscall<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>和</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">li $v0, 12</span><br><span class="line">syscall</span><br><span class="line">move $a0, $v0 </span><br><span class="line">li $v0, 1</span><br><span class="line">syscall</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-assemble" data-language="assemble"><code class="language-assemble">li $v0, 12
+syscall
+move $a0, $v0 
+li $v0, 1
+syscall<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>一次性读入字符串和逐个读字符两个方法都要掌握，还要熟悉它们的区别，不然很容易在慌乱中上机失败<br>但是看文档就好，一定要熟悉文档</p>
 <h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>这个时期越快越好，尽量一口气做到P3，这样就出新手村了，避免在这之前就让自己心态崩溃！(笔者P1、P3都挂了 :( )</p>
@@ -692,6 +707,9 @@
 <!-- 代码块功能依赖 -->
 <script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
 
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
 
 
 <!-- 代码语言 -->
