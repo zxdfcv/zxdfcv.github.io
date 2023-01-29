@@ -4,8 +4,8 @@
 
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-    <meta name="keywords" content="GPM_icnts second stage, 计算机科学, 北航, 体系结构, 算法">
-    <meta name="description" content="GPM_icnts 第二阶段工作">
+    <meta name="keywords" content="每日一题 2023_1_29_problem1664, 计算机科学, 北航, 体系结构, 算法">
+    <meta name="description" content="每日一题 2023_1_29_problem1664 middle">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>GPM_icnts second stage | Yixiang&#39;s Blog</title>
+    <title>每日一题 2023_1_29_problem1664 | Yixiang&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -310,12 +310,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/MCM_cover.png')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">GPM_icnts second stage</h1>
+                    <h1 class="description center-align post-title">每日一题 2023_1_29_problem1664</h1>
                 </div>
             </div>
         </div>
@@ -339,16 +339,20 @@
                     
                     <div class="article-tag">
                         
-                        <a href="/tags/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/">
-                            <span class="chip bg-color">体系结构</span>
+                        <a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/">
+                            <span class="chip bg-color">每日一题</span>
                         </a>
                         
-                        <a href="/tags/GPU/">
-                            <span class="chip bg-color">GPU</span>
+                        <a href="/tags/C/">
+                            <span class="chip bg-color">C++</span>
                         </a>
                         
-                        <a href="/tags/%E6%A8%A1%E6%8B%9F%E5%99%A8/">
-                            <span class="chip bg-color">模拟器</span>
+                        <a href="/tags/%E7%AE%97%E6%B3%95/">
+                            <span class="chip bg-color">算法</span>
+                        </a>
+                        
+                        <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+                            <span class="chip bg-color">动态规划</span>
                         </a>
                         
                     </div>
@@ -359,8 +363,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                        <a href="/categories/%E6%A8%A1%E6%8B%9F%E5%99%A8/" class="post-category">
-                            模拟器
+                        <a href="/categories/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/" class="post-category">
+                            算法学习
                         </a>
                         
                     </div>
@@ -372,7 +376,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2023-01-21
+                    2023-01-29
                 </div>
                 
 
@@ -396,130 +400,97 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="修改思路"><a href="#修改思路" class="headerlink" title="修改思路"></a>修改思路</h2><ol>
-<li>对原来的<code>Flex-GPUSim</code>模拟器进行修改，采用变精度设计，兼容原来的单一<code>Crossbar</code>设计</li>
-<li>新的<code>Crossbar</code>的设计为：<ol>
-<li>将<code>L1 + SM</code>和<code>L2</code>都分成<code>gpm_num</code>块；</li>
-<li>将<code>Crossbar</code>也分成<code>gpm_num</code>块，新增<code>crossbar_latency_queue</code>，模拟各个<code>Crossbar</code>s数据传输延迟的情况(这样GPM的分块才有意义)</li>
-<li>在原有2个<code>net</code>(每个<code>net</code>由1个<code>xbar_router</code>组成，内含1个<code>in_buffers</code>和1个<code>out_buffers</code>)的基础上添加3个<code>in_buffers</code>和3个<code>out_buffers</code>(以上的模块均在<code>Crossbar</code>中定义)，并且把本模块自己的<code>in_buffer</code>&#x2F;<code>out_buffers</code>和其他三个模块的<code>out_buffers</code>的引用传入对应的<code>xbar_router</code></li>
-<li>将四个<code>Crossbar</code>封装为一个<code>MCM_icnt</code>，仿照原先只有一个<code>Crossbar</code>的情况定义相应的接口，使其对外看起来就像原来的一个<code>Crossbar</code>。<ul>
-<li>事实上，根据2017HPCA的论文<code>MCM-GPU</code>，为了简化软硬件协同，我们必须这么做</li>
-</ul>
-</li>
-</ol>
-</li>
-</ol>
-<blockquote>
-<p>引用自：<br>programmers are isolated from the fact that a single logical GPU may now be several GPMs working in conjunction. There are two key advantages to this organization. First, it enables resource sharing of underutilized structures within a single GPU and eliminates hardware replication among GPMs. Second, applications will be able to transparently leverage bigger and more capable GPUs, without any additional programming effort.</p>
-</blockquote>
+                <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给你一个整数数组 <code>nums</code> 。你需要选择 恰好 一个下标（下标从 0 开始）并删除对应的元素。请注意剩下元素的下标可能会因为删除操作而发生改变。</p>
+<p>比方说，如果 <code>nums = [6,1,7,4,1]</code> ，那么：</p>
 <ul>
-<li>注意：在代码实现中，<code>Crossbar</code>又被称为<code>LocalInterconnect</code>，两者本质完全相同</li>
+<li>选择删除下标 <code>1</code>，剩下的数组为 <code>nums = [6,7,4,1]</code>。</li>
+<li>选择删除下标 <code>2</code>，剩下的数组为 <code>nums = [6,1,4,1]</code>。</li>
+<li>选择删除下标 <code>4</code>，剩下的数组为 <code>nums = [6,1,7,4]</code>。</li>
 </ul>
-<h2 id="软硬件接口"><a href="#软硬件接口" class="headerlink" title="软硬件接口"></a>软硬件接口</h2><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">class MCM_icnt &#123;
+<p>如果一个数组满足奇数下标元素的和与偶数下标元素的和相等，该数组就是一个 $\lceil \text{平衡数组} \rfloor$。</p>
+<h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><h3 id="方法一-动态规划"><a href="#方法一-动态规划" class="headerlink" title="方法一: 动态规划"></a>方法一: 动态规划</h3><h3 id="思路与算法"><a href="#思路与算法" class="headerlink" title="思路与算法"></a>思路与算法</h3><p>首先题目给出一个从 $0$ 开始的长度为 $n$ 的整数数组 $nums$, 并且给出 $\lceil \text{平衡数组} \rfloor$ 的定义: 数组中奇数下标元素和偶数下标元素的和相等. 现在我们可以选择一个位置 $i$, $0 \leq i &lt; n$ 的元素删除 (注意删除i之后的下标可能会因此发生改变).我们需要求出所有删除该下标元素后的数组为 $\lceil \text{平衡数组} \rfloor$ 的下标数目.</p>
+<p>我们设 $preOdd[i]$ 表示位置, $0 \leq i &lt; n$ 前所有奇数位置元素的和, $preEven[i]$ 表示位置 $i$ 前所有偶数位置元素的和, $sufOdd[i]$ 表示位置 $i$ 后所有奇数位置元素的和, $sufEven[i]$ 表示 $i$后所有偶数位置元素的和, 以下是状态转移方程式:</p>
+<ul>
+<li>当 $i$ 为奇数时:<ul>
+<li>$preOdd[i + 1] &#x3D; preOdd[i] + nums[i], i + 1 &lt; n$</li>
+<li>$sufOdd[i] &#x3D; sufOdd[i - 1] - nums[i], i - 1 \geq 0$</li>
+<li>$preEven[i + 1] &#x3D; preEven[i], i + 1 \leq n$</li>
+<li>$sufEven[i] &#x3D; sufEven[i - 1], i - 1 \geq 0$</li>
+</ul>
+</li>
+<li>当 $i$ 为偶数时:<ul>
+<li>$preEven[i + 1] &#x3D; preEven[i] + nums[i], i + 1 &lt; n$</li>
+<li>$sufEven[i] &#x3D; suf[i - 1] - nums[i], i - 1 &lt; n$</li>
+<li>$preOdd[i + 1] &#x3D; preOdd[i], i + 1 &lt; n$</li>
+<li>$sufOdd[i] &#x3D; sufOdd[i - 1], i - 1 \geq 0$</li>
+</ul>
+</li>
+</ul>
+<p>其中边界条件为: 当 $i &#x3D; 0$ 时, $preOdd[0] &#x3D; 0$, $preEven[0] &#x3D; 0$, $sufOdd[0] &#x3D; \sum_{n}^{2i + 1} nums[2i + 1]$, $sufEven[0] &#x3D; \sum_{2i}^{n} nums[2i]$.</p>
+<p>不失一般性, 现在我们将下标 $i$ 的元素进行删除, 显而易见下表 $i$ 之前的下标元素会成为偶数下表元素, 偶数下标元素会成为奇数下标元素. 所以删除后数组中全部奇数下标元素和为 $preOdd[i] + sufEven[i]$, 若两者相等则说明删除下标 $i$ 后的数组为 $\lceil \text{平衡数组} \rfloor$. 那么我们尝试删除每一个下表 $i$, $0 \leq i &lt; n$, 来统计能生成 $\lceil \text{平衡数组} \rfloor$ 的下标即可. 又因为 $preOdd[i]$, $preEven[i]$, $sufOdd[i]$, $sufEven[i]$ 求解都与前一个数有关, 因此我们可以用 $\lceil \text{滚动数组} \rfloor$ 的技巧来进行优化.</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">  class Solution &#123;
 public:
-    MCM_icnt(inct_config&amp; g_icnt_config, unsigned n_shader, unsigned n_mem, unsigned gpm_num, std::map&lt;std::string, int&gt;
-            &amp; crossbar_config) : m_inct_config(g_icnt_config), n_shader(n_shader), n_mem(n_mem), gpm_num(gpm_num) &#123;
+    int waysToMakeFair(vector&lt;int&gt;&amp; nums) &#123;
+        &#x2F;&#x2F; classic dynamic programming
+        int oddpre &#x3D; 0, evenpre &#x3D; 0;
+        int oddsuf &#x3D; 0, evensuf &#x3D; 0;
+        int ans &#x3D; 0;
+        for (int i &#x3D; 0; i &lt; nums.size(); ++i)
+        &#123;
+            if (i &amp; 1)
+            &#123;
+                oddpre +&#x3D; nums[i];
+            &#125;
+            else
+            &#123;
+                evenpre +&#x3D; nums[i];
+            &#125;
+        &#125;
+        for (int i &#x3D; nums.size() - 1; i &gt;&#x3D; 0; --i)
+        &#123;
+            if (i &amp; 1)
+            &#123;
+                oddpre -&#x3D; nums[i];
+            &#125;
+            else
+            &#123;
+                evenpre -&#x3D; nums[i];
+            &#125;
+            if (oddpre + oddsuf &#x3D;&#x3D; evenpre + evensuf)
+            &#123;
+                ++ans;
+            &#125;
+            &#x2F;*** if deleted, then switch
+            int tmp &#x3D; oddsuf;
+            oddsuf &#x3D; evensuf;
+            evensuf &#x3D; tmp;
+            if (i &amp; 1)
+            &#123;
+                oddsuf +&#x3D; nums[i];
+            &#125;
+            else
+            &#123;
+                evensuf +&#x3D; nums[i];
+            &#125;
+            tmp &#x3D; oddsuf;
+            oddsuf &#x3D; evensuf;
+            evensuf &#x3D; tmp;
+            ***&#x2F;
+            &#x2F;&#x2F;
+            if (!(i &amp; 1))
+            &#123;
+                oddsuf +&#x3D; nums[i];
+            &#125;
+            else
+            &#123;
+                evensuf +&#x3D; nums[i];
+            &#125;
+        &#125;
+        return ans;
     &#125;
-    void icnt_cycle(); &#x2F;&#x2F;整个GPM的大循环
-    void icnt_connect_cycle(); &#x2F;&#x2F;模拟Crossbar之间的传输延迟
-    bool HasBuffer(unsigned deviceID, unsigned int size) const; &#x2F;&#x2F;检测是否还有空间
-    void Push(unsigned input_deviceID, unsigned output_deviceID, void* data, unsigned int size); &#x2F;&#x2F;MCM-GPU弹出元素
-    void* Pop(unsigned output_deviceID); &#x2F;&#x2F;MCM-GPU插入元素
+&#125;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-protected:
-    std::vector&lt;LocalInterconnect*&gt; m_icnts; &#x2F;&#x2F;各个GPU单元
-    std::vector&lt;std::vector&lt;crossbar_latency_queue*&gt;&gt; m_icnt_latency_queues; &#x2F;&#x2F;各个GPU单元之间的数据传输通道
-    const inct_config&amp; m_inct_config; &#x2F;&#x2F;配置文件
-    unsigned n_shader, n_mem; &#x2F;&#x2F;SM||L1的数量, L2的数量
-    unsigned n_subnets; &#x2F;&#x2F;每个net所含子net数
-    unsigned gpm_num; &#x2F;&#x2F;GPM块数
-&#125;;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="第二阶段的主要任务"><a href="#第二阶段的主要任务" class="headerlink" title="第二阶段的主要任务"></a>第二阶段的主要任务</h2><ul>
-<li>下一阶段就是完成<code>Crossbar</code>之间的转发设计<ul>
-<li>完成<code>Packet</code>中的<code>std::queue&lt;int&gt; path</code>的设计</li>
-<li>完成一张数据传输的映射表</li>
-</ul>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="center">From</th>
-<th align="center">To</th>
-<th align="center">Path</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">GPM0</td>
-<td align="center">GPM1</td>
-<td align="center">&lt;1&gt;</td>
-</tr>
-<tr>
-<td align="center">GPM0</td>
-<td align="center">GPM2</td>
-<td align="center">&lt;1, 2&gt;</td>
-</tr>
-<tr>
-<td align="center">GPM0</td>
-<td align="center">GPM3</td>
-<td align="center">&lt;3&gt;</td>
-</tr>
-<tr>
-<td align="center">GPM1</td>
-<td align="center">GPM0</td>
-<td align="center">&lt;0&gt;</td>
-</tr>
-<tr>
-<td align="center">GPM1</td>
-<td align="center">GPM2</td>
-<td align="center">&lt;2&gt;</td>
-</tr>
-<tr>
-<td align="center">GPM1</td>
-<td align="center">GPM3</td>
-<td align="center">&lt;2, 3&gt;</td>
-</tr>
-<tr>
-<td align="center">GPM2</td>
-<td align="center">GPM0</td>
-<td align="center">&lt; 3, 1&gt;</td>
-</tr>
-<tr>
-<td align="center">GPM2</td>
-<td align="center">GPM1</td>
-<td align="center">&lt;1&gt;</td>
-</tr>
-<tr>
-<td align="center">GPM2</td>
-<td align="center">GPM3</td>
-<td align="center">&lt;3&gt;</td>
-</tr>
-<tr>
-<td align="center">GPM3</td>
-<td align="center">GPM0</td>
-<td align="center">&lt;0&gt;</td>
-</tr>
-<tr>
-<td align="center">GPM3</td>
-<td align="center">GPM1</td>
-<td align="center">&lt;0, 1&gt;</td>
-</tr>
-<tr>
-<td align="center">GPM3</td>
-<td align="center">GPM2</td>
-<td align="center">&lt;2&gt;</td>
-</tr>
-</tbody></table>
-<ul>
-<li>其规则是：如果顺时针和逆时针一样近，就顺时针。</li>
-</ul>
-<p><img src="/2023/01/21/GPM-icnts-second-stage/structure.png" alt="图 1">  </p>
-<ul>
-<li>如图所示</li>
-</ul>
-<h2 id="时间"><a href="#时间" class="headerlink" title="时间"></a>时间</h2><p>2023年1月10日-2023年1月25日</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>动态规划的简答运用，应该熟练掌握。</p>
 
                 
             </div>
@@ -546,7 +517,7 @@ protected:
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://zxdfcv.github.io/2023/01/21/GPM-icnts-second-stage/">http://zxdfcv.github.io/2023/01/21/GPM-icnts-second-stage/</a>
+                    <a href="http://zxdfcv.github.io/2023/01/29/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-2023-1-29-problem1664/">http://zxdfcv.github.io/2023/01/29/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-2023-1-29-problem1664/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -584,16 +555,20 @@ protected:
                     
                     <div class="article-tag">
                         
-                        <a href="/tags/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/">
-                            <span class="chip bg-color">体系结构</span>
+                        <a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/">
+                            <span class="chip bg-color">每日一题</span>
                         </a>
                         
-                        <a href="/tags/GPU/">
-                            <span class="chip bg-color">GPU</span>
+                        <a href="/tags/C/">
+                            <span class="chip bg-color">C++</span>
                         </a>
                         
-                        <a href="/tags/%E6%A8%A1%E6%8B%9F%E5%99%A8/">
-                            <span class="chip bg-color">模拟器</span>
+                        <a href="/tags/%E7%AE%97%E6%B3%95/">
+                            <span class="chip bg-color">算法</span>
+                        </a>
+                        
+                        <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+                            <span class="chip bg-color">动态规划</span>
                         </a>
                         
                     </div>
@@ -638,7 +613,7 @@ protected:
         repo: 'zxdfcv.github.io',
         owner: 'zxdfcv',
         admin: ["zxdfcv"],
-        id: '2023-01-21T18-00-00',
+        id: '2023-01-29T17-15-15',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -666,9 +641,72 @@ protected:
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
+            <div class="card">
+                <a href="/2023/01/29/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-2023-1-29-problem1664/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="每日一题 2023_1_29_problem1664">
+                        
+                        <span class="card-title">每日一题 2023_1_29_problem1664</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            每日一题 2023_1_29_problem1664 middle
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-01-29
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/" class="post-category">
+                                    算法学习
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/">
+                        <span class="chip bg-color">每日一题</span>
+                    </a>
+                    
+                    <a href="/tags/C/">
+                        <span class="chip bg-color">C++</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+                        <span class="chip bg-color">动态规划</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/2023/01/24/%E6%B5%81%E6%B5%AA%E5%9C%B0%E7%90%832%E8%A7%82%E5%90%8E%E6%84%9F/">
                     <div class="card-image">
@@ -685,9 +723,9 @@ protected:
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-01-24
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-01-24
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -709,58 +747,6 @@ protected:
                     
                     <a href="/tags/%E5%BD%B1%E8%AF%84/">
                         <span class="chip bg-color">影评</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                Next&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2023/01/19/BUAA-CO-LAB-%E8%AE%A1%E7%BB%84%E9%A2%84%E4%B9%A0%E9%98%B6%E6%AE%B5/">
-                    <div class="card-image">
-                        
-                        <img src="/medias/grf.png" class="responsive-img" alt="BUAA_CO_LAB 计组预习阶段">
-                        
-                        <span class="card-title">BUAA_CO_LAB 计组预习阶段</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            计组Pre预习心得
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-01-19
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" class="post-category">
-                                    体系结构
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/">
-                        <span class="chip bg-color">体系结构</span>
-                    </a>
-                    
-                    <a href="/tags/CPU/">
-                        <span class="chip bg-color">CPU</span>
                     </a>
                     
                 </div>
@@ -885,6 +871,13 @@ protected:
 
 </main>
 
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+</script>
 
 
 
