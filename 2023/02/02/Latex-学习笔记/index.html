@@ -401,8 +401,9 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>\usepakage{cases}</p>
-<p>由于准备美赛的原因，我开始学习 $\LaTeX$, 发现了这种排版引擎的独特魅力. 下面我就简单总结一下我这一个月学习 $\LaTeX $的一些知识点. </p>
-<h2 id="章节布局和基本书写"><a href="#章节布局和基本书写" class="headerlink" title="章节布局和基本书写"></a>章节布局和基本书写</h2><ul>
+<p>由于准备美赛的原因，我开始学习 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>LaTeX</mtext></mrow><annotation encoding="application/x-tex">\LaTeX</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.89883em;vertical-align:-0.2155em;"></span><span class="mord text"><span class="mord textrm">L</span><span class="mspace" style="margin-right:-0.36em;"></span><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.68333em;"><span style="top:-2.904999em;"><span class="pstrut" style="height:2.7em;"></span><span class="mord"><span class="mord textrm mtight sizing reset-size6 size3">A</span></span></span></span></span></span><span class="mspace" style="margin-right:-0.15em;"></span><span class="mord text"><span class="mord textrm">T</span><span class="mspace" style="margin-right:-0.1667em;"></span><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.46782999999999997em;"><span style="top:-2.7845em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord textrm">E</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2155em;"><span></span></span></span></span><span class="mspace" style="margin-right:-0.125em;"></span><span class="mord textrm">X</span></span></span></span></span></span>, 发现了这种排版引擎的独特魅力. 下面我就简单总结一下我这一个月学习 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>LaTeX</mtext></mrow><annotation encoding="application/x-tex">\LaTeX</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.89883em;vertical-align:-0.2155em;"></span><span class="mord text"><span class="mord textrm">L</span><span class="mspace" style="margin-right:-0.36em;"></span><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.68333em;"><span style="top:-2.904999em;"><span class="pstrut" style="height:2.7em;"></span><span class="mord"><span class="mord textrm mtight sizing reset-size6 size3">A</span></span></span></span></span></span><span class="mspace" style="margin-right:-0.15em;"></span><span class="mord text"><span class="mord textrm">T</span><span class="mspace" style="margin-right:-0.1667em;"></span><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.46782999999999997em;"><span style="top:-2.7845em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord textrm">E</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2155em;"><span></span></span></span></span><span class="mspace" style="margin-right:-0.125em;"></span><span class="mord textrm">X</span></span></span></span></span></span> 的一些知识点.</p>
+<h2 id="章节布局和基本书写"><a class="markdownIt-Anchor" href="#章节布局和基本书写"></a> 章节布局和基本书写</h2>
+<ul>
 <li>书写简单文档的格式：</li>
 </ul>
 <pre class="line-numbers language-LaTeX" data-language="LaTeX"><code class="language-LaTeX">\documentclass[12pt]&#123;ctexart&#125;
@@ -434,56 +435,56 @@
 
 \end&#123;document&#125;
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
 <p>可以保存为代码片段，方便随时引用</p>
 <ul>
 <li><code>text&#123;&#125;</code>：用于在数学公式环境中插入少量文字。</li>
 <li><code>\textbf&#123;&#125;</code>：用于加粗文本字体。</li>
 </ul>
-<h2 id="数学公式"><a href="#数学公式" class="headerlink" title="数学公式"></a>数学公式</h2><ul>
-<li>基本书写方法: 数学公式有两种排版方式：其一是与文字混排，称为<code>行内公式</code>；其二是单独列为一行排版，称为<code>行间公式</code>。<br>行内公式由一对 <code>$</code> 符号包裹：</li>
+<h2 id="数学公式"><a class="markdownIt-Anchor" href="#数学公式"></a> 数学公式</h2>
+<ul>
+<li>基本书写方法: 数学公式有两种排版方式：其一是与文字混排，称为<code>行内公式</code>；其二是单独列为一行排版，称为<code>行间公式</code>。<br>
+行内公式由一对 <code>$</code> 符号包裹：</li>
 </ul>
 <table>
 <tr>
 <td>
-
 <pre class="line-numbers language-LaTeX" data-language="LaTeX"><code class="language-LaTeX">
 The Pythagorean theorem is
 $a^2 + b^2 &#x3D; c^2$.
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
 </td><td>
-
-<p>The Pythagorean theorem is $a^2 + b^2 &#x3D; c^2$.</p>
+<p>The Pythagorean theorem is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>a</mi><mn>2</mn></msup><mo>+</mo><msup><mi>b</mi><mn>2</mn></msup><mo>=</mo><msup><mi>c</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">a^2 + b^2 = c^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.897438em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>.</p>
 </td>
-
 
 </tr>
 </table>
-
-<p>单独成行的行间公式在 $\LaTeX$ 里由 <code>equation</code> 环境包裹。<code>equation</code> 环境为公式自动生成一<br>个编号，这个编号可以用 <code>\label</code> 和 <code>\ref</code> 生成交叉引用，<code>amsmath</code> 的 <code>\eqref</code> 命令甚至为引用<br>自动加上圆括号；还可以用 <code>\tag</code> 命令手动修改公式的编号，或者用 <code>\notag</code> 命令取消为公式编<br>号（与之基本等效的命令是 <code>\nonumber</code>）。</p>
+<p>单独成行的行间公式在 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>LaTeX</mtext></mrow><annotation encoding="application/x-tex">\LaTeX</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.89883em;vertical-align:-0.2155em;"></span><span class="mord text"><span class="mord textrm">L</span><span class="mspace" style="margin-right:-0.36em;"></span><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.68333em;"><span style="top:-2.904999em;"><span class="pstrut" style="height:2.7em;"></span><span class="mord"><span class="mord textrm mtight sizing reset-size6 size3">A</span></span></span></span></span></span><span class="mspace" style="margin-right:-0.15em;"></span><span class="mord text"><span class="mord textrm">T</span><span class="mspace" style="margin-right:-0.1667em;"></span><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.46782999999999997em;"><span style="top:-2.7845em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord textrm">E</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2155em;"><span></span></span></span></span><span class="mspace" style="margin-right:-0.125em;"></span><span class="mord textrm">X</span></span></span></span></span></span> 里由 <code>equation</code> 环境包裹。<code>equation</code> 环境为公式自动生成一<br>
+个编号，这个编号可以用 <code>\label</code> 和 <code>\ref</code> 生成交叉引用，<code>amsmath</code> 的 <code>\eqref</code> 命令甚至为引用<br>
+自动加上圆括号；还可以用 <code>\tag</code> 命令手动修改公式的编号，或者用 <code>\notag</code> 命令取消为公式编<br>
+号（与之基本等效的命令是 <code>\nonumber</code>）。</p>
 <ul>
 <li>公式对齐: <code>$\begin&#123;align&#125;</code>, <code>\end&#123;align&#125;</code>, 它将公式用 &amp; 隔为两部分并对齐。分隔符通常放在等号左边：</li>
 </ul>
 <table>
 <tr>
 <td>
-
 <pre class="line-numbers language-LaTeX" data-language="LaTeX"><code class="language-LaTeX">\begin&#123;align&#125;
   S^n &amp; &#x3D; 1^k + 2^k + \cdots + n^k \notag \\
   &amp; &#x3D; (f(1) - f(0)) + \cdots + (f(n) - f(n - 1))  \notag \\
       &amp; &#x3D; f(n) - f(0) \notag
 \end&#123;align&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
 </td><td>
-
-<p>$$<br>\begin{align}<br>  S^n &amp; &#x3D; 1^k + 2^k + \cdots + n^k \notag \<br> &amp; &#x3D; (f(1) - f(0)) + \cdots + (f(n) - f(n - 1))  \notag \<br>      &amp; &#x3D; f(n) - f(0) \notag<br>\end{align}<br>$$</p>
+<p class="katex-block katex-error" title="ParseError: KaTeX parse error: No such environment: align at position 7: \begin{̲a̲l̲i̲g̲n̲}̲
+  S^n &amp; = 1^k …">\begin{align}
+  S^n &amp; = 1^k + 2^k + \cdots + n^k \notag \\
+ &amp; = (f(1) - f(0)) + \cdots + (f(n) - f(n - 1))  \notag \\
+      &amp; = f(n) - f(0) \notag
+\end{align}
+</p>
 </td>
-
 
 </tr>
 </table>
-
 <ul>
 <li>如果要想实现大括号内枚举各个方程式，可以使用<code>\begin&#123;numcases&#125;&#123;&#125;</code>命令，还可以配合<code>\tag&#123;&#125;</code>编号命令和<code>&amp;</code>对齐命令使用：</li>
 </ul>
@@ -494,9 +495,10 @@ $a^2 + b^2 &#x3D; c^2$.
   c + 3b + 9a &#x3D; 0 \tag&#123;3&#125;
 \end&#123;numcases&#125; %复习cite
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="关于中文排版"><a href="#关于中文排版" class="headerlink" title="关于中文排版"></a>关于中文排版</h2><ul>
-<li>使用命令<code>\usepackage&#123;ctex&#125;</code>即可进行中文排版。<ul>
+<h2 id="关于中文排版"><a class="markdownIt-Anchor" href="#关于中文排版"></a> 关于中文排版</h2>
+<ul>
+<li>使用命令<code>\usepackage&#123;ctex&#125;</code>即可进行中文排版。
+<ul>
 <li>空格：<code>nospace</code>是<code>ctex</code>宏包的缺省模式。<code>nospace</code>使用<code>CJK</code>的忽略空格模式，也就是CJK*环境的模式，CJK会自动忽略中文字符间的空格，比较符合中文习惯。在这种模式下，可以使用~来分隔中英文字符，产生的间距稍小于普通空格，排版效果比较美观。这种模式可以通过<code>\CTEXspace</code>命令转换到<code>space</code>模式。也可以使用命令<code>\␣</code>显示空格。</li>
 </ul>
 </li>
@@ -881,6 +883,13 @@ $a^2 + b^2 &#x3D; c^2$.
 
 </main>
 
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+</script>
 
 
 
