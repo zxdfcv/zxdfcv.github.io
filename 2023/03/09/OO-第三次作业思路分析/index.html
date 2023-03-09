@@ -4,8 +4,8 @@
 
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-    <meta name="keywords" content="$\LaTeX$ 学习笔记, 计算机科学, 北航, 体系结构, 算法">
-    <meta name="description" content="$\LaTeX$ 学习笔记">
+    <meta name="keywords" content="OO 第三次作业思路分析, 计算机科学, 北航, 体系结构, 算法">
+    <meta name="description" content="OO 第三次作业">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>$\LaTeX$ 学习笔记 | Yixiang&#39;s Blog</title>
+    <title>OO 第三次作业思路分析 | Yixiang&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -314,12 +314,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/Donald_E_Knuth.png')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">$\LaTeX$ 学习笔记</h1>
+                    <h1 class="description center-align post-title">OO 第三次作业思路分析</h1>
                 </div>
             </div>
         </div>
@@ -343,16 +343,12 @@
                     
                     <div class="article-tag">
                         
-                        <a href="/tags/LaTeX/">
-                            <span class="chip bg-color">LaTeX</span>
+                        <a href="/tags/OO/">
+                            <span class="chip bg-color">OO</span>
                         </a>
                         
-                        <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/">
-                            <span class="chip bg-color">数学建模</span>
-                        </a>
-                        
-                        <a href="/tags/%E8%AE%BA%E6%96%87%E5%86%99%E4%BD%9C/">
-                            <span class="chip bg-color">论文写作</span>
+                        <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%9E%84%E9%80%A0/">
+                            <span class="chip bg-color">面向对象设计与构造</span>
                         </a>
                         
                     </div>
@@ -363,8 +359,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                        <a href="/categories/LaTeX/" class="post-category">
-                            LaTeX
+                        <a href="/categories/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%9E%84%E9%80%A0/" class="post-category">
+                            面向对象设计与构造
                         </a>
                         
                     </div>
@@ -376,7 +372,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2023-02-02
+                    2023-03-09
                 </div>
                 
 
@@ -400,109 +396,32 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>\usepakage{cases}</p>
-<p>由于准备美赛的原因，我开始学习 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>LaTeX</mtext></mrow><annotation encoding="application/x-tex">\LaTeX</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.89883em;vertical-align:-0.2155em;"></span><span class="mord text"><span class="mord textrm">L</span><span class="mspace" style="margin-right:-0.36em;"></span><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.68333em;"><span style="top:-2.904999em;"><span class="pstrut" style="height:2.7em;"></span><span class="mord"><span class="mord textrm mtight sizing reset-size6 size3">A</span></span></span></span></span></span><span class="mspace" style="margin-right:-0.15em;"></span><span class="mord text"><span class="mord textrm">T</span><span class="mspace" style="margin-right:-0.1667em;"></span><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.46782999999999997em;"><span style="top:-2.7845em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord textrm">E</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2155em;"><span></span></span></span></span><span class="mspace" style="margin-right:-0.125em;"></span><span class="mord textrm">X</span></span></span></span></span></span>, 发现了这种排版引擎的独特魅力. 下面我就简单总结一下我这一个月学习 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>LaTeX</mtext></mrow><annotation encoding="application/x-tex">\LaTeX</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.89883em;vertical-align:-0.2155em;"></span><span class="mord text"><span class="mord textrm">L</span><span class="mspace" style="margin-right:-0.36em;"></span><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.68333em;"><span style="top:-2.904999em;"><span class="pstrut" style="height:2.7em;"></span><span class="mord"><span class="mord textrm mtight sizing reset-size6 size3">A</span></span></span></span></span></span><span class="mspace" style="margin-right:-0.15em;"></span><span class="mord text"><span class="mord textrm">T</span><span class="mspace" style="margin-right:-0.1667em;"></span><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.46782999999999997em;"><span style="top:-2.7845em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord textrm">E</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2155em;"><span></span></span></span></span><span class="mspace" style="margin-right:-0.125em;"></span><span class="mord textrm">X</span></span></span></span></span></span> 的一些知识点.</p>
-<h2 id="章节布局和基本书写"><a class="markdownIt-Anchor" href="#章节布局和基本书写"></a> 章节布局和基本书写</h2>
+                <h2 id="前情提要"><a class="markdownIt-Anchor" href="#前情提要"></a> 前情提要</h2>
+<p>开局暴击是OO课程的传统，笔者在第一次作业的时候就遇到了很大的麻烦，花费接近40个小时才最终完成作业，虽然最后结果还算不错，但确实见识到了OO课程的厉害。<br>
+坦诚而言，上学期所学的OO先导课程在本单元作业中发挥了重要作用。特别是冒险者的那个单元，无论是从面向对象项目结构，还是Java程序的工程结构，都“何其相似乃尔”！本单元我认为比较重要的内容有一下几点：</p>
 <ul>
-<li>书写简单文档的格式：</li>
+<li>递归下降的学习和使用</li>
+<li>抽象层次结构的建立</li>
+<li>Java语法糖结合相关算法的使用</li>
+<li>评测机的搭建和完善</li>
 </ul>
-<pre class="line-numbers language-LaTeX" data-language="LaTeX"><code class="language-LaTeX">\documentclass[12pt]&#123;ctexart&#125;
-
-\usepackage&#123;amsmath&#125;
-\usepackage&#123;mathabx&#125; %添加证毕符号
-\usepackage&#123;cases&#125;
-\begin&#123;document&#125;
-
-\title&#123;title&#125;
-\author&#123;author\thanks&#123;E-mail:xxxxxxxx@xxxx.xxx.xx&#125;&#125;
-\date&#123;\today&#125;
-
-\maketitle
-
-\section&#123;&#125;
-
-\subsection&#123;&#125;
-
-\subsubsection&#123;&#125;
-
-\subsection&#123;&#125;
-
-\subsubsection&#123;&#125;
-
-\subsection&#123;&#125;
-
-\subsubsection&#123;&#125;
-
-\end&#123;document&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>可以保存为代码片段，方便随时引用</p>
-<ul>
-<li><code>text&#123;&#125;</code>：用于在数学公式环境中插入少量文字。</li>
-<li><code>\textbf&#123;&#125;</code>：用于加粗文本字体。</li>
-</ul>
-<h2 id="数学公式"><a class="markdownIt-Anchor" href="#数学公式"></a> 数学公式</h2>
-<ul>
-<li>基本书写方法: 数学公式有两种排版方式：其一是与文字混排，称为<code>行内公式</code>；其二是单独列为一行排版，称为<code>行间公式</code>。<br>
-行内公式由一对 <code>$</code> 符号包裹：</li>
-</ul>
-<table>
-<tr>
-<td>
-<pre class="line-numbers language-LaTeX" data-language="LaTeX"><code class="language-LaTeX">
-The Pythagorean theorem is
-$a^2 + b^2 &#x3D; c^2$.
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-</td><td>
-<p>The Pythagorean theorem is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>a</mi><mn>2</mn></msup><mo>+</mo><msup><mi>b</mi><mn>2</mn></msup><mo>=</mo><msup><mi>c</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">a^2 + b^2 = c^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.897438em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>.</p>
-</td>
-
-</tr>
-</table>
-<p>单独成行的行间公式在 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>LaTeX</mtext></mrow><annotation encoding="application/x-tex">\LaTeX</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.89883em;vertical-align:-0.2155em;"></span><span class="mord text"><span class="mord textrm">L</span><span class="mspace" style="margin-right:-0.36em;"></span><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.68333em;"><span style="top:-2.904999em;"><span class="pstrut" style="height:2.7em;"></span><span class="mord"><span class="mord textrm mtight sizing reset-size6 size3">A</span></span></span></span></span></span><span class="mspace" style="margin-right:-0.15em;"></span><span class="mord text"><span class="mord textrm">T</span><span class="mspace" style="margin-right:-0.1667em;"></span><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.46782999999999997em;"><span style="top:-2.7845em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord textrm">E</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2155em;"><span></span></span></span></span><span class="mspace" style="margin-right:-0.125em;"></span><span class="mord textrm">X</span></span></span></span></span></span> 里由 <code>equation</code> 环境包裹。<code>equation</code> 环境为公式自动生成一<br>
-个编号，这个编号可以用 <code>\label</code> 和 <code>\ref</code> 生成交叉引用，<code>amsmath</code> 的 <code>\eqref</code> 命令甚至为引用<br>
-自动加上圆括号；还可以用 <code>\tag</code> 命令手动修改公式的编号，或者用 <code>\notag</code> 命令取消为公式编<br>
-号（与之基本等效的命令是 <code>\nonumber</code>）。</p>
-<ul>
-<li>公式对齐: <code>$\begin&#123;align&#125;</code>, <code>\end&#123;align&#125;</code>, 它将公式用 &amp; 隔为两部分并对齐。分隔符通常放在等号左边：</li>
-</ul>
-<table>
-<tr>
-<td>
-<pre class="line-numbers language-LaTeX" data-language="LaTeX"><code class="language-LaTeX">\begin&#123;align&#125;
-  S^n &amp; &#x3D; 1^k + 2^k + \cdots + n^k \notag \\
-  &amp; &#x3D; (f(1) - f(0)) + \cdots + (f(n) - f(n - 1))  \notag \\
-      &amp; &#x3D; f(n) - f(0) \notag
-\end&#123;align&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</td><td>
-<p class="katex-block katex-error" title="ParseError: KaTeX parse error: No such environment: align at position 7: \begin{̲a̲l̲i̲g̲n̲}̲
-  S^n &amp; = 1^k …">\begin{align}
-  S^n &amp; = 1^k + 2^k + \cdots + n^k \notag \\
- &amp; = (f(1) - f(0)) + \cdots + (f(n) - f(n - 1))  \notag \\
-      &amp; = f(n) - f(0) \notag
-\end{align}
-</p>
-</td>
-
-</tr>
-</table>
-<ul>
-<li>如果要想实现大括号内枚举各个方程式，可以使用<code>\begin&#123;numcases&#125;&#123;&#125;</code>命令，还可以配合<code>\tag&#123;&#125;</code>编号命令和<code>&amp;</code>对齐命令使用：</li>
-</ul>
-<pre class="line-numbers language-LaTeX" data-language="LaTeX"><code class="language-LaTeX">
-\begin&#123;numcases&#125;&#123;\text&#123;(I)\ &#125; &#125;
-  c + b + a &#x3D; 1 \tag&#123;1&#125; \\
-  c + 2b + 4a &#x3D; 2 \tag&#123;2&#125;\\
-  c + 3b + 9a &#x3D; 0 \tag&#123;3&#125;
-\end&#123;numcases&#125; %复习cite
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="关于中文排版"><a class="markdownIt-Anchor" href="#关于中文排版"></a> 关于中文排版</h2>
-<ul>
-<li>使用命令<code>\usepackage&#123;ctex&#125;</code>即可进行中文排版。
-<ul>
-<li>空格：<code>nospace</code>是<code>ctex</code>宏包的缺省模式。<code>nospace</code>使用<code>CJK</code>的忽略空格模式，也就是CJK*环境的模式，CJK会自动忽略中文字符间的空格，比较符合中文习惯。在这种模式下，可以使用~来分隔中英文字符，产生的间距稍小于普通空格，排版效果比较美观。这种模式可以通过<code>\CTEXspace</code>命令转换到<code>space</code>模式。也可以使用命令<code>\␣</code>显示空格。</li>
-</ul>
-</li>
-</ul>
+<p>虽然基本的多项式(expr/factor)-单项式(node)的结构已经建立，但我在运用算法的时候遇到了麻烦，不知道该如何处理。我的问题出在如何由底层的Factor回到表达式。因为有<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">⌈</mo><mtext>表达式因子</mtext><mo stretchy="false">⌋</mo></mrow><annotation encoding="application/x-tex">\lceil 表达式因子 \rfloor</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">⌈</span><span class="mord cjk_fallback">表</span><span class="mord cjk_fallback">达</span><span class="mord cjk_fallback">式</span><span class="mord cjk_fallback">因</span><span class="mord cjk_fallback">子</span><span class="mclose">⌋</span></span></span></span>这个存在，导致单项式经过运算之后也有可能变成多项式，在第一次作业中我尝试在node中使用Set装填node运算之后的结果，但是这样导致了结构的混乱，因为node会自己装填自己。于是在之后的作业中，我取消了单项式-多项式的继承关系，用接口统一它们相同的功能。</p>
+<p>无论是乘法、乘方、还是求导，都可以抽象为这样一个过程：</p>
+<ol>
+<li>构建单项式，组成多项式</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">⌈</mo><mtext>运算</mtext><mo stretchy="false">⌋</mo></mrow><annotation encoding="application/x-tex">\lceil 运算 \rfloor</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">⌈</span><span class="mord cjk_fallback">运</span><span class="mord cjk_fallback">算</span><span class="mclose">⌋</span></span></span></span> 多项式，进而运算其中的单项式</li>
+<li>运算单项式，产生多项式(内含多个单项式)</li>
+<li>返回多项式，将其中的单项式添加到被运算的多项式中</li>
+</ol>
+<p>这是一个可以<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">⌈</mo><mtext>递归</mtext><mo stretchy="false">⌋</mo></mrow><annotation encoding="application/x-tex">\lceil 递归 \rfloor</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">⌈</span><span class="mord cjk_fallback">递</span><span class="mord cjk_fallback">归</span><span class="mclose">⌋</span></span></span></span>的过程。</p>
+<h2 id="第三次作业思路"><a class="markdownIt-Anchor" href="#第三次作业思路"></a> 第三次作业思路</h2>
+<p>说了这么多，和第三次作业有什么关系吗？当然有！在第三次作业中我们就要强化并完善这样的过程：</p>
+<p><img src="/2023/03/09/OO-%E7%AC%AC%E4%B8%89%E6%AC%A1%E4%BD%9C%E4%B8%9A%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90/process2.png" alt="图 1"></p>
+<p>由于所有的运算都是直接对多项式进行的，只有调用了多项式的相关方法，才会调用单项式的相应功能。</p>
+<p>于是便有了这样一个流程：</p>
+<p><img src="/2023/03/09/OO-%E7%AC%AC%E4%B8%89%E6%AC%A1%E4%BD%9C%E4%B8%9A%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90/process.png" alt="图 2"></p>
+<p>至于实现的话，每个任由自己不同的实现方式，大佬们也给了很多思路，我就不在赘述。<br>
+第一次写讨论文章，如有不足还请大家多多包涵qwq。</p>
 
                 
             </div>
@@ -529,7 +448,7 @@ $a^2 + b^2 &#x3D; c^2$.
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://zxdfcv.github.io/2023/02/02/Latex-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">http://zxdfcv.github.io/2023/02/02/Latex-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</a>
+                    <a href="http://zxdfcv.github.io/2023/03/09/OO-%E7%AC%AC%E4%B8%89%E6%AC%A1%E4%BD%9C%E4%B8%9A%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90/">http://zxdfcv.github.io/2023/03/09/OO-%E7%AC%AC%E4%B8%89%E6%AC%A1%E4%BD%9C%E4%B8%9A%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -567,16 +486,12 @@ $a^2 + b^2 &#x3D; c^2$.
                     
                     <div class="article-tag">
                         
-                        <a href="/tags/LaTeX/">
-                            <span class="chip bg-color">LaTeX</span>
+                        <a href="/tags/OO/">
+                            <span class="chip bg-color">OO</span>
                         </a>
                         
-                        <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/">
-                            <span class="chip bg-color">数学建模</span>
-                        </a>
-                        
-                        <a href="/tags/%E8%AE%BA%E6%96%87%E5%86%99%E4%BD%9C/">
-                            <span class="chip bg-color">论文写作</span>
+                        <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%9E%84%E9%80%A0/">
+                            <span class="chip bg-color">面向对象设计与构造</span>
                         </a>
                         
                     </div>
@@ -621,7 +536,7 @@ $a^2 + b^2 &#x3D; c^2$.
         repo: 'zxdfcv.github.io',
         owner: 'zxdfcv',
         admin: ["zxdfcv"],
-        id: '2023-02-02T14-42-21',
+        id: '2023-03-09T15-57-13',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -649,9 +564,64 @@ $a^2 + b^2 &#x3D; c^2$.
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
+            <div class="card">
+                <a href="/2023/03/09/OO-%E7%AC%AC%E4%B8%89%E6%AC%A1%E4%BD%9C%E4%B8%9A%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="OO 第三次作业思路分析">
+                        
+                        <span class="card-title">OO 第三次作业思路分析</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            OO 第三次作业
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-09
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%9E%84%E9%80%A0/" class="post-category">
+                                    面向对象设计与构造
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/OO/">
+                        <span class="chip bg-color">OO</span>
+                    </a>
+                    
+                    <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%9E%84%E9%80%A0/">
+                        <span class="chip bg-color">面向对象设计与构造</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/2023/02/14/C-Compare-%E5%AD%A6%E4%B9%A0/">
                     <div class="card-image">
@@ -669,9 +639,9 @@ $a^2 + b^2 &#x3D; c^2$.
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-02-14
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-02-14
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -679,67 +649,6 @@ $a^2 + b^2 &#x3D; c^2$.
                             
                         </span>
                     </div>
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                Next&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2023/01/29/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-2023-1-29-problem1664/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="每日一题 2023_1_29_problem1664">
-                        
-                        <span class="card-title">每日一题 2023_1_29_problem1664</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            每日一题 2023_1_29_problem1664 middle
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-01-29
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/" class="post-category">
-                                    算法学习
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/">
-                        <span class="chip bg-color">每日一题</span>
-                    </a>
-                    
-                    <a href="/tags/C/">
-                        <span class="chip bg-color">C++</span>
-                    </a>
-                    
-                    <a href="/tags/%E7%AE%97%E6%B3%95/">
-                        <span class="chip bg-color">算法</span>
-                    </a>
-                    
-                    <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
-                        <span class="chip bg-color">动态规划</span>
-                    </a>
-                    
                 </div>
                 
             </div>
