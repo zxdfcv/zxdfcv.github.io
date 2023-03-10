@@ -5,7 +5,7 @@
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
     <meta name="keywords" content="C++ Compare 学习, 计算机科学, 北航, 体系结构, 算法">
-    <meta name="description" content="">
+    <meta name="description" content="C++ Compare 学习">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -379,7 +379,79 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <p>C++ STL 中许多容器涉及比较，如<code>map</code>,<code>set</code>,<code>priority_queue</code>等，这就需要我们实现元素的比较方法。</p>
+<p>以<code>map</code>为例(before c++17)：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">template &lt; 
+    class Key, 
+    class T, 
+    class Compare &#x3D; less&lt;Key&gt;,
+    class Allocator &#x3D; allocator&lt;pair&lt;const Key,T&gt; &gt; 
+&gt; class map;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>以<code>priority_queue</code>为例：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">template&lt;
+    class T,
+    class Container &#x3D; std::vector&lt;T&gt;,
+    class Compare &#x3D; std::less&lt;typename Container::value_type&gt;
+&gt; class priority_queue;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>二者都有一个名为<code>Compare</code>的class。但是需要注意的是，cppreference在<code>priority_queue</code>中有这样一段话:</p>
+<blockquote>
+<p>Note that the Compare parameter is defined such that it returns true if its first argument comes before its second argument in a weak ordering. But because the priority queue outputs largest elements first, the elements that “come before” are actually output last. That is, the front of the queue contains the “last” element according to the weak ordering imposed by Compare.</p>
+</blockquote>
+<ul>
+<li>也即如果元素a、b的弱序为&lt;a, b&gt;, 那么a比b“小”，b比a“大”，a排在b的前面。但是优先队列先输出最“大”的元素，故Compare定义了小于关系，实质是输出大顶堆，定义了大于关系，实质是输出小顶对。这正好对应离散数学的相关概念。</li>
+<li>此外弱序若还是反对称的，则就是全序。</li>
+</ul>
+<p>在<code>map</code>和其他一些STL容器中，Compare定义的顺序就是实际的输出顺序了。</p>
+<p>如果要使用自己定义Compare顺序，可以这样定义：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">class myCompare &#123;
+  bool operator()(const typename &amp; item1, const typename &amp; item2) const &#123;
+    &#x2F;&#x2F;define your order,
+  &#125;
+&#125;;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>例如在<code>priority_queue</code>中实现int的<code>less</code>功能：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">class myCompare &#123;
+public:
+  bool operator()(const int &amp; item1, const int &amp; item2) const &#123;
+    return item1 &lt; item2;
+  &#125;
+&#125;;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">priority_queue&lt;int&gt; queue1;
+priority_queue&lt;int, vector&lt;int&gt;, myCompare&gt; queue2;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>完整示例:</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;queue&gt;
+
+using namespace std;
+
+class myCompare
+&#123;
+public:
+  bool operator()(const int &amp;item1, const int &amp;item2) const
+  &#123;
+    return item1 &lt; item2;
+  &#125;
+&#125;;
+
+int main()
+&#123;
+  priority_queue&lt;int, vector&lt;int&gt;, myCompare&gt; queue2;
+  for (int i &#x3D; 1; i &lt; 100; ++i)
+  &#123;
+    queue2.emplace(i);
+  &#125;
+  while (!queue2.empty())
+  &#123;
+    cout &lt;&lt; queue2.top() &lt;&lt; &#39; &#39;;
+    queue2.pop();
+  &#125;
+  cout &lt;&lt; &#39;\n&#39;;
+  return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>注意如果自己指定了Compare，同时需要指定Container，应为第n个参数自定义之后，前面的n-1个参数都不能缺省，都需要手动指定。</p>
+
                 
             </div>
             <hr/>
@@ -737,6 +809,13 @@
 
 </main>
 
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+</script>
 
 
 
