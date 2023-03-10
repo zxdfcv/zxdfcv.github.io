@@ -4,8 +4,8 @@
 
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-    <meta name="keywords" content="OO 第三次作业思路分析, 计算机科学, 北航, 体系结构, 算法">
-    <meta name="description" content="OO 第三次作业">
+    <meta name="keywords" content="操作系统第一次理论作业, 计算机科学, 北航, 体系结构, 算法">
+    <meta name="description" content="操作系统第一次理论作业">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>OO 第三次作业思路分析 | Yixiang&#39;s Blog</title>
+    <title>操作系统第一次理论作业 | Yixiang&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -314,12 +314,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">OO 第三次作业思路分析</h1>
+                    <h1 class="description center-align post-title">操作系统第一次理论作业</h1>
                 </div>
             </div>
         </div>
@@ -343,12 +343,8 @@
                     
                     <div class="article-tag">
                         
-                        <a href="/tags/OO/">
-                            <span class="chip bg-color">OO</span>
-                        </a>
-                        
-                        <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%9E%84%E9%80%A0/">
-                            <span class="chip bg-color">面向对象设计与构造</span>
+                        <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+                            <span class="chip bg-color">操作系统</span>
                         </a>
                         
                     </div>
@@ -359,8 +355,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                        <a href="/categories/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%9E%84%E9%80%A0/" class="post-category">
-                            面向对象设计与构造
+                        <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="post-category">
+                            操作系统
                         </a>
                         
                     </div>
@@ -372,7 +368,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2023-03-09
+                    2023-03-10
                 </div>
                 
 
@@ -396,44 +392,39 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="前情提要"><a class="markdownIt-Anchor" href="#前情提要"></a> 前情提要</h2>
-<p>开局暴击是OO课程的传统，笔者在第一次作业的时候就遇到了很大的麻烦，花费接近40个小时才最终完成作业，虽然最后结果还算不错，但确实见识到了OO课程的厉害。<br>
-坦诚而言，上学期所学的OO先导课程在本单元作业中发挥了重要作用。特别是冒险者的那个单元，无论是从面向对象项目结构，还是Java程序的工程结构，都“何其相似乃尔”！本单元我认为比较重要的内容有以下几点：</p>
-<ul>
-<li>递归下降的学习和使用</li>
-<li>抽象层次结构的建立</li>
-<li>Java语法糖结合相关算法的使用</li>
-<li>评测机的搭建和完善</li>
-</ul>
-<p>虽然基本的多项式(expr/factor)-单项式(node)的结构已经建立，但我在运用算法的时候遇到了麻烦，不知道该如何处理。我的问题出在如何由底层的Factor回到表达式。因为有<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">⌈</mo><mtext>表达式因子</mtext><mo stretchy="false">⌋</mo></mrow><annotation encoding="application/x-tex">\lceil 表达式因子 \rfloor</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">⌈</span><span class="mord cjk_fallback">表</span><span class="mord cjk_fallback">达</span><span class="mord cjk_fallback">式</span><span class="mord cjk_fallback">因</span><span class="mord cjk_fallback">子</span><span class="mclose">⌋</span></span></span></span>这个存在，导致单项式经过运算之后也有可能变成多项式，在第一次作业中我尝试在node中使用Set装填node运算之后的结果，但是这样导致了结构的混乱，因为node会自己装填自己。于是在之后的作业中，我取消了单项式-多项式的继承关系，用接口统一它们相同的功能。</p>
-<p>无论是乘法、乘方、还是求导，都可以抽象为这样一个过程：</p>
+                <h2 id="第一题"><a class="markdownIt-Anchor" href="#第一题"></a> 第一题</h2>
+<p>Q: 什么原因推动了操作系统从批处理发展到多道程序，进而发展到分时系统?<br>
+A: 当处理程序数量变多时，批处理系统的局限性愈加明显。采用多道程序九二一同时容纳多个作业，形成一个自动转接的连续的作业流。<br>
+多道程序不能进行任务间的切换，也不能提供交互作用力。而分时系统可以解决这些问题问题以便于多用户对一个终端同时进行操作。分时系统的作用原理是将CPU的处理时间分割为多个时间片，将时间片分给多个程序，使得在用户看来达到了多个程序同时运行的效果。分时系统解决了这样一些问题:</p>
 <ol>
-<li>构建单项式，组成多项式</li>
-<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">⌈</mo><mtext>运算</mtext><mo stretchy="false">⌋</mo></mrow><annotation encoding="application/x-tex">\lceil 运算 \rfloor</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">⌈</span><span class="mord cjk_fallback">运</span><span class="mord cjk_fallback">算</span><span class="mclose">⌋</span></span></span></span> 多项式，进而运算其中的单项式</li>
-<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">⌈</mo><mtext>运算</mtext><mo stretchy="false">⌋</mo></mrow><annotation encoding="application/x-tex">\lceil 运算 \rfloor</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">⌈</span><span class="mord cjk_fallback">运</span><span class="mord cjk_fallback">算</span><span class="mclose">⌋</span></span></span></span> 运算单项式，产生多项式(内含多个单项式)</li>
-<li>返回多项式，将其中的单项式添加到被运算的多项式中</li>
+<li>批处理系统一次执行一个程序，I/O过程CPU<strong>空转</strong>；</li>
+<li>为进一步提高CPU利用率，支持<strong>多</strong>用户、<strong>多</strong>进程。</li>
 </ol>
-<p>这是一个可以<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">⌈</mo><mtext>递归</mtext><mo stretchy="false">⌋</mo></mrow><annotation encoding="application/x-tex">\lceil 递归 \rfloor</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">⌈</span><span class="mord cjk_fallback">递</span><span class="mord cjk_fallback">归</span><span class="mclose">⌋</span></span></span></span>的过程。</p>
-<h2 id="第三次作业思路"><a class="markdownIt-Anchor" href="#第三次作业思路"></a> 第三次作业思路</h2>
-<h3 id="支持求导"><a class="markdownIt-Anchor" href="#支持求导"></a> 支持求导</h3>
-<p>说了这么多，和第三次作业有什么关系吗？当然有！在第三次作业中我们就要强化并完善这样的过程：</p>
-<p><img src="/2023/03/09/OO-%E7%AC%AC%E4%B8%89%E6%AC%A1%E4%BD%9C%E4%B8%9A%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90/process2.png" alt="图 1"></p>
-<p>由于所有的运算都是直接对多项式进行的，只有调用了多项式的相关方法，才会调用单项式的相应功能。</p>
-<p>于是便有了这样一个流程：</p>
-<p><img src="/2023/03/09/OO-%E7%AC%AC%E4%B8%89%E6%AC%A1%E4%BD%9C%E4%B8%9A%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90/process.png" alt="图 2"></p>
-<p>举个例子：</p>
-<p class="katex-block katex-error" title="ParseError: KaTeX parse error: No such environment: align at position 7: \begin{̲a̲l̲i̲g̲n̲}̲
-&amp;\text{d}x(x ^…">\begin{align}
-&amp;\text{d}x(x ^ 3 y  \sin(cos(x)) \cos(x ^ 2)) \notag \\
-&amp; = \text{d}x(x ^ 3 y) \sin(cos(x)) \cos(x ^ 2) + x ^ 3 y\text{d}(sin(cos(x)) \cos(x ^ 2)) \notag  \textbf{ 分幂函数和三角函数处理}  \\
-&amp; =  3x^2y \sin(cos(x)) \cos(x ^ 2) - x^3y cos(cos(x)) sin(x) cos(x ^ 2) - 2x^4y sin(x ^ 2) sin(cos(x)) \notag 
-\textbf{ 分别计算得到多项式}
-\end{align}
-</p>
-<h3 id="自定义函数"><a class="markdownIt-Anchor" href="#自定义函数"></a> 自定义函数</h3>
-<p>自定义函数，只需要便定义边解析，也即在定义的时候把函数当作普通表达式，根据已定义的函数解析即可。</p>
-<p>至于实现的话，每个人有自己不同的实现方式，大佬们也给了很多思路，我就不再赘述。<br>
-第一次写讨论文章，如有不足还请大家多多包涵qwq。</p>
+<h2 id="第二题"><a class="markdownIt-Anchor" href="#第二题"></a> 第二题</h2>
+<p>Q: 什么是陷阱？与中断的区别是什么？什么是系统调用？<br>
+A: PPT中给的参考文档有这样一段话:</p>
+<blockquote>
+<p>Although the terms trap and exception are often used synonymously, we will use the<br>
+term trap to denote a programmer initiated and expected transfer of control to a special<br>
+handler routine. In many respects, a trap is nothing more than a specialized subroutine<br>
+call. Many texts refer to traps as software interrupts. The 80x86 int instruction is the main<br>
+vehicle for executing a trap. Note that traps are usually unconditional; that is, when you<br>
+execute an int instruction, control always transfers to the procedure associated with the<br>
+trap. Since traps execute via an explicit instruction, it is easy to determine exactly which<br>
+instructions in a program will invoke a trap handling routine.</p>
+</blockquote>
+<p>从这段话我们可以知道，陷阱是编程者预先指定好的、向一段特殊处理程序跳转的代码片段。</p>
+<p>陷阱可以被称为“软件中断”。陷阱和中断的区别在于中断来自于I/O设备，是异步步异常；而陷阱是程序内部有意设置的，是同步异常。</p>
+<p>系统调用也可视作同步异常，或者trap. 系统调用在内核态进行，是操作系统的功能。</p>
+<h2 id="第三题"><a class="markdownIt-Anchor" href="#第三题"></a> 第三题</h2>
+<p>Q: 你能否从这些复杂的启动过程中总结出一个最简单的启动需要哪些功能？<br>
+A: 其核心就是要实现逐步释放内存可用空间的功能。大致包括以下功能:</p>
+<ul>
+<li>寄存器复位到固定值</li>
+<li>硬件初始化，为下一阶段初始化RAM，并且装入下一阶段到RAM；设置堆栈到并跳转到下一个阶段入口</li>
+<li>初始化本阶段所需硬件设备，载入内核和根文件系统，为内核设置启动参数，跳转到内核入口。</li>
+<li>完成启动。</li>
+</ul>
 
                 
             </div>
@@ -460,7 +451,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://zxdfcv.github.io/2023/03/09/OO-%E7%AC%AC%E4%B8%89%E6%AC%A1%E4%BD%9C%E4%B8%9A%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90/">http://zxdfcv.github.io/2023/03/09/OO-%E7%AC%AC%E4%B8%89%E6%AC%A1%E4%BD%9C%E4%B8%9A%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90/</a>
+                    <a href="http://zxdfcv.github.io/2023/03/10/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%80%E6%AC%A1%E7%90%86%E8%AE%BA%E4%BD%9C%E4%B8%9A/">http://zxdfcv.github.io/2023/03/10/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%80%E6%AC%A1%E7%90%86%E8%AE%BA%E4%BD%9C%E4%B8%9A/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -498,12 +489,8 @@
                     
                     <div class="article-tag">
                         
-                        <a href="/tags/OO/">
-                            <span class="chip bg-color">OO</span>
-                        </a>
-                        
-                        <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%9E%84%E9%80%A0/">
-                            <span class="chip bg-color">面向对象设计与构造</span>
+                        <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+                            <span class="chip bg-color">操作系统</span>
                         </a>
                         
                     </div>
@@ -548,7 +535,7 @@
         repo: 'zxdfcv.github.io',
         owner: 'zxdfcv',
         admin: ["zxdfcv"],
-        id: '2023-03-09T15-57-13',
+        id: '2023-03-10T17-03-03',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -576,9 +563,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
                 <a href="/2023/03/10/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%80%E6%AC%A1%E7%90%86%E8%AE%BA%E4%BD%9C%E4%B8%9A/">
                     <div class="card-image">
@@ -596,9 +584,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-03-10
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-10
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -611,6 +599,7 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -629,31 +618,31 @@
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2023/02/14/C-Compare-%E5%AD%A6%E4%B9%A0/">
+                <a href="/2023/03/09/OO-%E7%AC%AC%E4%B8%89%E6%AC%A1%E4%BD%9C%E4%B8%9A%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="C++ Compare 学习">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="OO 第三次作业思路分析">
                         
-                        <span class="card-title">C++ Compare 学习</span>
+                        <span class="card-title">OO 第三次作业思路分析</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            C++ Compare 学习
+                            OO 第三次作业
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-02-14
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-09
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C/" class="post-category">
-                                    C++
+                            <a href="/categories/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%9E%84%E9%80%A0/" class="post-category">
+                                    面向对象设计与构造
                                 </a>
                             
                             
@@ -663,8 +652,12 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/">
-                        <span class="chip bg-color">C++</span>
+                    <a href="/tags/OO/">
+                        <span class="chip bg-color">OO</span>
+                    </a>
+                    
+                    <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%9E%84%E9%80%A0/">
+                        <span class="chip bg-color">面向对象设计与构造</span>
                     </a>
                     
                 </div>
