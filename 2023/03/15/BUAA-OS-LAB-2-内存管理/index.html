@@ -4,8 +4,13 @@
 
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-    <meta name="keywords" content="操作系统第一次理论作业, 计算机科学, 北航, 体系结构, 算法">
-    <meta name="description" content="操作系统第一次理论作业">
+    <meta name="keywords" content="BUAA_OS_LAB 2 内存管理, 计算机科学, 北航, 体系结构, 算法">
+    <meta name="description" content="2023 OS LAB2课下共有10个题目，分别是：
+
+Exercise-完成 mips_detect_memory 函数
+Exercise-完成 queue.h
+Exercise-完成 page_init 函数
+Exercise-完成 p">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +22,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>操作系统第一次理论作业 | Yixiang&#39;s Blog</title>
+    <title>BUAA_OS_LAB 2 内存管理 | Yixiang&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/go.png">
     
 
@@ -314,12 +319,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">操作系统第一次理论作业</h1>
+                    <h1 class="description center-align post-title">BUAA_OS_LAB 2 内存管理</h1>
                 </div>
             </div>
         </div>
@@ -343,8 +348,8 @@
                     
                     <div class="article-tag">
                         
-                        <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
-                            <span class="chip bg-color">操作系统</span>
+                        <a href="/tags/OS-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+                            <span class="chip bg-color">-OS -操作系统</span>
                         </a>
                         
                     </div>
@@ -355,8 +360,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                        <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="post-category">
-                            操作系统
+                        <a href="/categories/OS/" class="post-category">
+                            -OS
                         </a>
                         
                     </div>
@@ -368,7 +373,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2023-03-10
+                    2023-03-15
                 </div>
                 
 
@@ -392,38 +397,70 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="第一题"><a class="markdownIt-Anchor" href="#第一题"></a> 第一题</h2>
-<p>Q: 什么原因推动了操作系统从批处理发展到多道程序，进而发展到分时系统?<br>
-A: 当处理程序数量变多时，批处理系统的局限性愈加明显。采用多道程序九二一同时容纳多个作业，形成一个自动转接的连续的作业流。<br>
-多道程序不能进行任务间的切换，也不能提供交互作用力。而分时系统可以解决这些问题问题以便于多用户对一个终端同时进行操作。分时系统的作用原理是将CPU的处理时间分割为多个时间片，将时间片分给多个程序，使得在用户看来达到了多个程序同时运行的效果。分时系统解决了这样一些问题:</p>
-<ol>
-<li>批处理系统一次执行一个程序，I/O过程CPU<strong>空转</strong>；</li>
-<li>为进一步提高CPU利用率，支持<strong>多</strong>用户、<strong>多</strong>进程。</li>
-</ol>
-<h2 id="第二题"><a class="markdownIt-Anchor" href="#第二题"></a> 第二题</h2>
-<p>Q: 什么是陷阱？与中断的区别是什么？什么是系统调用？<br>
-A: PPT中给的参考文档有这样一段话:</p>
-<blockquote>
-<p>Although the terms trap and exception are often used synonymously, we will use the<br>
-term trap to denote a programmer initiated and expected transfer of control to a special<br>
-handler routine. In many respects, a trap is nothing more than a specialized subroutine<br>
-call. Many texts refer to traps as software interrupts. The 80x86 int instruction is the main<br>
-vehicle for executing a trap. Note that traps are usually unconditional; that is, when you<br>
-execute an int instruction, control always transfers to the procedure associated with the<br>
-trap. Since traps execute via an explicit instruction, it is easy to determine exactly which<br>
-instructions in a program will invoke a trap handling routine.</p>
-</blockquote>
-<p>从这段话我们可以知道，陷阱是编程者预先指定好的、向一段特殊处理程序跳转的代码片段。</p>
-<p>陷阱可以被称为“软件中断”。陷阱和中断的区别在于中断来自于I/O设备，是异步步异常；而陷阱是程序内部有意设置的，是同步异常。</p>
-<p>系统调用也可视作同步异常，或者trap. 系统调用在内核态进行，是操作系统的功能。</p>
-<h2 id="第三题"><a class="markdownIt-Anchor" href="#第三题"></a> 第三题</h2>
-<p>Q: 你能否从这些复杂的启动过程中总结出一个最简单的启动需要哪些功能？<br>
-A: 其核心就是要实现逐步释放内存可用空间的功能。大致包括以下功能:</p>
+                <p>2023 OS LAB2课下共有10个题目，分别是：</p>
 <ul>
-<li>寄存器复位到固定值</li>
-<li>硬件初始化，为下一阶段初始化RAM，并且装入下一阶段到RAM；设置堆栈到并跳转到下一个阶段入口</li>
-<li>初始化本阶段所需硬件设备，载入内核和根文件系统，为内核设置启动参数，跳转到内核入口。</li>
-<li>完成启动。</li>
+<li>Exercise-完成 <code>mips_detect_memory</code> 函数</li>
+<li>Exercise-完成 <code>queue.h</code></li>
+<li>Exercise-完成 <code>page_init</code> 函数</li>
+<li>Exercise-完成 <code>page_alloc</code> 函数</li>
+<li>Exercise-完成 <code>page_free</code> 函数</li>
+<li>Exercise-完成 <code>pgdir_walk</code> 函数</li>
+<li>Exercise-完成 <code>page_insert</code> 函数</li>
+<li>Exercise-完成 <code>tlb_out</code> 函数</li>
+<li>Exercise-完成 <code>_do_tlb_refill</code> 函数</li>
+<li>Exercise-完成 <code>do_tlb_refill</code> 函数</li>
+</ul>
+<p>下面会重点分析第六个练习</p>
+<h2 id="exercise-26-完成-pgdir_walk-函数"><a class="markdownIt-Anchor" href="#exercise-26-完成-pgdir_walk-函数"></a> Exercise 2.6 完成 pgdir_walk 函数</h2>
+<p><code>pgdir_walk</code>，顾名思义，可以理解为walk padir，也就是使得页面目录移动。</p>
+<blockquote>
+<p>该函数的作用是：给定一个虚拟地址，在给定的页目录中查找这个虚拟地址对应的物理地址，如果存在这一虚拟地址对应的页表项，则返回这一页表项的地址；如果不存在这一虚拟地址对应的页表项（不存在这一虚拟地址对应的二级页表、即这一虚拟地址对应的页目录项为空或无效），则根据传入的参数进行创建二级页表，或返回空指针。</p>
+</blockquote>
+<p>但是这个解释过于抽象，实在看不懂。于是我搬来了课程组给出的图，结合实验代码尝试理解：</p>
+<p><img src="images/1906ef641ba93ebeb5920decc31d6d62346dde3b9f40a1e866c2b699ab2940e1.png" alt="图 1"></p>
+<p>我们的最终目标是什么？获取一个页表项的地址。怎么获取它？我们注意到我们的MOS操作系统是使用两级页表的，我们手中的虚地址，是由页目录索引、页表索引以及页表项内的偏移量组成的。为了获取最终的页表项，我们需要先由页目录基地址+页目录索引得到对应的页表，再由页表+页表索引得到最终的页表项。好比我们想找到一本书的某一页，我们有这本书的目录、章节相对于目录的位置，这一页在章节中的位置。我们可以先查到这一页在哪一章，再查到这一页在本章的哪一节。</p>
+<p>现在我们大致懂得了这个过程的基本原理，我们不妨抽象一下这个结构，使之适用于更多级的页表结构。假设我们手中有第<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span>级目录的地址<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mi>a</mi><mi>s</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">base</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">b</span><span class="mord mathnormal">a</span><span class="mord mathnormal">s</span><span class="mord mathnormal">e</span></span></span></span>和第<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k+1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>级子目录相对与<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span>级目录的偏移量<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>δ</mi></mrow><annotation encoding="application/x-tex">\delta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03785em;">δ</span></span></span></span>（或者索引，位置），我们通过<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mi>a</mi><mi>s</mi><mi>e</mi><mo>+</mo><mi>δ</mi></mrow><annotation encoding="application/x-tex">base + \delta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">b</span><span class="mord mathnormal">a</span><span class="mord mathnormal">s</span><span class="mord mathnormal">e</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03785em;">δ</span></span></span></span>就可以得到第<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k+1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>子目录的地址，这个过程可以递归进行。</p>
+<p>解决了这个问题，我们就可以很快写出代码了：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
+static int pgdir_walk(Pde *pgdir, u_long va, int create, Pte **ppte) &#123;
+        Pde *pgdir_entryp;
+        struct Page *pp;
+        &#x2F;* Step 1: Get the corresponding page directory entry. *&#x2F;
+        &#x2F;* Exercise 2.6: Your code here. (1&#x2F;3) *&#x2F;
+        pgdir_entryp &#x3D; pgdir + PDX(va); &#x2F;&#x2F;get 31-22 address of va &#x2F;&#x2F;PDBase + PDX + 00_2 | co expression
+        &#x2F;* Step 2: If the corresponding page table is not existent (valid) and parameter &#96;create&#96;
+         * is set, create one. Set the permission bits &#39;PTE_D | PTE_V&#39; for this new page in the
+         * page directory.
+         * If failed to allocate a new page (out of memory), return the error. *&#x2F;
+        &#x2F;* Exercise 2.6: Your code here. (2&#x2F;3) *&#x2F;
+        if ( (*pgdir_entryp &amp; PTE_V) &#x3D;&#x3D; 0)
+        &#123;
+                if (create)
+                &#123;
+                        if ( page_alloc(&amp;pp) !&#x3D; 0)
+                        &#123;
+                                return -E_NO_MEM;
+                        &#125;
+                        *pgdir_entryp &#x3D; page2pa(pp);
+                        *pgdir_entryp &#x3D; *pgdir_entryp | PTE_D | PTE_V;
+                        pp-&gt;pp_ref++;
+                &#125;
+                else 
+                &#123;
+                        *ppte &#x3D; NULL;
+                        return 0; &#x2F;&#x2F;directly return
+                &#125;
+        &#125;
+        &#x2F;* Step 3: Assign the kernel virtual address of the page table entry to &#39;*ppte&#39;. *&#x2F;
+        &#x2F;* Exercise 2.6: Your code here. (3&#x2F;3) *&#x2F;
+        *ppte &#x3D; (Pte *)KADDR(PTE_ADDR(*pgdir_entryp)) + PTX(va);
+        return 0;
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>需要注意的点:</p>
+<ul>
+<li>这里可能会在页目录表项无效且 <code>create</code> 为真时，使用 <code>page_alloc</code> 创建一个页表，此时应维护申请得到的物理页的 pp_ref 字段。 记得实时更新 <code>pp_ref</code> 字段，无论是创建页表项或者使用页表项，都要考虑是否需要更新 <code>pp_ref</code>。</li>
+<li><code>*ppte = (Pte *)KADDR(PTE_ADDR(*pgdir_entryp)) + PTX(va)</code>这个语句不是特别好像，似乎应该这么写:<code>*ppte = (Pte *)KADDR(*pgdir_entryp) + PTX(va)</code>，但是这样就<code>kernel panic</code>了，为什么呢？这是因为<code>*pgdir_entryp</code>为页表对应的地址，而这个地址低12位是不为零的，会作为一些功能位，如果不清零的直接加上<code>PTX(va)</code>，就会将功能位也参与运算，导致地址计算错误。所以要使用低位清零函数<code>KADDR(*pgdir_entryp)</code>将低12位清零，以保证正确性。</li>
 </ul>
 
                 
@@ -451,7 +488,7 @@ A: 其核心就是要实现逐步释放内存可用空间的功能。大致包�
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://zxdfcv.github.io/2023/03/10/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%80%E6%AC%A1%E7%90%86%E8%AE%BA%E4%BD%9C%E4%B8%9A/">http://zxdfcv.github.io/2023/03/10/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%80%E6%AC%A1%E7%90%86%E8%AE%BA%E4%BD%9C%E4%B8%9A/</a>
+                    <a href="http://zxdfcv.github.io/2023/03/15/BUAA-OS-LAB-2-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">http://zxdfcv.github.io/2023/03/15/BUAA-OS-LAB-2-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -489,8 +526,8 @@ A: 其核心就是要实现逐步释放内存可用空间的功能。大致包�
                     
                     <div class="article-tag">
                         
-                        <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
-                            <span class="chip bg-color">操作系统</span>
+                        <a href="/tags/OS-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+                            <span class="chip bg-color">-OS -操作系统</span>
                         </a>
                         
                     </div>
@@ -535,7 +572,7 @@ A: 其核心就是要实现逐步释放内存可用空间的功能。大致包�
         repo: 'zxdfcv.github.io',
         owner: 'zxdfcv',
         admin: ["zxdfcv"],
-        id: '2023-03-10T17-03-03',
+        id: '2023-03-15T22-18-56',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -563,9 +600,10 @@ A: 其核心就是要实现逐步释放内存可用空间的功能。大致包�
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
                 <a href="/2023/03/15/BUAA-OS-LAB-2-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">
                     <div class="card-image">
@@ -583,9 +621,9 @@ A: 其核心就是要实现逐步释放内存可用空间的功能。大致包�
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-03-15
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-15
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -598,6 +636,7 @@ A: 其核心就是要实现逐步释放内存可用空间的功能。大致包�
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -616,31 +655,31 @@ A: 其核心就是要实现逐步释放内存可用空间的功能。大致包�
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2023/03/09/OO-%E7%AC%AC%E4%B8%89%E6%AC%A1%E4%BD%9C%E4%B8%9A%E6%80%9D%E8%B7%AF%E5%88%86%E6%9E%90/">
+                <a href="/2023/03/10/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%80%E6%AC%A1%E7%90%86%E8%AE%BA%E4%BD%9C%E4%B8%9A/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="OO 第三次作业思路分析">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="操作系统第一次理论作业">
                         
-                        <span class="card-title">OO 第三次作业思路分析</span>
+                        <span class="card-title">操作系统第一次理论作业</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            OO 第三次作业
+                            操作系统第一次理论作业
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-09
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-03-10
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%9E%84%E9%80%A0/" class="post-category">
-                                    面向对象设计与构造
+                            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="post-category">
+                                    操作系统
                                 </a>
                             
                             
@@ -650,12 +689,8 @@ A: 其核心就是要实现逐步释放内存可用空间的功能。大致包�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/OO/">
-                        <span class="chip bg-color">OO</span>
-                    </a>
-                    
-                    <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%9E%84%E9%80%A0/">
-                        <span class="chip bg-color">面向对象设计与构造</span>
+                    <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+                        <span class="chip bg-color">操作系统</span>
                     </a>
                     
                 </div>
