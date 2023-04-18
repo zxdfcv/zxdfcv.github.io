@@ -4,8 +4,8 @@
 
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-    <meta name="keywords" content="计算机科学, 北航, 体系结构, 算法">
-    <meta name="description" content="这是张翼翔的个人网站">
+    <meta name="keywords" content="BUAA_OS_LAB 3 进程与异常, 计算机科学, 北航, 体系结构, 算法">
+    <meta name="description" content="BUAA_OS_LAB 3 进程与异常">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Yixiang&#39;s Blog</title>
+    <title>BUAA_OS_LAB 3 进程与异常 | Yixiang&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/go.png">
     
 
@@ -314,12 +314,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title"></h1>
+                    <h1 class="description center-align post-title">BUAA_OS_LAB 3 进程与异常</h1>
                 </div>
             </div>
         </div>
@@ -342,11 +342,28 @@
                 <div class="col s7">
                     
                     <div class="article-tag">
-                        <span class="chip bg-color">No tag</span>
+                        
+                        <a href="/tags/OS/">
+                            <span class="chip bg-color">OS</span>
+                        </a>
+                        
+                        <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+                            <span class="chip bg-color">操作系统</span>
+                        </a>
+                        
                     </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/OS/" class="post-category">
+                            OS
+                        </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -355,7 +372,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2023-04-16
+                    2023-04-18
                 </div>
                 
 
@@ -379,65 +396,315 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="张翼翔的简历"><a class="markdownIt-Anchor" href="#张翼翔的简历"></a> 张翼翔的简历</h1>
-<h2 id="基础信息"><a class="markdownIt-Anchor" href="#基础信息"></a> 基础信息</h2>
+                <h2 id="thinking-31"><a class="markdownIt-Anchor" href="#thinking-31"></a> Thinking 3.1</h2>
+<p>请结合 MOS 中的页目录自映射应用解释代码中 <code>e-&gt;env_pgdir[PDX(UVPT)] = PADDR(e-&gt;env_pgdir) | PTE_V</code> 的含义。</p>
+<p>e-&gt;env_pgdir[PDX(UVPT)]是将该进程的UVPT的页表偏移量取出，将对应位置的页目录设置为<code>(e-&gt;env_pgdir) | PTE_V</code>并开启只读，即将页目录所在页映射到自己<br>
+的虚拟地址，即完成页表自映射。</p>
+<h2 id="thinking-32"><a class="markdownIt-Anchor" href="#thinking-32"></a> Thinking 3.2</h2>
+<p>elf_load_seg以函数指针的形式，接受外部自定义的回调函数 map_page。请你找到与之相关的 data 这一参数在此处的来源，并思考它的作用。没有这个参数可不可<br>
+以？为什么？</p>
+<p>这里主要还是考察对回调函数的理解。data参数是传入的进程控制块指针。在<code>load_icode</code>函数中调用<code>elf_load_seg</code>函数，传入<code>load_icode_mapper</code>函数指针作为回调函数，同时传入data。在load_icode函数中data指向的是一个env类型的结构体，这个结构体包含了进程的各种信息，如进程id、进程状态、进程内存空间以及进程优先级等。map_page是一个回调函数，用于将ELF文件中的数据映射到进程内存空间中。如果没有这个参数，那么就无法将ELF文件中的数据映射到进程内存空间中，因此这个参数是必须的。</p>
+<h2 id="thinking-33"><a class="markdownIt-Anchor" href="#thinking-33"></a> Thinking 3.3</h2>
+<p>结合 elf_load_seg 的参数和实现，考虑该函数需要处理哪些页面加载的情况。</p>
+<p>源码</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
+if (ph-&gt;p_flags &amp; PF_W) &#123;
+        perm |&#x3D; PTE_D;
+&#125;
+
+int r;
+size_t i;
+u_long offset &#x3D; va - ROUNDDOWN(va, BY2PG);
+if (offset !&#x3D; 0) &#123;
+        if ((r &#x3D; map_page(data, va, offset, perm, bin, MIN(bin_size, BY2PG - offset))) !&#x3D;
+            1) &#123;
+                return r;
+        &#125;
+&#125;
+
+&#x2F;* Step 1: load all content of bin into memory. *&#x2F;
+for (i &#x3D; offset ? MIN(bin_size, BY2PG - offset) : 0; i &lt; bin_size; i +&#x3D; BY2PG) &#123;
+        if ((r &#x3D; map_page(data, va + i, 0, perm, bin + i, MIN(bin_size - i, BY2PG))) !&#x3D; 0) &#123;
+                return r;
+        &#125;
+&#125;
+
+&#x2F;* Step 2: alloc pages to reach &#96;sgsize&#96; when &#96;bin_size&#96; &lt; &#96;sgsize&#96;. *&#x2F;
+while (i &lt; sgsize) &#123;
+        if ((r &#x3D; map_page(data, va + i, 0, perm, NULL, MIN(bin_size - i, BY2PG))) !&#x3D; 0) &#123;
+                return r;
+        &#125;
+        i +&#x3D; BY2PG;
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
-<li>邮箱 <a href="mailto:21371055@buaa.edu.cn">21371055@buaa.edu.cn</a></li>
-<li>github zxdfcv</li>
-<li>个人博客 <a href="http://zxdfcv.github.io">zxdfcv.github.io</a></li>
+<li>如果页面可写，就设置为脏的(Dirty)。</li>
+<li><code>elf_load_seg</code>函数会从<code>ph</code>中获取<code>va</code>该段需要被加载到的虚地址）、<code>sgsize</code>（该段在内存中的大小）、<code>bin_size</code>（该段在文件中的大小）和 <code>perm</code>（该段被加载时的页面权限），并根据这些信息完成以下两个步骤：
+<ul>
+<li>第一步 加载该段的所有数据（<code>bin</code>）中的所有内容到内存（<code>va</code>）。</li>
+<li>第二步 如果该段在文件中的内容的大小达不到为填入这段内容新分配的页面大小，即分配了新的页面但没能填满（如 <code>.bss</code> 区域），那么余下的部分用<code>0</code>来填充。</li>
 </ul>
-<h2 id="教育背景"><a class="markdownIt-Anchor" href="#教育背景"></a> 教育背景</h2>
-<ul>
-<li>北京航空航天大学 | 计算机科学与技术专业 | GPA: 3.81/4.00</li>
-<li>专业分流排名 | 21/1008</li>
-<li>时间 | 2021.09 – 今</li>
+</li>
 </ul>
-<h2 id="项目开发"><a class="markdownIt-Anchor" href="#项目开发"></a> 项目开发</h2>
-<p>参与北航体系结构所 Chiplet GPU性能模拟器项目开发，目前准备参加冯如杯</p>
-<h2 id="获奖经历"><a class="markdownIt-Anchor" href="#获奖经历"></a> 获奖经历</h2>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">奖项名称</th>
-<th style="text-align:center">获得时间</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">冯如杯创意竞赛三等奖 (一作)</td>
-<td style="text-align:center">2022.06</td>
-</tr>
-<tr>
-<td style="text-align:center">冯如杯创意竞赛三等奖 (二作)</td>
-<td style="text-align:center">2022.06</td>
-</tr>
-<tr>
-<td style="text-align:center">北航外研社杯阅读大赛二等奖</td>
-<td style="text-align:center">2022.09</td>
-</tr>
-<tr>
-<td style="text-align:center">北京航空航天大学物理竞赛二等奖</td>
-<td style="text-align:center">2022.10</td>
-</tr>
-<tr>
-<td style="text-align:center">北航学习优秀奖学金 (一等奖)</td>
-<td style="text-align:center">2022.11</td>
-</tr>
-<tr>
-<td style="text-align:center">全国大学生数学竞赛北京赛区二等奖</td>
-<td style="text-align:center">2022.12</td>
-</tr>
-</tbody>
-</table>
-<h2 id="专业技能"><a class="markdownIt-Anchor" href="#专业技能"></a> 专业技能</h2>
+<p>段内的内存布局可能较为复杂，需加载到的虚拟地址<code>va</code>、该段占据的内存<br>
+长度<code>sg_size</code>以及需要拷贝的数据长度<code>bin_size</code>都可能不是页对齐的。<code>elf_load_seg</code>会正确处理这些地址的页面偏移，对于每个需要加载的页面，用对齐后的地址<code>va</code>以及该页的其他信息。调用回调函数<code>map_page</code>，由回调函数完成单页的加载。这样的设计允许<code>elf_load_seg</code>只关心<code>ELF</code>段的结构，而不用处理与具体操作系统相关的页面加载过程。</p>
+<h2 id="thinking-34"><a class="markdownIt-Anchor" href="#thinking-34"></a> Thinking 3.4</h2>
+<p>思考上面这一段话，并根据自己在 Lab2 中的理解，回答：</p>
+<p>你认为这里的 env_tf.cp0_epc 存储的是物理地址还是虚拟地址?</p>
+<p>虚拟地址。CPU从cp0_epc读取到返回的地址，然后返回造成异常的那条指令的地址。具体解释同lab2的第一个思考题。</p>
+<h2 id="thinking-35"><a class="markdownIt-Anchor" href="#thinking-35"></a> Thinking 3.5</h2>
+<p>0-3号异常处理函数的具体实现位置：genex.S，</p>
+<p>0号中断由以下代码单独实现：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
+24 NESTED(handle_int, TF_SIZE, zero)
+25         mfc0    t0, CP0_CAUSE
+26         mfc0    t2, CP0_STATUS
+27         and     t0, t2
+28         andi    t1, t0, STATUS_IM4
+29         bnez    t1, timer_irq
+30         &#x2F;&#x2F; TODO: handle other irqs
+31 timer_irq:
+32         sw      zero, (KSEG1 | DEV_RTC_ADDRESS | DEV_RTC_INTERRUPT_ACK)
+33         li      a0, 0
+34         j       schedule
+35 END(handle_int)
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>其余中断用汇编的<code>.marco</code>实现：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
+ 5 .macro BUILD_HANDLER exception handler
+ 6 NESTED(handle_\exception, TF_SIZE, zero)
+ 7         move    a0, sp
+ 8         jal     \handler
+ 9         j       ret_from_exception
+10 END(handle_\exception)
+11 .endm
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>然后使用<code>BUILD_HANDLER</code>就实现了对应的异常处理函数：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
+37 BUILD_HANDLER tlb do_tlb_refill
+38 
+39 #if !defined(LAB) || LAB &gt;&#x3D; 4
+40 BUILD_HANDLER mod do_tlb_mod
+41 BUILD_HANDLER sys do_syscall
+42 #endif
+43 
+44 BUILD_HANDLER reserved do_reserved
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="thinking-36"><a class="markdownIt-Anchor" href="#thinking-36"></a> Thinking 3.6</h2>
+<p>阅读 init.c、kclock.S、env_asm.S 和 genex.S 这几个文件，并尝试说出<br>
+enable_irq 和 timer_irq 中每行汇编代码的作用。</p>
+<p>timer_irq</p>
+<pre class="line-numbers language-mips" data-language="mips"><code class="language-mips">
+32         sw      zero, (KSEG1 | DEV_RTC_ADDRESS | DEV_RTC_INTERRUPT_ACK)
+33         li      a0, 0
+34         j       schedule
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>32：将<code>0</code>写入<code>KSEG1 | DEV_RTC_ADDRESS | DEV_RTC_INTERRUPT_ACK</code>所在的内存地址；<br>
+33：将<code>a0</code>寄存器置为0；<br>
+34：跳转到<code>schedule</code>函数。</p>
+<p>enable_irq</p>
+<pre class="line-numbers language-mips" data-language="mips"><code class="language-mips">
+16         li      t0, (STATUS_CU0 | STATUS_IM4 | STATUS_IEc)
+17         mtc0    t0, CP0_STATUS
+18         jr      ra
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>16：将<code>(STATUS_CU0 | STATUS_IM4 | STATUS_IEc)</code>写入<code>t0</code>寄存器；<br>
+17：将<code>t0</code>的值写入<code>CP0_STATUS</code>寄存器<br>
+18：返回上一级调用者函数</p>
+<h2 id="thinking-37"><a class="markdownIt-Anchor" href="#thinking-37"></a> Thinking 3.7</h2>
+<p>阅读相关代码，思考操作系统是怎么根据时钟中断切换进程的。</p>
+<p><code>kern/kclock.S</code>中的<code>kclock_init</code>函数完成了时钟中断的初始化，该函数向<code>KSEG1 | DEV_RTC_ADDRESS | DEV_RTC_HZ</code>位置写入<code>200</code>，其中<code>KSEG1 |DEV_RTC_ADDRESS</code>是模拟器（<code>GXemul</code>）映射实时钟的位置。偏移量为<code>DEV_RTC_HZ</code>表示设置实时钟中断的频率，<code>200</code>表示<code>1</code>秒钟中断<code>200</code>次；如果写入<code>0</code>，表示关闭时钟中断。时钟中断对于<code>GXemul</code>来说绑定到了<code>4</code>号中断上。这里的中断号是仅针对不同种类的中断而言的，与异常无关。</p>
+<p><code>init/init.c</code>中的<code>mips_init</code>函数在完成初始化并创建进程后，需要调用<code>kclock_init</code>函数完成时钟中断的初始化，然后调用<code>kern/env_asm.S</code>中的<code>enable_irq</code>函数开启中断。</p>
+<p>一旦实时钟中断产生，就会触发<code>MIPS</code>中断，从而系统将<code>PC</code>指向<code>0x80000080</code>，从而跳转到<code>.text.exc_gen_entry</code>代码段执行。对于实时钟引起的中断，通过<code>.text.exc_gen_entry</code>代码段的分发处理，最终会调用<code>handle_int</code>函数来处理实时钟中断。</p>
+<p><code>handle_int</code>中判断了<code>Cause</code>寄存器是不是对应的<code>4</code>号中断位引发的中断，如果是，则执行<br>
+中断服务函数<code>timer_irq</code>，跳转到<code>schedule</code>中执行。</p>
+<p>每当时钟中断到来时，陷入内核态，调用<code>schedule</code>函数。<code>schedule</code>函数采用时间片轮转的算法。<code>env</code>中的优先级在这里起到了作用，这里规定其数值表示进程每次运行的时间片数量。寻找就绪状态进程不是简单遍历所有进程，而是用一个调度链表存储所有就绪（可运行）的进程，即一个进程在调度链表中当且仅当这个进程是就绪（<code>ENV_RUNNABLE</code>）状态的。当内核创建新进程时，将其插入调度链表的头部；在其不再就绪（被阻塞）或退出时，将其从调度链表中移除。调度函数<code>schedule</code>被调用时，当前正在运行的进程被存储在全局变量<code>curenv</code>中（在第一个进程被调度前为<code>NULL</code>），其剩余的时间片数量被存储在静态变量<code>count</code>中。进程切换包括以下几种情况：</p>
 <ul>
-<li>编程语言 C, C++, Java, ,Python, JavaScript,<br>
-Verilog</li>
-<li>开发环境  VSCode, ,JetBrains IDEs</li>
+<li>尚未调度过任何进程（<code>curenv</code>为空指针）；</li>
+<li>当前进程已经用完了时间片；</li>
+<li>当前进程不再就绪（如被阻塞或退出）；</li>
+<li><code>yield</code>参数指定必须发生切换。</li>
 </ul>
-<h2 id="其他信息"><a class="markdownIt-Anchor" href="#其他信息"></a> 其他信息</h2>
+<p>无论是否需要切换进程，都需要<strong>先</strong>将剩余时间片数量<code>count</code> 减去<code>1</code>。</p>
+<p>当无需进行切换时，调用<code>env_run</code>函数，继续运行当前进程<code>curenv</code>；在发生切换的情况下，还需要先判断当前进程是否仍然就绪，如果是则应该先其移动到调度链表的尾部再进行调度。之后，选中调度链表头部的进程来调度运行，将剩余时间片数量设置为其优先级。</p>
+<h2 id="难点分析"><a class="markdownIt-Anchor" href="#难点分析"></a> 难点分析</h2>
+<p>本次实验的最大难点就是<code>schedule</code>函数，主要包括以下重要知识点：</p>
 <ul>
-<li>外语英语CET-4、CET-6(621)</li>
+<li>函数上下文的理解和调用；</li>
+<li>时间片轮转算法的理解和使用；</li>
+<li>系统中断的产生和处理。</li>
+</ul>
+<p>指导书再这几个方面花费大量笔墨进行讲解，我虽然进行了认真阅读，但难免还是有不理解的地方。通过结合这个函数的使用，我进一步了解了<code>schedule</code>函数的作用和功能，顺利地解决了<code>bug</code>。</p>
+<p>我的<code>bug</code>主要有两个方面：</p>
+<ul>
+<li><code>count</code>自减的位置错误。我没有理解一旦进入调度函数就要将当前进程的可用时间片减去1。这条语句优先度是最高的，放在后面可能导致系统卡死。</li>
+<li><code>env_sched_list</code>管理方式理解错误。<code>schedule</code>函数的调用方式保证了<code>schedule</code>函数使用<code>env_sched_list</code>的时候，进程控制块对应的进程一定都是<code>RUNNABLE</code>的。我之前尝试在<code>e-&gt;env_status != ENV_RUNNABLE</code>时候删除进程控制块<code>e</code>，导致了野指针的错误。</li>
+</ul>
+<h2 id="实验体会"><a class="markdownIt-Anchor" href="#实验体会"></a> 实验体会</h2>
+<p>本次实验花费8小时，撰写实验报告花费6小时，比lab2稍微轻松一些，这是因为lab2的学习增强了我对操作系统的虚拟页式管理系统的理解。</p>
+<p>通过本次实验，我的以下几方面的能力得到了提升：</p>
+<ul>
+<li>断点打印调试的能力。通过定义并复用宏，在各个测试点附近设置打印断点，可有效排查<code>bug</code>。</li>
+<li>对进程控制块的熟练程度。在多个函数中以不同方式设置进程控制块的不同信息，最终完成进程控制块的初始化。</li>
+<li>对进程调度算法的理解和使用。虽然时间片轮转算法很简单，但是掌握理解它是学习和使用更复杂精巧进程调度算法的基础。</li>
+</ul>
+<h2 id="课上"><a class="markdownIt-Anchor" href="#课上"></a> 课上</h2>
+<h3 id="exam"><a class="markdownIt-Anchor" href="#exam"></a> exam</h3>
+<p>实现一个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">⌈</mo></mrow><annotation encoding="application/x-tex">\lceil</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">⌈</span></span></span></span>公平<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">⌋</mo></mrow><annotation encoding="application/x-tex">\rfloor</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mclose">⌋</span></span></span></span>的调度算法，对于每个存在的用户，实现时间片的尽可能均匀分配。</p>
+<ul>
+<li>非常简单，而且给了伪代码，直接照着写很快就能做出了。</li>
+<li>前面的介绍和题目描述信息看一眼就好（<s>感觉也没有特别大的帮助，主要是看有无遗漏要点</s>）。</li>
+<li>命令行的使用一定要熟练，vim的快捷键要牢记，同时要学会快速调试。</li>
+</ul>
+<p>代码：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
+#include &lt;env.h&gt;
+#include &lt;pmap.h&gt;
+#include &lt;printk.h&gt;
+
+&#x2F;* Overview:
+ *   Implement a round-robin scheduling to select a runnable env and schedule it using &#39;env_run&#39;.
+ *
+ * Post-Condition:
+ *   If &#39;yield&#39; is set (non-zero), &#39;curenv&#39; should not be scheduled again unless it is the only
+ *   runnable env.
+ *
+ * Hints:
+ *   1. The variable &#39;count&#39; used for counting slices should be defined as &#39;static&#39;.
+ *   2. Use variable &#39;env_sched_list&#39;, which contains and only contains all runnable envs.
+ *   3. You shouldn&#39;t use any &#39;return&#39; statement because this function is &#39;noreturn&#39;.
+ *&#x2F;
+void schedule(int yield) &#123;
+        static int count &#x3D; 0; &#x2F;&#x2F; remaining time slices of current env
+        struct Env *e &#x3D; curenv;
+        static int user_time[5];
+        &#x2F;* We always decrease the &#39;count&#39; by 1.
+         *
+         * If &#39;yield&#39; is set, or &#39;count&#39; has been decreased to 0, or &#39;e&#39; (previous &#39;curenv&#39;) is
+         * &#39;NULL&#39;, or &#39;e&#39; is not runnable, then we pick up a new env from &#39;env_sched_list&#39; (list of
+         * all runnable envs), set &#39;count&#39; to its priority, and schedule it with &#39;env_run&#39;. **Panic
+         * if that list is empty**.
+         *
+         * (Note that if &#39;e&#39; is still a runnable env, we should move it to the tail of
+         * &#39;env_sched_list&#39; before picking up another env from its head, or we will schedule the
+         * head env repeatedly.)
+         *
+         * Otherwise, we simply schedule &#39;e&#39; again.
+         *
+         * You may want to use macros below:
+         *   &#39;TAILQ_FIRST&#39;, &#39;TAILQ_REMOVE&#39;, &#39;TAILQ_INSERT_TAIL&#39;
+         *&#x2F;
+        &#x2F;* Exercise 3.12: Your code here. *&#x2F;
+        int avail_user[5] &#x3D; &#123;0, 0, 0, 0, 0&#125;;
+        &#x2F;&#x2F; int user_len &#x3D; 0;
+        struct Env *tmp_env;
+        TAILQ_FOREACH(tmp_env,(&amp;env_sched_list), env_sched_link) &#123;
+                if (tmp_env !&#x3D; NULL) &#123;
+                        avail_user[tmp_env-&gt;env_user]++;
+                &#125;
+        &#125;
+        &#x2F;&#x2F;count &#x3D; count - 1;&#x2F;&#x2F;adjust
+        if (yield || count &#x3D;&#x3D; 0 || e &#x3D;&#x3D; NULL || e-&gt;env_status !&#x3D; ENV_RUNNABLE) &#123;
+                if (e !&#x3D; NULL) &#123;
+                        if (e-&gt;env_status !&#x3D; ENV_RUNNABLE) &#123;
+                                &#x2F;&#x2F;TAILQ_REMOVE((&amp;env_sched_list), e, env_sched_link);
+                        &#125; else &#123;
+                                TAILQ_REMOVE((&amp;env_sched_list), e, env_sched_link);
+                                TAILQ_INSERT_TAIL((&amp;env_sched_list), e, env_sched_link);
+                                user_time[e-&gt;env_user] +&#x3D; e-&gt;env_pri;
+                        &#125;
+                &#125;
+                if (TAILQ_EMPTY((&amp;env_sched_list))) &#123;
+                        panic(&quot;env_sched_list is empty!&quot;);
+                        &#x2F;&#x2F;return;
+                &#125; 
+                int min_time &#x3D; -1;
+                int id &#x3D; -1;
+                for (int i &#x3D; 0; i &lt; 5; ++i) &#123;
+                        if (avail_user[i] !&#x3D; 0) &#123;
+                                if (min_time &#x3D;&#x3D; -1) &#123;
+                                        id &#x3D; i;
+                                        min_time &#x3D; user_time[i];
+                                &#125; else &#123;
+                                        if (min_time &gt; user_time[i]) &#123;
+                                                id &#x3D; i;
+                                                min_time &#x3D; user_time[i];
+                                        &#125;
+                                &#125;
+                        &#125;
+                &#125;
+
+                TAILQ_FOREACH(tmp_env, (&amp;env_sched_list), env_sched_link) &#123;
+                         if (tmp_env !&#x3D; NULL &amp;&amp; tmp_env-&gt;env_user &#x3D;&#x3D; id) &#123;
+                                break; 
+                         &#125;
+                &#125;
+                count &#x3D; tmp_env-&gt;env_pri;
+                e &#x3D; tmp_env;
+        &#125;
+        count--;
+        env_run(e);
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="extra"><a class="markdownIt-Anchor" href="#extra"></a> extra</h3>
+<p>爬了，又没过，连续两次不过extra了，好伤心。</p>
+<p>和去年的考察形式一模一样，还是异常处理。去年是<code>AdEL</code>，今年是<code>Ov</code>。</p>
+<p>题目大致内容如下：</p>
+<ul>
+<li>完成对地址错误中的<code>Ov</code>错误进行处理，在抛出这个异常后编写完成 kern/traps.c 中的异常分发和kern/genex.S 中的处理异常的汇编代码，使其能完成题目要求的对该类异常的正确处理。主要处理<code>add</code>，<code>sub</code>，<code>addi</code>三个指令。
+<ul>
+<li><code>add</code>转化为<code>addu</code></li>
+<li><code>sub</code>转化为<code>subu</code></li>
+<li><code>addi</code>将<code>epc</code>改为<code>epc + 4</code>，将<code>rt</code>寄存器的值设置为<code>rs / 2 + imm / 2</code></li>
+</ul>
+</li>
+<li>注意看清各指令的 opcode 码。</li>
+</ul>
+<p><img src="/2023/04/18/BUAA-OS-LAB-3-%E8%BF%9B%E7%A8%8B%E4%B8%8E%E5%BC%82%E5%B8%B8/add.png" alt="add"><br>
+<img src="/2023/04/18/BUAA-OS-LAB-3-%E8%BF%9B%E7%A8%8B%E4%B8%8E%E5%BC%82%E5%B8%B8/addu.png" alt="addu"><br>
+<img src="/2023/04/18/BUAA-OS-LAB-3-%E8%BF%9B%E7%A8%8B%E4%B8%8E%E5%BC%82%E5%B8%B8/sub1.png" alt="sub1"><br>
+<img src="/2023/04/18/BUAA-OS-LAB-3-%E8%BF%9B%E7%A8%8B%E4%B8%8E%E5%BC%82%E5%B8%B8/sub2.png" alt="sub2"></p>
+<p>没做出来的原因有三个：</p>
+<ul>
+<li>计组的知识忘差不多了，对异常协处理寄存器<code>cp0</code>完全不熟悉，<code>R I J</code>型指令格式也不熟悉了。</li>
+<li>位运算不熟悉，考试时候紧张不知道怎么取一个数的特定几位。</li>
+<li>页式虚拟内存管理不熟悉。不会根据虚拟地址查找对应的物理地址。</li>
+</ul>
+<p>代码</p>
+<p>kern/traps.c</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
+void do_ov(struct Trapframe *tf) &#123;
+        &#x2F;&#x2F;save
+        unsigned long addr &#x3D; tf-&gt;cp0_epc; &#x2F;&#x2F; va
+        Pde *env_pgdir &#x3D; curenv-&gt;env_pgdir + PDX(addr);
+        Pte *table_1 &#x3D; (Pte *)KADDR(PTE_ADDR(*env_pgdir)) + PTX(addr); &#x2F;&#x2F;由于这个地址一定有效(已经被执行)，所以不需要有效性检验(即&amp;PTE_V)
+        u_int* vaddr &#x3D; (u_int*)(KADDR(PTE_ADDR(*table_1)) + (addr &amp; 0xFFF)); &#x2F;&#x2F;do not use pgdir_walk | kva kseg0 &#x2F;&#x2F;强制转化为指向四个字节的指针
+        u_int item &#x3D; *(vaddr);
+        if ((item &gt;&gt; 26) &#x3D;&#x3D; 0 &amp;&amp; (item &amp; ((1 &lt;&lt; 6) - 1)) &#x3D;&#x3D; (u_int)32) &#123; &#x2F;&#x2F;(u_int)强制类型转换其实不需要，因为是正数，首位为零，但这样可读性好
+                *(vaddr) &#x3D; (item &amp; ~((1 &lt;&lt; 6) - 1)) | (u_int) 33; &#x2F;&#x2F;可以用十六进制表示会更好
+                printk(&quot;add ov handled\n&quot;);
+        &#125; else if ((item &gt;&gt; 26) &#x3D;&#x3D; 0 &amp;&amp; (item &amp; ((1 &lt;&lt; 6) - 1)) &#x3D;&#x3D; (u_int)34) &#123;
+                *(vaddr) &#x3D; (item &amp; ~((1 &lt;&lt; 6) - 1)) | (u_int) 35;
+                printk(&quot;sub ov handled\n&quot;);
+        &#125; else if ((item &gt;&gt; 26) &#x3D;&#x3D;  (u_int)8 ) &#123;
+                tf-&gt;regs[(item &gt;&gt; 16) &amp; ((1 &lt;&lt; 5 - 1))] &#x3D; ((item &amp; ((1 &lt;&lt; 16) - 1)) &gt;&gt; 1) + (tf-&gt;regs[(item &gt;&gt; 21) &amp; ((1 &lt;&lt; 5) - 1)] &gt;&gt; 1);
+                tf-&gt;cp0_epc &#x3D; tf-&gt;cp0_epc + 4;
+                printk(&quot;addi ov handled\n&quot;);
+        &#125;
+        curenv-&gt;env_ov_cnt++;
+&#125;
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>或者直接使用<code>pgdir_walk</code></p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
+pgdir_walk(curenv-&gt;env_pgdir, addr, 0, &amp;table_1);
+&#x2F;&#x2F;避免重复造轮子
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>获取一个数的低<code>k</code>位：<code>num &amp; ((1 &lt;&lt; k) - 1)</code></li>
+<li>获取一个数的最高位到<code>k + 1</code>位：<code>num &amp; ~((1 &lt;&lt; k) - 1)</code></li>
+<li>判断<code>A</code>的所有位是不是包含<code>B</code> <code>A &amp; B == B</code></li>
 </ul>
 
                 
@@ -465,7 +732,7 @@ Verilog</li>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://zxdfcv.github.io/about/index.html">http://zxdfcv.github.io/about/index.html</a>
+                    <a href="http://zxdfcv.github.io/2023/04/18/BUAA-OS-LAB-3-%E8%BF%9B%E7%A8%8B%E4%B8%8E%E5%BC%82%E5%B8%B8/">http://zxdfcv.github.io/2023/04/18/BUAA-OS-LAB-3-%E8%BF%9B%E7%A8%8B%E4%B8%8E%E5%BC%82%E5%B8%B8/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -502,7 +769,15 @@ Verilog</li>
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                     <div class="article-tag">
-                        <span class="chip bg-color">No tag</span>
+                        
+                        <a href="/tags/OS/">
+                            <span class="chip bg-color">OS</span>
+                        </a>
+                        
+                        <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+                            <span class="chip bg-color">操作系统</span>
+                        </a>
+                        
                     </div>
                     
                 </div>
@@ -545,7 +820,7 @@ Verilog</li>
         repo: 'zxdfcv.github.io',
         owner: 'zxdfcv',
         admin: ["zxdfcv"],
-        id: '2023-04-16T18-10-21',
+        id: '2023-04-18T08-43-49',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -578,34 +853,50 @@ Verilog</li>
                 <i class="far fa-dot-circle"></i>&nbsp;Current
             </div>
             <div class="card">
-                <a href="/about/index.html">
+                <a href="/2023/04/18/BUAA-OS-LAB-3-%E8%BF%9B%E7%A8%8B%E4%B8%8E%E5%BC%82%E5%B8%B8/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="BUAA_OS_LAB 3 进程与异常">
                         
-                        <span class="card-title"></span>
+                        <span class="card-title">BUAA_OS_LAB 3 进程与异常</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            BUAA_OS_LAB 3 进程与异常
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-04-16
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-04-18
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            Yixiang Zhang
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/OS/" class="post-category">
+                                    OS
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/OS/">
+                        <span class="chip bg-color">OS</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+                        <span class="chip bg-color">操作系统</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -613,37 +904,52 @@ Verilog</li>
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                Current&nbsp;<i class="far fa-dot-circle"></i>
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/about/index.html">
+                <a href="/2023/04/04/BUAA-OS-LAB-%E8%B5%84%E6%BA%90%E6%B1%87%E6%80%BB/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="BUAA_OS_LAB 资源汇总">
                         
-                        <span class="card-title"></span>
+                        <span class="card-title">BUAA_OS_LAB 资源汇总</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            BUAA_OS_LAB 2 内存管理2
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-04-16
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-04-04
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            Yixiang Zhang
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/OS/" class="post-category">
+                                    OS
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
-
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/OS/">
+                        <span class="chip bg-color">OS</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+                        <span class="chip bg-color">操作系统</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -765,6 +1071,13 @@ Verilog</li>
 
 </main>
 
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+</script>
 
 
 
