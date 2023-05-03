@@ -407,35 +407,35 @@
 <h2 id="thinking-33"><a class="markdownIt-Anchor" href="#thinking-33"></a> Thinking 3.3</h2>
 <p>结合 elf_load_seg 的参数和实现，考虑该函数需要处理哪些页面加载的情况。</p>
 <p>源码</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
-if (ph-&gt;p_flags &amp; PF_W) &#123;
-        perm |&#x3D; PTE_D;
-&#125;
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">
+<span class="token keyword">if</span> <span class="token punctuation">(</span>ph<span class="token operator">-></span>p_flags <span class="token operator">&amp;</span> PF_W<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        perm <span class="token operator">|=</span> PTE_D<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
 
-int r;
-size_t i;
-u_long offset &#x3D; va - ROUNDDOWN(va, BY2PG);
-if (offset !&#x3D; 0) &#123;
-        if ((r &#x3D; map_page(data, va, offset, perm, bin, MIN(bin_size, BY2PG - offset))) !&#x3D;
-            1) &#123;
-                return r;
-        &#125;
-&#125;
+<span class="token keyword">int</span> r<span class="token punctuation">;</span>
+size_t i<span class="token punctuation">;</span>
+u_long offset <span class="token operator">=</span> va <span class="token operator">-</span> <span class="token function">ROUNDDOWN</span><span class="token punctuation">(</span>va<span class="token punctuation">,</span> BY2PG<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>offset <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>r <span class="token operator">=</span> <span class="token function">map_page</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> va<span class="token punctuation">,</span> offset<span class="token punctuation">,</span> perm<span class="token punctuation">,</span> bin<span class="token punctuation">,</span> <span class="token function">MIN</span><span class="token punctuation">(</span>bin_size<span class="token punctuation">,</span> BY2PG <span class="token operator">-</span> offset<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span>
+            <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">return</span> r<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
 
-&#x2F;* Step 1: load all content of bin into memory. *&#x2F;
-for (i &#x3D; offset ? MIN(bin_size, BY2PG - offset) : 0; i &lt; bin_size; i +&#x3D; BY2PG) &#123;
-        if ((r &#x3D; map_page(data, va + i, 0, perm, bin + i, MIN(bin_size - i, BY2PG))) !&#x3D; 0) &#123;
-                return r;
-        &#125;
-&#125;
+<span class="token comment">/* Step 1: load all content of bin into memory. */</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> offset <span class="token operator">?</span> <span class="token function">MIN</span><span class="token punctuation">(</span>bin_size<span class="token punctuation">,</span> BY2PG <span class="token operator">-</span> offset<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> bin_size<span class="token punctuation">;</span> i <span class="token operator">+=</span> BY2PG<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>r <span class="token operator">=</span> <span class="token function">map_page</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> va <span class="token operator">+</span> i<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> perm<span class="token punctuation">,</span> bin <span class="token operator">+</span> i<span class="token punctuation">,</span> <span class="token function">MIN</span><span class="token punctuation">(</span>bin_size <span class="token operator">-</span> i<span class="token punctuation">,</span> BY2PG<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">return</span> r<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
 
-&#x2F;* Step 2: alloc pages to reach &#96;sgsize&#96; when &#96;bin_size&#96; &lt; &#96;sgsize&#96;. *&#x2F;
-while (i &lt; sgsize) &#123;
-        if ((r &#x3D; map_page(data, va + i, 0, perm, NULL, MIN(bin_size - i, BY2PG))) !&#x3D; 0) &#123;
-                return r;
-        &#125;
-        i +&#x3D; BY2PG;
-&#125;
+<span class="token comment">/* Step 2: alloc pages to reach `sgsize` when `bin_size` &lt; `sgsize`. */</span>
+<span class="token keyword">while</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;</span> sgsize<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>r <span class="token operator">=</span> <span class="token function">map_page</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> va <span class="token operator">+</span> i<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> perm<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token function">MIN</span><span class="token punctuation">(</span>bin_size <span class="token operator">-</span> i<span class="token punctuation">,</span> BY2PG<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">return</span> r<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        i <span class="token operator">+=</span> BY2PG<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>如果页面可写，就设置为脏的(Dirty)。</li>
@@ -455,40 +455,40 @@ while (i &lt; sgsize) &#123;
 <h2 id="thinking-35"><a class="markdownIt-Anchor" href="#thinking-35"></a> Thinking 3.5</h2>
 <p>0-3号异常处理函数的具体实现位置：genex.S，</p>
 <p>0号中断由以下代码单独实现：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
-24 NESTED(handle_int, TF_SIZE, zero)
-25         mfc0    t0, CP0_CAUSE
-26         mfc0    t2, CP0_STATUS
-27         and     t0, t2
-28         andi    t1, t0, STATUS_IM4
-29         bnez    t1, timer_irq
-30         &#x2F;&#x2F; TODO: handle other irqs
-31 timer_irq:
-32         sw      zero, (KSEG1 | DEV_RTC_ADDRESS | DEV_RTC_INTERRUPT_ACK)
-33         li      a0, 0
-34         j       schedule
-35 END(handle_int)
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">
+<span class="token number">24</span> <span class="token function">NESTED</span><span class="token punctuation">(</span>handle_int<span class="token punctuation">,</span> TF_SIZE<span class="token punctuation">,</span> zero<span class="token punctuation">)</span>
+<span class="token number">25</span>         mfc0    t0<span class="token punctuation">,</span> CP0_CAUSE
+<span class="token number">26</span>         mfc0    t2<span class="token punctuation">,</span> CP0_STATUS
+<span class="token number">27</span>         <span class="token operator">and</span>     t0<span class="token punctuation">,</span> t2
+<span class="token number">28</span>         andi    t1<span class="token punctuation">,</span> t0<span class="token punctuation">,</span> STATUS_IM4
+<span class="token number">29</span>         bnez    t1<span class="token punctuation">,</span> timer_irq
+<span class="token number">30</span>         <span class="token comment">// TODO: handle other irqs</span>
+<span class="token number">31</span> timer_irq<span class="token operator">:</span>
+<span class="token number">32</span>         sw      zero<span class="token punctuation">,</span> <span class="token punctuation">(</span>KSEG1 <span class="token operator">|</span> DEV_RTC_ADDRESS <span class="token operator">|</span> DEV_RTC_INTERRUPT_ACK<span class="token punctuation">)</span>
+<span class="token number">33</span>         li      a0<span class="token punctuation">,</span> <span class="token number">0</span>
+<span class="token number">34</span>         j       schedule
+<span class="token number">35</span> <span class="token function">END</span><span class="token punctuation">(</span>handle_int<span class="token punctuation">)</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>其余中断用汇编的<code>.marco</code>实现：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
- 5 .macro BUILD_HANDLER exception handler
- 6 NESTED(handle_\exception, TF_SIZE, zero)
- 7         move    a0, sp
- 8         jal     \handler
- 9         j       ret_from_exception
-10 END(handle_\exception)
-11 .endm
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">
+ <span class="token number">5</span> <span class="token punctuation">.</span>macro BUILD_HANDLER exception handler
+ <span class="token number">6</span> <span class="token function">NESTED</span><span class="token punctuation">(</span>handle_\exception<span class="token punctuation">,</span> TF_SIZE<span class="token punctuation">,</span> zero<span class="token punctuation">)</span>
+ <span class="token number">7</span>         move    a0<span class="token punctuation">,</span> sp
+ <span class="token number">8</span>         jal     \handler
+ <span class="token number">9</span>         j       ret_from_exception
+<span class="token number">10</span> <span class="token function">END</span><span class="token punctuation">(</span>handle_\exception<span class="token punctuation">)</span>
+<span class="token number">11</span> <span class="token punctuation">.</span>endm
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>然后使用<code>BUILD_HANDLER</code>就实现了对应的异常处理函数：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
-37 BUILD_HANDLER tlb do_tlb_refill
-38 
-39 #if !defined(LAB) || LAB &gt;&#x3D; 4
-40 BUILD_HANDLER mod do_tlb_mod
-41 BUILD_HANDLER sys do_syscall
-42 #endif
-43 
-44 BUILD_HANDLER reserved do_reserved
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">
+<span class="token number">37</span> BUILD_HANDLER tlb do_tlb_refill
+<span class="token number">38</span> 
+<span class="token number">39</span> #<span class="token keyword">if</span> <span class="token operator">!</span><span class="token function">defined</span><span class="token punctuation">(</span>LAB<span class="token punctuation">)</span> <span class="token operator">||</span> LAB <span class="token operator">>=</span> <span class="token number">4</span>
+<span class="token number">40</span> BUILD_HANDLER mod do_tlb_mod
+<span class="token number">41</span> BUILD_HANDLER sys do_syscall
+<span class="token number">42</span> #endif
+<span class="token number">43</span> 
+<span class="token number">44</span> BUILD_HANDLER reserved do_reserved
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="thinking-36"><a class="markdownIt-Anchor" href="#thinking-36"></a> Thinking 3.6</h2>
 <p>阅读 init.c、kclock.S、env_asm.S 和 genex.S 这几个文件，并尝试说出<br>
@@ -558,94 +558,94 @@ enable_irq 和 timer_irq 中每行汇编代码的作用。</p>
 <li>命令行的使用一定要熟练，vim的快捷键要牢记，同时要学会快速调试。</li>
 </ul>
 <p>代码：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
-#include &lt;env.h&gt;
-#include &lt;pmap.h&gt;
-#include &lt;printk.h&gt;
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;env.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;pmap.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;printk.h></span></span>
 
-&#x2F;* Overview:
- *   Implement a round-robin scheduling to select a runnable env and schedule it using &#39;env_run&#39;.
+<span class="token comment">/* Overview:
+ *   Implement a round-robin scheduling to select a runnable env and schedule it using 'env_run'.
  *
  * Post-Condition:
- *   If &#39;yield&#39; is set (non-zero), &#39;curenv&#39; should not be scheduled again unless it is the only
+ *   If 'yield' is set (non-zero), 'curenv' should not be scheduled again unless it is the only
  *   runnable env.
  *
  * Hints:
- *   1. The variable &#39;count&#39; used for counting slices should be defined as &#39;static&#39;.
- *   2. Use variable &#39;env_sched_list&#39;, which contains and only contains all runnable envs.
- *   3. You shouldn&#39;t use any &#39;return&#39; statement because this function is &#39;noreturn&#39;.
- *&#x2F;
-void schedule(int yield) &#123;
-        static int count &#x3D; 0; &#x2F;&#x2F; remaining time slices of current env
-        struct Env *e &#x3D; curenv;
-        static int user_time[5];
-        &#x2F;* We always decrease the &#39;count&#39; by 1.
+ *   1. The variable 'count' used for counting slices should be defined as 'static'.
+ *   2. Use variable 'env_sched_list', which contains and only contains all runnable envs.
+ *   3. You shouldn't use any 'return' statement because this function is 'noreturn'.
+ */</span>
+<span class="token keyword">void</span> <span class="token function">schedule</span><span class="token punctuation">(</span><span class="token keyword">int</span> yield<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">static</span> <span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// remaining time slices of current env</span>
+        <span class="token keyword">struct</span> <span class="token class-name">Env</span> <span class="token operator">*</span>e <span class="token operator">=</span> curenv<span class="token punctuation">;</span>
+        <span class="token keyword">static</span> <span class="token keyword">int</span> user_time<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token comment">/* We always decrease the 'count' by 1.
          *
-         * If &#39;yield&#39; is set, or &#39;count&#39; has been decreased to 0, or &#39;e&#39; (previous &#39;curenv&#39;) is
-         * &#39;NULL&#39;, or &#39;e&#39; is not runnable, then we pick up a new env from &#39;env_sched_list&#39; (list of
-         * all runnable envs), set &#39;count&#39; to its priority, and schedule it with &#39;env_run&#39;. **Panic
+         * If 'yield' is set, or 'count' has been decreased to 0, or 'e' (previous 'curenv') is
+         * 'NULL', or 'e' is not runnable, then we pick up a new env from 'env_sched_list' (list of
+         * all runnable envs), set 'count' to its priority, and schedule it with 'env_run'. **Panic
          * if that list is empty**.
          *
-         * (Note that if &#39;e&#39; is still a runnable env, we should move it to the tail of
-         * &#39;env_sched_list&#39; before picking up another env from its head, or we will schedule the
+         * (Note that if 'e' is still a runnable env, we should move it to the tail of
+         * 'env_sched_list' before picking up another env from its head, or we will schedule the
          * head env repeatedly.)
          *
-         * Otherwise, we simply schedule &#39;e&#39; again.
+         * Otherwise, we simply schedule 'e' again.
          *
          * You may want to use macros below:
-         *   &#39;TAILQ_FIRST&#39;, &#39;TAILQ_REMOVE&#39;, &#39;TAILQ_INSERT_TAIL&#39;
-         *&#x2F;
-        &#x2F;* Exercise 3.12: Your code here. *&#x2F;
-        int avail_user[5] &#x3D; &#123;0, 0, 0, 0, 0&#125;;
-        &#x2F;&#x2F; int user_len &#x3D; 0;
-        struct Env *tmp_env;
-        TAILQ_FOREACH(tmp_env,(&amp;env_sched_list), env_sched_link) &#123;
-                if (tmp_env !&#x3D; NULL) &#123;
-                        avail_user[tmp_env-&gt;env_user]++;
-                &#125;
-        &#125;
-        &#x2F;&#x2F;count &#x3D; count - 1;&#x2F;&#x2F;adjust
-        if (yield || count &#x3D;&#x3D; 0 || e &#x3D;&#x3D; NULL || e-&gt;env_status !&#x3D; ENV_RUNNABLE) &#123;
-                if (e !&#x3D; NULL) &#123;
-                        if (e-&gt;env_status !&#x3D; ENV_RUNNABLE) &#123;
-                                &#x2F;&#x2F;TAILQ_REMOVE((&amp;env_sched_list), e, env_sched_link);
-                        &#125; else &#123;
-                                TAILQ_REMOVE((&amp;env_sched_list), e, env_sched_link);
-                                TAILQ_INSERT_TAIL((&amp;env_sched_list), e, env_sched_link);
-                                user_time[e-&gt;env_user] +&#x3D; e-&gt;env_pri;
-                        &#125;
-                &#125;
-                if (TAILQ_EMPTY((&amp;env_sched_list))) &#123;
-                        panic(&quot;env_sched_list is empty!&quot;);
-                        &#x2F;&#x2F;return;
-                &#125; 
-                int min_time &#x3D; -1;
-                int id &#x3D; -1;
-                for (int i &#x3D; 0; i &lt; 5; ++i) &#123;
-                        if (avail_user[i] !&#x3D; 0) &#123;
-                                if (min_time &#x3D;&#x3D; -1) &#123;
-                                        id &#x3D; i;
-                                        min_time &#x3D; user_time[i];
-                                &#125; else &#123;
-                                        if (min_time &gt; user_time[i]) &#123;
-                                                id &#x3D; i;
-                                                min_time &#x3D; user_time[i];
-                                        &#125;
-                                &#125;
-                        &#125;
-                &#125;
+         *   'TAILQ_FIRST', 'TAILQ_REMOVE', 'TAILQ_INSERT_TAIL'
+         */</span>
+        <span class="token comment">/* Exercise 3.12: Your code here. */</span>
+        <span class="token keyword">int</span> avail_user<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+        <span class="token comment">// int user_len = 0;</span>
+        <span class="token keyword">struct</span> <span class="token class-name">Env</span> <span class="token operator">*</span>tmp_env<span class="token punctuation">;</span>
+        <span class="token function">TAILQ_FOREACH</span><span class="token punctuation">(</span>tmp_env<span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>env_sched_list<span class="token punctuation">)</span><span class="token punctuation">,</span> env_sched_link<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>tmp_env <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                        avail_user<span class="token punctuation">[</span>tmp_env<span class="token operator">-></span>env_user<span class="token punctuation">]</span><span class="token operator">++</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token comment">//count = count - 1;//adjust</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>yield <span class="token operator">||</span> count <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">||</span> e <span class="token operator">==</span> <span class="token constant">NULL</span> <span class="token operator">||</span> e<span class="token operator">-></span>env_status <span class="token operator">!=</span> ENV_RUNNABLE<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                        <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token operator">-></span>env_status <span class="token operator">!=</span> ENV_RUNNABLE<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                                <span class="token comment">//TAILQ_REMOVE((&amp;env_sched_list), e, env_sched_link);</span>
+                        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+                                <span class="token function">TAILQ_REMOVE</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>env_sched_list<span class="token punctuation">)</span><span class="token punctuation">,</span> e<span class="token punctuation">,</span> env_sched_link<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                                <span class="token function">TAILQ_INSERT_TAIL</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>env_sched_list<span class="token punctuation">)</span><span class="token punctuation">,</span> e<span class="token punctuation">,</span> env_sched_link<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                                user_time<span class="token punctuation">[</span>e<span class="token operator">-></span>env_user<span class="token punctuation">]</span> <span class="token operator">+=</span> e<span class="token operator">-></span>env_pri<span class="token punctuation">;</span>
+                        <span class="token punctuation">&#125;</span>
+                <span class="token punctuation">&#125;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">TAILQ_EMPTY</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>env_sched_list<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                        <span class="token function">panic</span><span class="token punctuation">(</span><span class="token string">"env_sched_list is empty!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token comment">//return;</span>
+                <span class="token punctuation">&#125;</span> 
+                <span class="token keyword">int</span> min_time <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+                <span class="token keyword">int</span> id <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+                <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">5</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                        <span class="token keyword">if</span> <span class="token punctuation">(</span>avail_user<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                                <span class="token keyword">if</span> <span class="token punctuation">(</span>min_time <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                                        id <span class="token operator">=</span> i<span class="token punctuation">;</span>
+                                        min_time <span class="token operator">=</span> user_time<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                                <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+                                        <span class="token keyword">if</span> <span class="token punctuation">(</span>min_time <span class="token operator">></span> user_time<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                                                id <span class="token operator">=</span> i<span class="token punctuation">;</span>
+                                                min_time <span class="token operator">=</span> user_time<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                                        <span class="token punctuation">&#125;</span>
+                                <span class="token punctuation">&#125;</span>
+                        <span class="token punctuation">&#125;</span>
+                <span class="token punctuation">&#125;</span>
 
-                TAILQ_FOREACH(tmp_env, (&amp;env_sched_list), env_sched_link) &#123;
-                         if (tmp_env !&#x3D; NULL &amp;&amp; tmp_env-&gt;env_user &#x3D;&#x3D; id) &#123;
-                                break; 
-                         &#125;
-                &#125;
-                count &#x3D; tmp_env-&gt;env_pri;
-                e &#x3D; tmp_env;
-        &#125;
-        count--;
-        env_run(e);
-&#125;
+                <span class="token function">TAILQ_FOREACH</span><span class="token punctuation">(</span>tmp_env<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token operator">&amp;</span>env_sched_list<span class="token punctuation">)</span><span class="token punctuation">,</span> env_sched_link<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                         <span class="token keyword">if</span> <span class="token punctuation">(</span>tmp_env <span class="token operator">!=</span> <span class="token constant">NULL</span> <span class="token operator">&amp;&amp;</span> tmp_env<span class="token operator">-></span>env_user <span class="token operator">==</span> id<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                                <span class="token keyword">break</span><span class="token punctuation">;</span> 
+                         <span class="token punctuation">&#125;</span>
+                <span class="token punctuation">&#125;</span>
+                count <span class="token operator">=</span> tmp_env<span class="token operator">-></span>env_pri<span class="token punctuation">;</span>
+                e <span class="token operator">=</span> tmp_env<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        count<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token function">env_run</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="extra"><a class="markdownIt-Anchor" href="#extra"></a> extra</h3>
 <p>爬了，又没过，连续两次不过extra了，好伤心。</p>
@@ -697,9 +697,9 @@ void schedule(int yield) &#123;
 
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>或者直接使用<code>pgdir_walk</code></p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
-pgdir_walk(curenv-&gt;env_pgdir, addr, 0, &amp;table_1);
-&#x2F;&#x2F;避免重复造轮子
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">
+<span class="token function">pgdir_walk</span><span class="token punctuation">(</span>curenv<span class="token operator">-></span>env_pgdir<span class="token punctuation">,</span> addr<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>table_1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//避免重复造轮子</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>获取一个数的低<code>k</code>位：<code>num &amp; ((1 &lt;&lt; k) - 1)</code></li>

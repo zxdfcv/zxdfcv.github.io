@@ -426,48 +426,48 @@
 <p>Thinking 2.3 请阅读 include/queue.h 以及 include/pmap.h, 将 <code>Page_list</code> 的结构梳<br>
 理清楚，选择正确的展开结构。</p>
 <p>A:</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">struct Page_list&#123;
-  struct &#123;
-    struct &#123;
-        struct Page *le_next;
-        struct Page **le_prev;
-      &#125;* pp_link;
-      u_short pp_ref;
-    &#125;* lh_first;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">struct</span> <span class="token class-name">Page_list</span><span class="token punctuation">&#123;</span>
+  <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">struct</span> <span class="token class-name">Page</span> <span class="token operator">*</span>le_next<span class="token punctuation">;</span>
+        <span class="token keyword">struct</span> <span class="token class-name">Page</span> <span class="token operator">*</span><span class="token operator">*</span>le_prev<span class="token punctuation">;</span>
+      <span class="token punctuation">&#125;</span><span class="token operator">*</span> pp_link<span class="token punctuation">;</span>
+      u_short pp_ref<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token operator">*</span> lh_first<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>B:</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">struct Page_list&#123;
-  struct &#123;
-    struct &#123;
-      struct Page *le_next;
-      struct Page **le_prev;
-    &#125; pp_link;
-    u_short pp_ref;
-  &#125; lh_first;
-&#125;
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">struct</span> <span class="token class-name">Page_list</span><span class="token punctuation">&#123;</span>
+  <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span>
+      <span class="token keyword">struct</span> <span class="token class-name">Page</span> <span class="token operator">*</span>le_next<span class="token punctuation">;</span>
+      <span class="token keyword">struct</span> <span class="token class-name">Page</span> <span class="token operator">*</span><span class="token operator">*</span>le_prev<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span> pp_link<span class="token punctuation">;</span>
+    u_short pp_ref<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span> lh_first<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>C:</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">struct Page_list&#123;
-  struct &#123;
-    struct &#123;
-      struct Page *le_next;
-      struct Page **le_prev;
-    &#125; pp_link;
-     _short pp_ref;
-  &#125;* lh_first;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">struct</span> <span class="token class-name">Page_list</span><span class="token punctuation">&#123;</span>
+  <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span>
+      <span class="token keyword">struct</span> <span class="token class-name">Page</span> <span class="token operator">*</span>le_next<span class="token punctuation">;</span>
+      <span class="token keyword">struct</span> <span class="token class-name">Page</span> <span class="token operator">*</span><span class="token operator">*</span>le_prev<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span> pp_link<span class="token punctuation">;</span>
+     _short pp_ref<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span><span class="token operator">*</span> lh_first<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>最外层：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">struct Page_list  &#123;
-  struct Page *lh_first;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">struct</span> <span class="token class-name">Page_list</span>  <span class="token punctuation">&#123;</span>
+  <span class="token keyword">struct</span> <span class="token class-name">Page</span> <span class="token operator">*</span>lh_first<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>page：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">struct Page&#123;
-  struct &#123;
-    struct Page *le_next;
-    struct Page **le_prev;
-  &#125; pp_link;
-  u_short pp_ref;
-&#125;; <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">struct</span> <span class="token class-name">Page</span><span class="token punctuation">&#123;</span>
+  <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">struct</span> <span class="token class-name">Page</span> <span class="token operator">*</span>le_next<span class="token punctuation">;</span>
+    <span class="token keyword">struct</span> <span class="token class-name">Page</span> <span class="token operator">*</span><span class="token operator">*</span>le_prev<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span> pp_link<span class="token punctuation">;</span>
+  u_short pp_ref<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>选择C。这是因为<code>lh_first</code>是指针，指向对应的地址，而<code>pp_link</code>是普通结构体，不是指针。<code>pp_link</code>是上面示意图中的右边部分，而<code>lh_first</code>指向第一个页表项的地址，是Page的指针。</p>
 <h2 id="thinking-24"><a class="markdownIt-Anchor" href="#thinking-24"></a> Thinking 2.4</h2>
 <p>请思考下面两个问题：</p>
@@ -589,41 +589,41 @@ END<span class="token punctuation">(</span>tlb_out<span class="token punctuation
 <p>我们的最终目标是什么？获取一个页表项的地址。怎么获取它？我们注意到我们的MOS操作系统是使用两级页表的，我们手中的虚地址，是由页目录索引、页表索引以及页表项内的偏移量组成的。为了获取最终的页表项，我们需要先由页目录基地址+页目录索引得到对应的页表，再由页表+页表索引得到最终的页表项。好比我们想找到一本书的某一页，我们有这本书的目录、章节相对于目录的位置，这一页在章节中的位置。我们可以先查到这一页在哪一章，再查到这一页在本章的哪一节。</p>
 <p>现在我们大致懂得了这个过程的基本原理，我们不妨抽象一下这个结构，使之适用于更多级的页表结构。假设我们手中有第<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span>级目录的地址<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mi>a</mi><mi>s</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">base</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">b</span><span class="mord mathnormal">a</span><span class="mord mathnormal">s</span><span class="mord mathnormal">e</span></span></span></span>和第<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k+1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>级子目录相对与<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span>级目录的偏移量<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>δ</mi></mrow><annotation encoding="application/x-tex">\delta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03785em;">δ</span></span></span></span>（或者索引，位置），我们通过<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mi>a</mi><mi>s</mi><mi>e</mi><mo>+</mo><mi>δ</mi></mrow><annotation encoding="application/x-tex">base + \delta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">b</span><span class="mord mathnormal">a</span><span class="mord mathnormal">s</span><span class="mord mathnormal">e</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03785em;">δ</span></span></span></span>就可以得到第<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k+1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>子目录的地址，这个过程可以递归进行。</p>
 <p>解决了这个问题，我们就可以很快写出代码了：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
-static int pgdir_walk(Pde *pgdir, u_long va, int create, Pte **ppte) &#123;
-        Pde *pgdir_entryp;
-        struct Page *pp;
-        &#x2F;* Step 1: Get the corresponding page directory entry. *&#x2F;
-        &#x2F;* Exercise 2.6: Your code here. (1&#x2F;3) *&#x2F;
-        pgdir_entryp &#x3D; pgdir + PDX(va); &#x2F;&#x2F;get 31-22 address of va &#x2F;&#x2F;PDBase + PDX + 00_2 | co expression
-        &#x2F;* Step 2: If the corresponding page table is not existent (valid) and parameter &#96;create&#96;
-         * is set, create one. Set the permission bits &#39;PTE_D | PTE_V&#39; for this new page in the
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">
+<span class="token keyword">static</span> <span class="token keyword">int</span> <span class="token function">pgdir_walk</span><span class="token punctuation">(</span>Pde <span class="token operator">*</span>pgdir<span class="token punctuation">,</span> u_long va<span class="token punctuation">,</span> <span class="token keyword">int</span> create<span class="token punctuation">,</span> Pte <span class="token operator">*</span><span class="token operator">*</span>ppte<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        Pde <span class="token operator">*</span>pgdir_entryp<span class="token punctuation">;</span>
+        <span class="token keyword">struct</span> <span class="token class-name">Page</span> <span class="token operator">*</span>pp<span class="token punctuation">;</span>
+        <span class="token comment">/* Step 1: Get the corresponding page directory entry. */</span>
+        <span class="token comment">/* Exercise 2.6: Your code here. (1/3) */</span>
+        pgdir_entryp <span class="token operator">=</span> pgdir <span class="token operator">+</span> <span class="token function">PDX</span><span class="token punctuation">(</span>va<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//get 31-22 address of va //PDBase + PDX + 00_2 | co expression</span>
+        <span class="token comment">/* Step 2: If the corresponding page table is not existent (valid) and parameter `create`
+         * is set, create one. Set the permission bits 'PTE_D | PTE_V' for this new page in the
          * page directory.
-         * If failed to allocate a new page (out of memory), return the error. *&#x2F;
-        &#x2F;* Exercise 2.6: Your code here. (2&#x2F;3) *&#x2F;
-        if ( (*pgdir_entryp &amp; PTE_V) &#x3D;&#x3D; 0)
-        &#123;
-                if (create)
-                &#123;
-                        if ( page_alloc(&amp;pp) !&#x3D; 0)
-                        &#123;
-                                return -E_NO_MEM;
-                        &#125;
-                        *pgdir_entryp &#x3D; page2pa(pp);
-                        *pgdir_entryp &#x3D; *pgdir_entryp | PTE_D | PTE_V;
-                        pp-&gt;pp_ref++;
-                &#125;
-                else 
-                &#123;
-                        *ppte &#x3D; NULL;
-                        return 0; &#x2F;&#x2F;directly return
-                &#125;
-        &#125;
-        &#x2F;* Step 3: Assign the kernel virtual address of the page table entry to &#39;*ppte&#39;. *&#x2F;
-        &#x2F;* Exercise 2.6: Your code here. (3&#x2F;3) *&#x2F;
-        *ppte &#x3D; (Pte *)KADDR(PTE_ADDR(*pgdir_entryp)) + PTX(va);
-        return 0;
-&#125;
+         * If failed to allocate a new page (out of memory), return the error. */</span>
+        <span class="token comment">/* Exercise 2.6: Your code here. (2/3) */</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span> <span class="token punctuation">(</span><span class="token operator">*</span>pgdir_entryp <span class="token operator">&amp;</span> PTE_V<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>create<span class="token punctuation">)</span>
+                <span class="token punctuation">&#123;</span>
+                        <span class="token keyword">if</span> <span class="token punctuation">(</span> <span class="token function">page_alloc</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>pp<span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span>
+                        <span class="token punctuation">&#123;</span>
+                                <span class="token keyword">return</span> <span class="token operator">-</span>E_NO_MEM<span class="token punctuation">;</span>
+                        <span class="token punctuation">&#125;</span>
+                        <span class="token operator">*</span>pgdir_entryp <span class="token operator">=</span> <span class="token function">page2pa</span><span class="token punctuation">(</span>pp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token operator">*</span>pgdir_entryp <span class="token operator">=</span> <span class="token operator">*</span>pgdir_entryp <span class="token operator">|</span> PTE_D <span class="token operator">|</span> PTE_V<span class="token punctuation">;</span>
+                        pp<span class="token operator">-></span>pp_ref<span class="token operator">++</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+                <span class="token keyword">else</span> 
+                <span class="token punctuation">&#123;</span>
+                        <span class="token operator">*</span>ppte <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+                        <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">//directly return</span>
+                <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token comment">/* Step 3: Assign the kernel virtual address of the page table entry to '*ppte'. */</span>
+        <span class="token comment">/* Exercise 2.6: Your code here. (3/3) */</span>
+        <span class="token operator">*</span>ppte <span class="token operator">=</span> <span class="token punctuation">(</span>Pte <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">KADDR</span><span class="token punctuation">(</span><span class="token function">PTE_ADDR</span><span class="token punctuation">(</span><span class="token operator">*</span>pgdir_entryp<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token function">PTX</span><span class="token punctuation">(</span>va<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>需要注意的点:</p>
 <ul>
@@ -655,258 +655,258 @@ static int pgdir_walk(Pde *pgdir, u_long va, int create, Pte **ppte) &#123;
 </li>
 </ul>
 <p>代码（C89风格，比较冗长）</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">u_int page_perm_stat(Pde *pgdir, struct Page *pp, u_int perm_mask) &#123;
-    int i;
-    int j;
-    int k;
-    int flag;
-    u_int cnt &#x3D; 0;
-    Pde* pgdir_entryp;
-    Pte* table_entry;
-    for (i &#x3D; 0; i &lt; 1024; ++i) &#123;
-            pgdir_entryp &#x3D; pgdir + i;
-            if ((*pgdir_entryp &amp; PTE_V) !&#x3D; 0) &#123;
-                    for (k &#x3D; 0; k &lt; 1024; ++k) &#123;
-                            table_entry &#x3D; (Pte *)KADDR(PTE_ADDR(*pgdir_entryp)) + k;
-                            if ((*table_entry &amp; PTE_V) !&#x3D; 0 &amp;&amp; PPN(*table_entry) &#x3D;&#x3D; PPN(page2pa(pp))) &#123;
-                                    flag &#x3D; 1;
-                                    for (j &#x3D; 0; j &lt; 12; ++j) &#123;
-                                            if ((*table_entry &amp; (1 &lt;&lt; j)) &lt; (perm_mask &amp; (1 &lt;&lt; j))) &#123;
-                                                    flag &#x3D; 0;
-                                                    break;
-                                            &#125;
-                                    &#125;
-                                    if (flag) &#123;
-                                            cnt++;
-                                    &#125;
-                            &#125;
-                    &#125;
-            &#125;
-    &#125;
-    &#x2F;&#x2F;printk(&quot;%u\n&quot;,cnt);
-    return cnt;
-&#125;
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">u_int <span class="token function">page_perm_stat</span><span class="token punctuation">(</span>Pde <span class="token operator">*</span>pgdir<span class="token punctuation">,</span> <span class="token keyword">struct</span> <span class="token class-name">Page</span> <span class="token operator">*</span>pp<span class="token punctuation">,</span> u_int perm_mask<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> j<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> k<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> flag<span class="token punctuation">;</span>
+    u_int cnt <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    Pde<span class="token operator">*</span> pgdir_entryp<span class="token punctuation">;</span>
+    Pte<span class="token operator">*</span> table_entry<span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">1024</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            pgdir_entryp <span class="token operator">=</span> pgdir <span class="token operator">+</span> i<span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">*</span>pgdir_entryp <span class="token operator">&amp;</span> PTE_V<span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token keyword">for</span> <span class="token punctuation">(</span>k <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> k <span class="token operator">&lt;</span> <span class="token number">1024</span><span class="token punctuation">;</span> <span class="token operator">++</span>k<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                            table_entry <span class="token operator">=</span> <span class="token punctuation">(</span>Pte <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">KADDR</span><span class="token punctuation">(</span><span class="token function">PTE_ADDR</span><span class="token punctuation">(</span><span class="token operator">*</span>pgdir_entryp<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">+</span> k<span class="token punctuation">;</span>
+                            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">*</span>table_entry <span class="token operator">&amp;</span> PTE_V<span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> <span class="token function">PPN</span><span class="token punctuation">(</span><span class="token operator">*</span>table_entry<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token function">PPN</span><span class="token punctuation">(</span><span class="token function">page2pa</span><span class="token punctuation">(</span>pp<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                                    flag <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+                                    <span class="token keyword">for</span> <span class="token punctuation">(</span>j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> <span class="token number">12</span><span class="token punctuation">;</span> <span class="token operator">++</span>j<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                                            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">*</span>table_entry <span class="token operator">&amp;</span> <span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">&lt;&lt;</span> j<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token punctuation">(</span>perm_mask <span class="token operator">&amp;</span> <span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">&lt;&lt;</span> j<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                                                    flag <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+                                                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+                                            <span class="token punctuation">&#125;</span>
+                                    <span class="token punctuation">&#125;</span>
+                                    <span class="token keyword">if</span> <span class="token punctuation">(</span>flag<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                                            cnt<span class="token operator">++</span><span class="token punctuation">;</span>
+                                    <span class="token punctuation">&#125;</span>
+                            <span class="token punctuation">&#125;</span>
+                    <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">//printk("%u\n",cnt);</span>
+    <span class="token keyword">return</span> cnt<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>后面发现判断perm有更好的办法：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
-*table_entry &amp; perm_mask &#x3D;&#x3D; perm_mask
-&#x2F;*
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">
+<span class="token operator">*</span>table_entry <span class="token operator">&amp;</span> perm_mask <span class="token operator">==</span> perm_mask
+<span class="token comment">/*
 *table_entry &amp; perm_mask
     perm_mask权限位为0的时候结果必为0，也就是说一定满足;
     perm_mask权限位为1的时候，只有*table_entry此位也为1结果才为1，才能满足.
 这就正好对应权限位的要求
-&#x2F;*
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+/*
+</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>笔者对许多宏的应用还不熟练，以上代码如果用更多的宏进行优化，将提升可读性。</p>
 <p>这个题的坑点在于我们判断的是二级页表项，所以在这之前<strong>一定要确保二级页表有效！<strong>此外还要注意操作系统只能</strong>看见</strong>虚拟地址，所以得到物理地址后，除非直接得到偏移，否则如果要获取其数据，必须要用<code>KADDR</code>转换成内核虚地址，才能访问数据！最后是<code>PTE_ADDR</code>的使用。由于页目录起始也是页表，所以Pde和Pte其实<s>可以认为是一个类型</s>，而且由于页表中的0-11位被充分利用起来，成为各种权限位，所以使用地址的时候，必须用<code>PTE_ADDR</code>把低位刷掉，这样才能得到对应页表项指向的页面的基地址，否则可能产生页面访问的越界！</p>
 <h3 id="extra"><a class="markdownIt-Anchor" href="#extra"></a> extra</h3>
 <p>没做出来，但是看了陈奕帅大佬的代码后知道该怎么写了（<s>感谢尊贵的理塘王者</s>）。</p>
 <p>本题要实现一个内外存交换系统。当内存不足时，将不常用的一页内存换出到外存，然后初始化并使用这一页，当内存充足的时候再将外存的页换回到内存。</p>
 <p>实验是代码填空，所以不再赘述题目，直接根据大佬的代码分析讲解：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
-#include &lt;swap.h&gt;
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;swap.h></span></span>
 
-struct Page_list page_free_swapable_list;
-static u_char *disk_alloc();
-static void disk_free(u_char *pdisk);
+<span class="token keyword">struct</span> <span class="token class-name">Page_list</span> page_free_swapable_list<span class="token punctuation">;</span>
+<span class="token keyword">static</span> u_char <span class="token operator">*</span><span class="token function">disk_alloc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">disk_free</span><span class="token punctuation">(</span>u_char <span class="token operator">*</span>pdisk<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-void swap_init() &#123;
-	LIST_INIT(&amp;page_free_swapable_list);
-	for (int i &#x3D; SWAP_PAGE_BASE; i &lt; SWAP_PAGE_END; i +&#x3D; BY2PG) &#123;
-		struct Page *pp &#x3D; pa2page(i);
-		LIST_REMOVE(pp, pp_link);
-		LIST_INSERT_HEAD(&amp;page_free_swapable_list, pp, pp_link);
-	&#125;
-&#125;
+<span class="token keyword">void</span> <span class="token function">swap_init</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	<span class="token function">LIST_INIT</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>page_free_swapable_list<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> SWAP_PAGE_BASE<span class="token punctuation">;</span> i <span class="token operator">&lt;</span> SWAP_PAGE_END<span class="token punctuation">;</span> i <span class="token operator">+=</span> BY2PG<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+		<span class="token keyword">struct</span> <span class="token class-name">Page</span> <span class="token operator">*</span>pp <span class="token operator">=</span> <span class="token function">pa2page</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token function">LIST_REMOVE</span><span class="token punctuation">(</span>pp<span class="token punctuation">,</span> pp_link<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token function">LIST_INSERT_HEAD</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>page_free_swapable_list<span class="token punctuation">,</span> pp<span class="token punctuation">,</span> pp_link<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
 
-&#x2F;&#x2F; Interface for &#39;Passive Swap Out&#39;
-struct Page *swap_alloc(Pde *pgdir, u_int asid) &#123;
-	&#x2F;&#x2F; Step 1: Ensure free page
-	if (LIST_EMPTY(&amp;page_free_swapable_list)) &#123;
-		&#x2F;* Your Code Here (1&#x2F;3) *&#x2F;
-		u_long swap_pa&#x3D;SWAP_PAGE_BASE; &#x2F;&#x2F; 获取交换页面基地址
-		u_long da&#x3D;disk_alloc(); &#x2F;&#x2F; 分配一页外存（由于是数组模拟，返回的指针就是va虚地址）
-		for(int i&#x3D;0; i&lt;1024; i++) &#123; &#x2F;&#x2F;遍历当前的页目录的二级页表项，操作方法同lab2-exam，这里先遍历一级页表项
-			if(*(pgdir+i) &amp; PTE_V) &#123; &#x2F;&#x2F;如果一级页表项有效，找到对应的二级页表
-				Pte *pt&#x3D;(Pte*)KADDR(PTE_ADDR(*(pgdir+i))); &#x2F;&#x2F; 套路操作，由页表项的内容获取下一级页表（或者页面）的虚地址
-				for(int j&#x3D;0; j&lt;1024; j++) &#123; &#x2F;&#x2F; 遍历二级页表项
-					if((*(pt+j) &amp; PTE_V) &amp;&amp; PPN(swap_pa)&#x3D;&#x3D;PPN(*(pt+j))) &#123; &#x2F;&#x2F;如果二级页表项有效，且两者物理页号相等
-						*(pt+j)&amp;&#x3D;(~PTE_V); &#x2F;&#x2F;将PTE_V置为0
-						*(pt+j)|&#x3D;PTE_SWP; &#x2F;&#x2F;将PTE_SWP置为1，表示换出
-						*(pt+j)&#x3D;((*(pt+j)) &amp; 0xFFF) | da; &#x2F;&#x2F;将原内存页面低12位权限为拼接到分配的外存页面
-						u_long va&#x3D;((u_long)i &lt;&lt; PDSHIFT) | ((u_long)j &lt;&lt;PGSHIFT); &#x2F;&#x2F; 产生原内存物理页面虚拟地址
-						tlb_invalidate(asid, va); &#x2F;&#x2F;冲刷掉这一页的tlb，使得这一页可用
-					&#125;
-				&#125;
-			&#125;
-		&#125;
-		memcpy(da, KADDR(swap_pa), BY2PG); &#x2F;&#x2F;将原内存页面的内容复制到外存页面
-		LIST_INSERT_HEAD(&amp;page_free_swapable_list, pa2page(swap_pa), pp_link); &#x2F;&#x2F;将此页面插入到page_free_swapable_list
-	&#125;
+<span class="token comment">// Interface for 'Passive Swap Out'</span>
+<span class="token keyword">struct</span> <span class="token class-name">Page</span> <span class="token operator">*</span><span class="token function">swap_alloc</span><span class="token punctuation">(</span>Pde <span class="token operator">*</span>pgdir<span class="token punctuation">,</span> u_int asid<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	<span class="token comment">// Step 1: Ensure free page</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">LIST_EMPTY</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>page_free_swapable_list<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+		<span class="token comment">/* Your Code Here (1/3) */</span>
+		u_long swap_pa<span class="token operator">=</span>SWAP_PAGE_BASE<span class="token punctuation">;</span> <span class="token comment">// 获取交换页面基地址</span>
+		u_long da<span class="token operator">=</span><span class="token function">disk_alloc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 分配一页外存（由于是数组模拟，返回的指针就是va虚地址）</span>
+		<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span><span class="token number">1024</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token comment">//遍历当前的页目录的二级页表项，操作方法同lab2-exam，这里先遍历一级页表项</span>
+			<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span>pgdir<span class="token operator">+</span>i<span class="token punctuation">)</span> <span class="token operator">&amp;</span> PTE_V<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token comment">//如果一级页表项有效，找到对应的二级页表</span>
+				Pte <span class="token operator">*</span>pt<span class="token operator">=</span><span class="token punctuation">(</span>Pte<span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">KADDR</span><span class="token punctuation">(</span><span class="token function">PTE_ADDR</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span>pgdir<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 套路操作，由页表项的内容获取下一级页表（或者页面）的虚地址</span>
+				<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> j<span class="token operator">&lt;</span><span class="token number">1024</span><span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token comment">// 遍历二级页表项</span>
+					<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span>pt<span class="token operator">+</span>j<span class="token punctuation">)</span> <span class="token operator">&amp;</span> PTE_V<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token function">PPN</span><span class="token punctuation">(</span>swap_pa<span class="token punctuation">)</span><span class="token operator">==</span><span class="token function">PPN</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span>pt<span class="token operator">+</span>j<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token comment">//如果二级页表项有效，且两者物理页号相等</span>
+						<span class="token operator">*</span><span class="token punctuation">(</span>pt<span class="token operator">+</span>j<span class="token punctuation">)</span><span class="token operator">&amp;=</span><span class="token punctuation">(</span><span class="token operator">~</span>PTE_V<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//将PTE_V置为0</span>
+						<span class="token operator">*</span><span class="token punctuation">(</span>pt<span class="token operator">+</span>j<span class="token punctuation">)</span><span class="token operator">|=</span>PTE_SWP<span class="token punctuation">;</span> <span class="token comment">//将PTE_SWP置为1，表示换出</span>
+						<span class="token operator">*</span><span class="token punctuation">(</span>pt<span class="token operator">+</span>j<span class="token punctuation">)</span><span class="token operator">=</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span>pt<span class="token operator">+</span>j<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0xFFF</span><span class="token punctuation">)</span> <span class="token operator">|</span> da<span class="token punctuation">;</span> <span class="token comment">//将原内存页面低12位权限为拼接到分配的外存页面</span>
+						u_long va<span class="token operator">=</span><span class="token punctuation">(</span><span class="token punctuation">(</span>u_long<span class="token punctuation">)</span>i <span class="token operator">&lt;&lt;</span> PDSHIFT<span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>u_long<span class="token punctuation">)</span>j <span class="token operator">&lt;&lt;</span>PGSHIFT<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 产生原内存物理页面虚拟地址</span>
+						<span class="token function">tlb_invalidate</span><span class="token punctuation">(</span>asid<span class="token punctuation">,</span> va<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//冲刷掉这一页的tlb，使得这一页可用</span>
+					<span class="token punctuation">&#125;</span>
+				<span class="token punctuation">&#125;</span>
+			<span class="token punctuation">&#125;</span>
+		<span class="token punctuation">&#125;</span>
+		<span class="token function">memcpy</span><span class="token punctuation">(</span>da<span class="token punctuation">,</span> <span class="token function">KADDR</span><span class="token punctuation">(</span>swap_pa<span class="token punctuation">)</span><span class="token punctuation">,</span> BY2PG<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//将原内存页面的内容复制到外存页面</span>
+		<span class="token function">LIST_INSERT_HEAD</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>page_free_swapable_list<span class="token punctuation">,</span> <span class="token function">pa2page</span><span class="token punctuation">(</span>swap_pa<span class="token punctuation">)</span><span class="token punctuation">,</span> pp_link<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//将此页面插入到page_free_swapable_list</span>
+	<span class="token punctuation">&#125;</span>
 
-	&#x2F;&#x2F; Step 2: Get a free page and clear it
-	struct Page *pp &#x3D; LIST_FIRST(&amp;page_free_swapable_list);
-	LIST_REMOVE(pp, pp_link);
-	memset((void *)page2kva(pp), 0, BY2PG);
+	<span class="token comment">// Step 2: Get a free page and clear it</span>
+	<span class="token keyword">struct</span> <span class="token class-name">Page</span> <span class="token operator">*</span>pp <span class="token operator">=</span> <span class="token function">LIST_FIRST</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>page_free_swapable_list<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">LIST_REMOVE</span><span class="token punctuation">(</span>pp<span class="token punctuation">,</span> pp_link<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">memset</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">page2kva</span><span class="token punctuation">(</span>pp<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> BY2PG<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-	return pp;
-&#125;
+	<span class="token keyword">return</span> pp<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
 
-&#x2F;&#x2F; Interfaces for &#39;Active Swap In&#39;
-static int is_swapped(Pde *pgdir, u_long va) &#123;
-	&#x2F;* Your Code Here (2&#x2F;3) *&#x2F;
-	&#x2F;&#x2F;判断是否交换了
-	Pte *pte;
-	pgdir_walk(pgdir, va, 0, &amp;pte); &#x2F;&#x2F;查找是否有空闲页
-	if(pte&#x3D;&#x3D;NULL) &#x2F;&#x2F; 判断是否为空
-		return 0;
-	if(*pte &amp; PTE_SWP) return 1; &#x2F;&#x2F;如果被交换了且无效，返回1
-	else return 0; &#x2F;&#x2F;其他都返回零，都是无效情况
-&#125;
+<span class="token comment">// Interfaces for 'Active Swap In'</span>
+<span class="token keyword">static</span> <span class="token keyword">int</span> <span class="token function">is_swapped</span><span class="token punctuation">(</span>Pde <span class="token operator">*</span>pgdir<span class="token punctuation">,</span> u_long va<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	<span class="token comment">/* Your Code Here (2/3) */</span>
+	<span class="token comment">//判断是否交换了</span>
+	Pte <span class="token operator">*</span>pte<span class="token punctuation">;</span>
+	<span class="token function">pgdir_walk</span><span class="token punctuation">(</span>pgdir<span class="token punctuation">,</span> va<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>pte<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//查找是否有空闲页</span>
+	<span class="token keyword">if</span><span class="token punctuation">(</span>pte<span class="token operator">==</span><span class="token constant">NULL</span><span class="token punctuation">)</span> <span class="token comment">// 判断是否为空</span>
+		<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+	<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">*</span>pte <span class="token operator">&amp;</span> PTE_SWP<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">//如果被交换了且无效，返回1</span>
+	<span class="token keyword">else</span> <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">//其他都返回零，都是无效情况</span>
+<span class="token punctuation">&#125;</span>
 
-static void swap(Pde *pgdir, u_int asid, u_long va) &#123;
-	&#x2F;* Your Code Here (3&#x2F;3) *&#x2F;
-	&#x2F;&#x2F; 将处于外存的页面换回到内存
-	Pte *pte; 
-    pgdir_walk(pgdir, va, 0, &amp;pte); &#x2F;&#x2F;查找空闲内存页
-	u_long swap_pa&#x3D;page2pa(swap_alloc(pgdir, asid)); &#x2F;&#x2F;查找一页被交换的内存页所对应的外存页，使用swap之前一定要用is_swapped进行判断，避免无效操作
-    u_long da&#x3D;PTE_ADDR(*pte); &#x2F;&#x2F;获取页表项的地址
-	memcpy(KADDR(swap_pa), da, BY2PG); &#x2F;&#x2F;将da的内容复制到swap_pa对应的内核虚地址中
-    for(int i&#x3D;0; i&lt;1024; i++) &#123; &#x2F;&#x2F;这一个部分的功能和上面相同
-        if(*(pgdir+i) &amp; PTE_V) &#123;
-                Pte *pt&#x3D;(Pte*)KADDR(PTE_ADDR(*(pgdir+i)));
-                for(int j&#x3D;0; j&lt;1024; j++) &#123;
-                        if((*(pt+j) &amp; PTE_SWP) &amp;&amp; PPN(da)&#x3D;&#x3D;PPN(*(pt+j))) &#123;
-                            *(pt+j)&amp;&#x3D;(~PTE_SWP);
-                            *(pt+j)|&#x3D;PTE_V;
-                            *(pt+j)&#x3D;((*(pt+j)) &amp; 0xFFF) | swap_pa;
-                            u_long tva&#x3D;((u_long)i &lt;&lt; PDSHIFT) | ((u_long)j &lt;&lt;PGSHIFT);
-                            tlb_invalidate(asid, tva);
-                        &#125;
-                &#125;
-        &#125;
-    &#125;
-    disk_free(da); &#x2F;&#x2F;释放外存内容
-&#125;
+<span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">swap</span><span class="token punctuation">(</span>Pde <span class="token operator">*</span>pgdir<span class="token punctuation">,</span> u_int asid<span class="token punctuation">,</span> u_long va<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	<span class="token comment">/* Your Code Here (3/3) */</span>
+	<span class="token comment">// 将处于外存的页面换回到内存</span>
+	Pte <span class="token operator">*</span>pte<span class="token punctuation">;</span> 
+    <span class="token function">pgdir_walk</span><span class="token punctuation">(</span>pgdir<span class="token punctuation">,</span> va<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>pte<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//查找空闲内存页</span>
+	u_long swap_pa<span class="token operator">=</span><span class="token function">page2pa</span><span class="token punctuation">(</span><span class="token function">swap_alloc</span><span class="token punctuation">(</span>pgdir<span class="token punctuation">,</span> asid<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//查找一页被交换的内存页所对应的外存页，使用swap之前一定要用is_swapped进行判断，避免无效操作</span>
+    u_long da<span class="token operator">=</span><span class="token function">PTE_ADDR</span><span class="token punctuation">(</span><span class="token operator">*</span>pte<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//获取页表项的地址</span>
+	<span class="token function">memcpy</span><span class="token punctuation">(</span><span class="token function">KADDR</span><span class="token punctuation">(</span>swap_pa<span class="token punctuation">)</span><span class="token punctuation">,</span> da<span class="token punctuation">,</span> BY2PG<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//将da的内容复制到swap_pa对应的内核虚地址中</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span><span class="token number">1024</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token comment">//这一个部分的功能和上面相同</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span>pgdir<span class="token operator">+</span>i<span class="token punctuation">)</span> <span class="token operator">&amp;</span> PTE_V<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                Pte <span class="token operator">*</span>pt<span class="token operator">=</span><span class="token punctuation">(</span>Pte<span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">KADDR</span><span class="token punctuation">(</span><span class="token function">PTE_ADDR</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span>pgdir<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> j<span class="token operator">&lt;</span><span class="token number">1024</span><span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span>pt<span class="token operator">+</span>j<span class="token punctuation">)</span> <span class="token operator">&amp;</span> PTE_SWP<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token function">PPN</span><span class="token punctuation">(</span>da<span class="token punctuation">)</span><span class="token operator">==</span><span class="token function">PPN</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span>pt<span class="token operator">+</span>j<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                            <span class="token operator">*</span><span class="token punctuation">(</span>pt<span class="token operator">+</span>j<span class="token punctuation">)</span><span class="token operator">&amp;=</span><span class="token punctuation">(</span><span class="token operator">~</span>PTE_SWP<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                            <span class="token operator">*</span><span class="token punctuation">(</span>pt<span class="token operator">+</span>j<span class="token punctuation">)</span><span class="token operator">|=</span>PTE_V<span class="token punctuation">;</span>
+                            <span class="token operator">*</span><span class="token punctuation">(</span>pt<span class="token operator">+</span>j<span class="token punctuation">)</span><span class="token operator">=</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span>pt<span class="token operator">+</span>j<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0xFFF</span><span class="token punctuation">)</span> <span class="token operator">|</span> swap_pa<span class="token punctuation">;</span>
+                            u_long tva<span class="token operator">=</span><span class="token punctuation">(</span><span class="token punctuation">(</span>u_long<span class="token punctuation">)</span>i <span class="token operator">&lt;&lt;</span> PDSHIFT<span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>u_long<span class="token punctuation">)</span>j <span class="token operator">&lt;&lt;</span>PGSHIFT<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                            <span class="token function">tlb_invalidate</span><span class="token punctuation">(</span>asid<span class="token punctuation">,</span> tva<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token punctuation">&#125;</span>
+                <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token function">disk_free</span><span class="token punctuation">(</span>da<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//释放外存内容</span>
+<span class="token punctuation">&#125;</span>
 
-Pte swap_lookup(Pde *pgdir, u_int asid, u_long va) &#123;
-	&#x2F;&#x2F; Step 1: If corresponding page is swapped out, swap it in
-	if (is_swapped(pgdir, va)) &#123;
-		swap(pgdir, asid, va);
-	&#125;
+Pte <span class="token function">swap_lookup</span><span class="token punctuation">(</span>Pde <span class="token operator">*</span>pgdir<span class="token punctuation">,</span> u_int asid<span class="token punctuation">,</span> u_long va<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	<span class="token comment">// Step 1: If corresponding page is swapped out, swap it in</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">is_swapped</span><span class="token punctuation">(</span>pgdir<span class="token punctuation">,</span> va<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+		<span class="token function">swap</span><span class="token punctuation">(</span>pgdir<span class="token punctuation">,</span> asid<span class="token punctuation">,</span> va<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
 
-	&#x2F;&#x2F; Step 2: Look up page table element.
-	Pte *ppte;
-	page_lookup(pgdir, va, &amp;ppte);
+	<span class="token comment">// Step 2: Look up page table element.</span>
+	Pte <span class="token operator">*</span>ppte<span class="token punctuation">;</span>
+	<span class="token function">page_lookup</span><span class="token punctuation">(</span>pgdir<span class="token punctuation">,</span> va<span class="token punctuation">,</span> <span class="token operator">&amp;</span>ppte<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-	&#x2F;&#x2F; Step 3: Return
-	return ppte &#x3D;&#x3D; NULL ? 0 : *ppte;
-&#125;
+	<span class="token comment">// Step 3: Return</span>
+	<span class="token keyword">return</span> ppte <span class="token operator">==</span> <span class="token constant">NULL</span> <span class="token operator">?</span> <span class="token number">0</span> <span class="token operator">:</span> <span class="token operator">*</span>ppte<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
 
-&#x2F;&#x2F; Disk Simulation (Do not modify)
-u_char swap_disk[SWAP_DISK_NPAGE * BY2PG] __attribute__((aligned(BY2PG)));
-u_char swap_disk_used[SWAP_DISK_NPAGE];
+<span class="token comment">// Disk Simulation (Do not modify)</span>
+u_char swap_disk<span class="token punctuation">[</span>SWAP_DISK_NPAGE <span class="token operator">*</span> BY2PG<span class="token punctuation">]</span> <span class="token function">__attribute__</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token function">aligned</span><span class="token punctuation">(</span>BY2PG<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+u_char swap_disk_used<span class="token punctuation">[</span>SWAP_DISK_NPAGE<span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-static u_char *disk_alloc() &#123;
-	int alloc &#x3D; 0;
-	for (;alloc &lt; SWAP_DISK_NPAGE &amp;&amp; swap_disk_used[alloc]; alloc++) &#123;
-		;
-	&#125;
-	assert(alloc &lt; SWAP_DISK_NPAGE);
-	swap_disk_used[alloc] &#x3D; 1;
-	return &amp;swap_disk[alloc * BY2PG];
-&#125;
+<span class="token keyword">static</span> u_char <span class="token operator">*</span><span class="token function">disk_alloc</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	<span class="token keyword">int</span> alloc <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+	<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span>alloc <span class="token operator">&lt;</span> SWAP_DISK_NPAGE <span class="token operator">&amp;&amp;</span> swap_disk_used<span class="token punctuation">[</span>alloc<span class="token punctuation">]</span><span class="token punctuation">;</span> alloc<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+		<span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>alloc <span class="token operator">&lt;</span> SWAP_DISK_NPAGE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	swap_disk_used<span class="token punctuation">[</span>alloc<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> <span class="token operator">&amp;</span>swap_disk<span class="token punctuation">[</span>alloc <span class="token operator">*</span> BY2PG<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
 
-static void disk_free(u_char *pdisk) &#123;
-	int offset &#x3D; pdisk - swap_disk;
-	assert(offset % BY2PG &#x3D;&#x3D; 0);
-	swap_disk_used[offset &#x2F; BY2PG] &#x3D; 0;
-&#125;
+<span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">disk_free</span><span class="token punctuation">(</span>u_char <span class="token operator">*</span>pdisk<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	<span class="token keyword">int</span> offset <span class="token operator">=</span> pdisk <span class="token operator">-</span> swap_disk<span class="token punctuation">;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>offset <span class="token operator">%</span> BY2PG <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	swap_disk_used<span class="token punctuation">[</span>offset <span class="token operator">/</span> BY2PG<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
 
-void physical_memory_manage_check(void) &#123;
-	struct Page *pp, *pp0, *pp1, *pp2;
-	struct Page_list fl;
-	int *temp;
+<span class="token keyword">void</span> <span class="token function">physical_memory_manage_check</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	<span class="token keyword">struct</span> <span class="token class-name">Page</span> <span class="token operator">*</span>pp<span class="token punctuation">,</span> <span class="token operator">*</span>pp0<span class="token punctuation">,</span> <span class="token operator">*</span>pp1<span class="token punctuation">,</span> <span class="token operator">*</span>pp2<span class="token punctuation">;</span>
+	<span class="token keyword">struct</span> <span class="token class-name">Page_list</span> fl<span class="token punctuation">;</span>
+	<span class="token keyword">int</span> <span class="token operator">*</span>temp<span class="token punctuation">;</span>
 
-	&#x2F;&#x2F; should be able to allocate three pages
-	pp0 &#x3D; pp1 &#x3D; pp2 &#x3D; 0;
-	assert(page_alloc(&amp;pp0) &#x3D;&#x3D; 0);
-	assert(page_alloc(&amp;pp1) &#x3D;&#x3D; 0);
-	assert(page_alloc(&amp;pp2) &#x3D;&#x3D; 0);
+	<span class="token comment">// should be able to allocate three pages</span>
+	pp0 <span class="token operator">=</span> pp1 <span class="token operator">=</span> pp2 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span><span class="token function">page_alloc</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>pp0<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span><span class="token function">page_alloc</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>pp1<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span><span class="token function">page_alloc</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>pp2<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-	assert(pp0);
-	assert(pp1 &amp;&amp; pp1 !&#x3D; pp0);
-	assert(pp2 &amp;&amp; pp2 !&#x3D; pp1 &amp;&amp; pp2 !&#x3D; pp0);
+	<span class="token function">assert</span><span class="token punctuation">(</span>pp0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>pp1 <span class="token operator">&amp;&amp;</span> pp1 <span class="token operator">!=</span> pp0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>pp2 <span class="token operator">&amp;&amp;</span> pp2 <span class="token operator">!=</span> pp1 <span class="token operator">&amp;&amp;</span> pp2 <span class="token operator">!=</span> pp0<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-	&#x2F;&#x2F; temporarily steal the rest of the free pages
-	fl &#x3D; page_free_list;
-	&#x2F;&#x2F; now this page_free list must be empty!!!!
-	LIST_INIT(&amp;page_free_list);
-	&#x2F;&#x2F; should be no free memory
-	assert(page_alloc(&amp;pp) &#x3D;&#x3D; -E_NO_MEM);
+	<span class="token comment">// temporarily steal the rest of the free pages</span>
+	fl <span class="token operator">=</span> page_free_list<span class="token punctuation">;</span>
+	<span class="token comment">// now this page_free list must be empty!!!!</span>
+	<span class="token function">LIST_INIT</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>page_free_list<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token comment">// should be no free memory</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span><span class="token function">page_alloc</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>pp<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token operator">-</span>E_NO_MEM<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-	temp &#x3D; (int *)page2kva(pp0);
-	&#x2F;&#x2F; write 1000 to pp0
-	*temp &#x3D; 1000;
-	&#x2F;&#x2F; free pp0
-	page_free(pp0);
-	printk(&quot;The number in address temp is %d\n&quot;, *temp);
+	temp <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">page2kva</span><span class="token punctuation">(</span>pp0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token comment">// write 1000 to pp0</span>
+	<span class="token operator">*</span>temp <span class="token operator">=</span> <span class="token number">1000</span><span class="token punctuation">;</span>
+	<span class="token comment">// free pp0</span>
+	<span class="token function">page_free</span><span class="token punctuation">(</span>pp0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">printk</span><span class="token punctuation">(</span><span class="token string">"The number in address temp is %d\n"</span><span class="token punctuation">,</span> <span class="token operator">*</span>temp<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-	&#x2F;&#x2F; alloc again
-	assert(page_alloc(&amp;pp0) &#x3D;&#x3D; 0);
-	assert(pp0);
+	<span class="token comment">// alloc again</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span><span class="token function">page_alloc</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>pp0<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>pp0<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-	&#x2F;&#x2F; pp0 should not change
-	assert(temp &#x3D;&#x3D; (int *)page2kva(pp0));
-	&#x2F;&#x2F; pp0 should be zero
-	assert(*temp &#x3D;&#x3D; 0);
+	<span class="token comment">// pp0 should not change</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>temp <span class="token operator">==</span> <span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">page2kva</span><span class="token punctuation">(</span>pp0<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token comment">// pp0 should be zero</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span><span class="token operator">*</span>temp <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-	page_free_list &#x3D; fl;
-	page_free(pp0);
-	page_free(pp1);
-	page_free(pp2);
-	struct Page_list test_free;
-	struct Page *test_pages;
-	test_pages &#x3D; (struct Page *)alloc(10 * sizeof(struct Page), BY2PG, 1);
-	LIST_INIT(&amp;test_free);
-	&#x2F;&#x2F; LIST_FIRST(&amp;test_free) &#x3D; &amp;test_pages[0];
-	int i, j &#x3D; 0;
-	struct Page *p, *q;
-	for (i &#x3D; 9; i &gt;&#x3D; 0; i--) &#123;
-		test_pages[i].pp_ref &#x3D; i;
-		&#x2F;&#x2F; test_pages[i].pp_link&#x3D;NULL;
-		&#x2F;&#x2F; printk(&quot;0x%x  0x%x\n&quot;,&amp;test_pages[i], test_pages[i].pp_link.le_next);
-		LIST_INSERT_HEAD(&amp;test_free, &amp;test_pages[i], pp_link);
-		&#x2F;&#x2F; printk(&quot;0x%x  0x%x\n&quot;,&amp;test_pages[i], test_pages[i].pp_link.le_next);
-	&#125;
-	p &#x3D; LIST_FIRST(&amp;test_free);
-	int answer1[] &#x3D; &#123;0, 1, 2, 3, 4, 5, 6, 7, 8, 9&#125;;
-	assert(p !&#x3D; NULL);
-	while (p !&#x3D; NULL) &#123;
-		&#x2F;&#x2F; printk(&quot;%d %d\n&quot;,p-&gt;pp_ref,answer1[j]);
-		assert(p-&gt;pp_ref &#x3D;&#x3D; answer1[j++]);
-		&#x2F;&#x2F; printk(&quot;ptr: 0x%x v: %d\n&quot;,(p-&gt;pp_link).le_next,((p-&gt;pp_link).le_next)-&gt;pp_ref);
-		p &#x3D; LIST_NEXT(p, pp_link);
-	&#125;
-	&#x2F;&#x2F; insert_after test
-	int answer2[] &#x3D; &#123;0, 1, 2, 3, 4, 20, 5, 6, 7, 8, 9&#125;;
-	q &#x3D; (struct Page *)alloc(sizeof(struct Page), BY2PG, 1);
-	q-&gt;pp_ref &#x3D; 20;
+	page_free_list <span class="token operator">=</span> fl<span class="token punctuation">;</span>
+	<span class="token function">page_free</span><span class="token punctuation">(</span>pp0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">page_free</span><span class="token punctuation">(</span>pp1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">page_free</span><span class="token punctuation">(</span>pp2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">struct</span> <span class="token class-name">Page_list</span> test_free<span class="token punctuation">;</span>
+	<span class="token keyword">struct</span> <span class="token class-name">Page</span> <span class="token operator">*</span>test_pages<span class="token punctuation">;</span>
+	test_pages <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token class-name">Page</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">alloc</span><span class="token punctuation">(</span><span class="token number">10</span> <span class="token operator">*</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token class-name">Page</span><span class="token punctuation">)</span><span class="token punctuation">,</span> BY2PG<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">LIST_INIT</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>test_free<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token comment">// LIST_FIRST(&amp;test_free) = &amp;test_pages[0];</span>
+	<span class="token keyword">int</span> i<span class="token punctuation">,</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+	<span class="token keyword">struct</span> <span class="token class-name">Page</span> <span class="token operator">*</span>p<span class="token punctuation">,</span> <span class="token operator">*</span>q<span class="token punctuation">;</span>
+	<span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">9</span><span class="token punctuation">;</span> i <span class="token operator">>=</span> <span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">--</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+		test_pages<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>pp_ref <span class="token operator">=</span> i<span class="token punctuation">;</span>
+		<span class="token comment">// test_pages[i].pp_link=NULL;</span>
+		<span class="token comment">// printk("0x%x  0x%x\n",&amp;test_pages[i], test_pages[i].pp_link.le_next);</span>
+		<span class="token function">LIST_INSERT_HEAD</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>test_free<span class="token punctuation">,</span> <span class="token operator">&amp;</span>test_pages<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> pp_link<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token comment">// printk("0x%x  0x%x\n",&amp;test_pages[i], test_pages[i].pp_link.le_next);</span>
+	<span class="token punctuation">&#125;</span>
+	p <span class="token operator">=</span> <span class="token function">LIST_FIRST</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>test_free<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">int</span> answer1<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>p <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">while</span> <span class="token punctuation">(</span>p <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+		<span class="token comment">// printk("%d %d\n",p->pp_ref,answer1[j]);</span>
+		<span class="token function">assert</span><span class="token punctuation">(</span>p<span class="token operator">-></span>pp_ref <span class="token operator">==</span> answer1<span class="token punctuation">[</span>j<span class="token operator">++</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token comment">// printk("ptr: 0x%x v: %d\n",(p->pp_link).le_next,((p->pp_link).le_next)->pp_ref);</span>
+		p <span class="token operator">=</span> <span class="token function">LIST_NEXT</span><span class="token punctuation">(</span>p<span class="token punctuation">,</span> pp_link<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token comment">// insert_after test</span>
+	<span class="token keyword">int</span> answer2<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+	q <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token class-name">Page</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">alloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token class-name">Page</span><span class="token punctuation">)</span><span class="token punctuation">,</span> BY2PG<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	q<span class="token operator">-></span>pp_ref <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>
 
-	&#x2F;&#x2F; printk(&quot;---%d\n&quot;,test_pages[4].pp_ref);
-	LIST_INSERT_AFTER(&amp;test_pages[4], q, pp_link);
-	&#x2F;&#x2F; printk(&quot;---%d\n&quot;,LIST_NEXT(&amp;test_pages[4],pp_link)-&gt;pp_ref);
-	p &#x3D; LIST_FIRST(&amp;test_free);
-	j &#x3D; 0;
-	&#x2F;&#x2F; printk(&quot;into test\n&quot;);
-	while (p !&#x3D; NULL) &#123;
-		&#x2F;&#x2F;      printk(&quot;%d %d\n&quot;,p-&gt;pp_ref,answer2[j]);
-		assert(p-&gt;pp_ref &#x3D;&#x3D; answer2[j++]);
-		p &#x3D; LIST_NEXT(p, pp_link);
-	&#125;
+	<span class="token comment">// printk("---%d\n",test_pages[4].pp_ref);</span>
+	<span class="token function">LIST_INSERT_AFTER</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>test_pages<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> q<span class="token punctuation">,</span> pp_link<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token comment">// printk("---%d\n",LIST_NEXT(&amp;test_pages[4],pp_link)->pp_ref);</span>
+	p <span class="token operator">=</span> <span class="token function">LIST_FIRST</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>test_free<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+	<span class="token comment">// printk("into test\n");</span>
+	<span class="token keyword">while</span> <span class="token punctuation">(</span>p <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+		<span class="token comment">//      printk("%d %d\n",p->pp_ref,answer2[j]);</span>
+		<span class="token function">assert</span><span class="token punctuation">(</span>p<span class="token operator">-></span>pp_ref <span class="token operator">==</span> answer2<span class="token punctuation">[</span>j<span class="token operator">++</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		p <span class="token operator">=</span> <span class="token function">LIST_NEXT</span><span class="token punctuation">(</span>p<span class="token punctuation">,</span> pp_link<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
 
-	printk(&quot;physical_memory_manage_check() succeeded\n&quot;);
-&#125;
+	<span class="token function">printk</span><span class="token punctuation">(</span><span class="token string">"physical_memory_manage_check() succeeded\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
                 

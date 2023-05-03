@@ -401,102 +401,102 @@
 <h3 id="lab1-exam"><a class="markdownIt-Anchor" href="#lab1-exam"></a> lab1-exam</h3>
 <p>实现格式符<code>%R</code>，并从<code>va_list</code>中取得两个数<code>a</code>，<code>b</code>，输出一个区间<code>(a, b)</code>。<code>%</code>之后可以跟之前定义的格式符<code>[flags][width][length]</code>，并将格式同时应用到<strong>两个数上</strong>。如果<code>R</code>前<code>[lengh]</code>为<code>l</code>，则变量为<code>long int</code>型，反之为<code>int</code>型。</p>
 <p><strong>例：</strong></p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">printk(&quot;%8R&quot;, 2023, 2023)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token function">printk</span><span class="token punctuation">(</span><span class="token string">"%8R"</span><span class="token punctuation">,</span> <span class="token number">2023</span><span class="token punctuation">,</span> <span class="token number">2023</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>标准输出</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">(</span>    <span class="token number">2023</span>,    <span class="token number">2023</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <ul>
 <li>仿照<code>%d</code>的输出，注意输出两个整数，以及括号和连接符&quot;,&quot;。比较简单。</li>
 </ul>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
-case &#39;R&#39;:
-                       neg_flag &#x3D; 0;
-                       neg_flag2 &#x3D; 0;
-                       if (long_flag) &#123;
-                               num &#x3D; va_arg(ap, long int);
-                               num2 &#x3D; va_arg(ap, long int);
-                       &#125; else &#123;
-                               num &#x3D; va_arg(ap, int);
-                               num2 &#x3D; va_arg(ap, int);
-                       &#125;
-                       out(data, &quot;(&quot;, 1);
-                       if (num &lt; 0) &#123;
-                               num &#x3D; -num;
-                               neg_flag &#x3D; 1;
-                       &#125;
-                       if (num2 &lt; 0) &#123;
-                               num2 &#x3D; -num2;
-                               neg_flag2 &#x3D; 1;
-                       &#125;
-                       print_num(out, data, num, 10, neg_flag, width, ladjust, padc, 0);
-                       out(data, &quot;,&quot;, 1);
-                       print_num(out, data, num2, 10, neg_flag2, width, ladjust, padc, 0);
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">
+<span class="token keyword">case</span> <span class="token char">'R'</span><span class="token operator">:</span>
+                       neg_flag <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+                       neg_flag2 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+                       <span class="token keyword">if</span> <span class="token punctuation">(</span>long_flag<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                               num <span class="token operator">=</span> <span class="token function">va_arg</span><span class="token punctuation">(</span>ap<span class="token punctuation">,</span> <span class="token keyword">long</span> <span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                               num2 <span class="token operator">=</span> <span class="token function">va_arg</span><span class="token punctuation">(</span>ap<span class="token punctuation">,</span> <span class="token keyword">long</span> <span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                       <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+                               num <span class="token operator">=</span> <span class="token function">va_arg</span><span class="token punctuation">(</span>ap<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                               num2 <span class="token operator">=</span> <span class="token function">va_arg</span><span class="token punctuation">(</span>ap<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                       <span class="token punctuation">&#125;</span>
+                       <span class="token function">out</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> <span class="token string">"("</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                       <span class="token keyword">if</span> <span class="token punctuation">(</span>num <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                               num <span class="token operator">=</span> <span class="token operator">-</span>num<span class="token punctuation">;</span>
+                               neg_flag <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+                       <span class="token punctuation">&#125;</span>
+                       <span class="token keyword">if</span> <span class="token punctuation">(</span>num2 <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                               num2 <span class="token operator">=</span> <span class="token operator">-</span>num2<span class="token punctuation">;</span>
+                               neg_flag2 <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+                       <span class="token punctuation">&#125;</span>
+                       <span class="token function">print_num</span><span class="token punctuation">(</span>out<span class="token punctuation">,</span> data<span class="token punctuation">,</span> num<span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> neg_flag<span class="token punctuation">,</span> width<span class="token punctuation">,</span> ladjust<span class="token punctuation">,</span> padc<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                       <span class="token function">out</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> <span class="token string">","</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                       <span class="token function">print_num</span><span class="token punctuation">(</span>out<span class="token punctuation">,</span> data<span class="token punctuation">,</span> num2<span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> neg_flag2<span class="token punctuation">,</span> width<span class="token punctuation">,</span> ladjust<span class="token punctuation">,</span> padc<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-                       out(data, &quot;)&quot;, 1);
-                       break; &#x2F;&#x2F;input
+                       <span class="token function">out</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> <span class="token string">")"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                       <span class="token keyword">break</span><span class="token punctuation">;</span> <span class="token comment">//input</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>新定义的变量:</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">long num2;
-int neg_flag2;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">long</span> num2<span class="token punctuation">;</span>
+<span class="token keyword">int</span> neg_flag2<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <h3 id="lab1-extra"><a class="markdownIt-Anchor" href="#lab1-extra"></a> lab1-extra</h3>
 <p>实现<code>sprintf</code>函数，将格式化字符串输出到指定的空间。</p>
 <p>函数定义在<code>include/string.h</code>中， 原型为：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
-int sprintf(char *buf, const char *fmt, ...);
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">
+<span class="token keyword">int</span> <span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token keyword">char</span> <span class="token operator">*</span>buf<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>fmt<span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>参考<code>printk</code>：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
-void printk(const char* fmt, ...);
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">
+<span class="token keyword">void</span> <span class="token function">printk</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> fmt<span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-void printk(const char *fmt, ...) &#123;
-  va_list ap;
-  va_start(ap, fmt);
-  vprintfmt(outputk, NULL, fmt, ap);
-  va_end(ap);
-&#125;
+<span class="token keyword">void</span> <span class="token function">printk</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>fmt<span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  va_list ap<span class="token punctuation">;</span>
+  <span class="token function">va_start</span><span class="token punctuation">(</span>ap<span class="token punctuation">,</span> fmt<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">vprintfmt</span><span class="token punctuation">(</span>outputk<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> fmt<span class="token punctuation">,</span> ap<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">va_end</span><span class="token punctuation">(</span>ap<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>实现<code>sprintf</code>：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
-struct selfdef &#123;
-        char *s;
-        int len;
-&#125;;
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">
+<span class="token keyword">struct</span> <span class="token class-name">selfdef</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">char</span> <span class="token operator">*</span>s<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> len<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
 
 
 
-int sprintf(char *buf, const char *fmt, ...) &#123;
-        va_list ap;
-        va_start(ap, fmt);
-        struct selfdef test;
-        test.s &#x3D; buf;
-        test.len &#x3D; 0;
-        vprintfmt(outputc, (void*)&amp;test, fmt, ap);
-        va_end(ap);
-        int len &#x3D; test.len;
-        return len;
-&#125;
+<span class="token keyword">int</span> <span class="token function">sprintf</span><span class="token punctuation">(</span><span class="token keyword">char</span> <span class="token operator">*</span>buf<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>fmt<span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        va_list ap<span class="token punctuation">;</span>
+        <span class="token function">va_start</span><span class="token punctuation">(</span>ap<span class="token punctuation">,</span> fmt<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">struct</span> <span class="token class-name">selfdef</span> test<span class="token punctuation">;</span>
+        test<span class="token punctuation">.</span>s <span class="token operator">=</span> buf<span class="token punctuation">;</span>
+        test<span class="token punctuation">.</span>len <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token function">vprintfmt</span><span class="token punctuation">(</span>outputc<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>test<span class="token punctuation">,</span> fmt<span class="token punctuation">,</span> ap<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">va_end</span><span class="token punctuation">(</span>ap<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> len <span class="token operator">=</span> test<span class="token punctuation">.</span>len<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> len<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>此外还要定义类似<code>outputk</code>的<code>outputc</code>函数，这是一个回调函数，用于将得到的字符串输出到指定位置，注意记录位置，所以要传入结构体指针：</p>
 <p>类比<code>outputk</code>：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
-void outputk(void *data, const char *buf, size_t len) &#123;
-  for (int i &#x3D; 0; i &lt; len; i++) &#123;
-    printcharc(buf[i]);
-  &#125;
-&#125;
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">
+<span class="token keyword">void</span> <span class="token function">outputk</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>data<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>buf<span class="token punctuation">,</span> size_t len<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> len<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">printcharc</span><span class="token punctuation">(</span>buf<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>可以发现我们必须获取<code>buf</code>和当前出入在<code>buf</code>的位置<code>loc</code>，于是把他们们打包放进结构体<code>selfdef</code>(代码在上面)。<br>
 实现<code>outputc</code>：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
-void outputc(void *data, const char *buf, size_t len) &#123;
-        struct selfdef* test &#x3D; (struct selfdef *) data;
-        char *buff &#x3D; test-&gt;s;
-        int loc &#x3D; test-&gt;len;
-        for (int i &#x3D; 0; i &lt; len; i++) &#123;
-                *(buff + i + loc) &#x3D; buf[i];
-        &#125;
-        test-&gt;len &#x3D; loc + len;
-        *(buff + test-&gt;len) &#x3D; &#39;\0&#39;;
-&#125;
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">
+<span class="token keyword">void</span> <span class="token function">outputc</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>data<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>buf<span class="token punctuation">,</span> size_t len<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">struct</span> <span class="token class-name">selfdef</span><span class="token operator">*</span> test <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token class-name">selfdef</span> <span class="token operator">*</span><span class="token punctuation">)</span> data<span class="token punctuation">;</span>
+        <span class="token keyword">char</span> <span class="token operator">*</span>buff <span class="token operator">=</span> test<span class="token operator">-></span>s<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> loc <span class="token operator">=</span> test<span class="token operator">-></span>len<span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> len<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token operator">*</span><span class="token punctuation">(</span>buff <span class="token operator">+</span> i <span class="token operator">+</span> loc<span class="token punctuation">)</span> <span class="token operator">=</span> buf<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        test<span class="token operator">-></span>len <span class="token operator">=</span> loc <span class="token operator">+</span> len<span class="token punctuation">;</span>
+        <span class="token operator">*</span><span class="token punctuation">(</span>buff <span class="token operator">+</span> test<span class="token operator">-></span>len<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token char">'\0'</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>这次上机很顺利，离不开课程组的努力和老师助教的无私帮助，希望以后的上机会更好。</p>
 
