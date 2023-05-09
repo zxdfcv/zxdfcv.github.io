@@ -394,18 +394,18 @@
             <div id="articleContent">
                 <p>C++ STL 中许多容器涉及比较，如<code>map</code>,<code>set</code>,<code>priority_queue</code>等，这就需要我们实现元素的比较方法。</p>
 <p>以<code>map</code>为例(before c++17)：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">template &lt; 
-    class Key, 
-    class T, 
-    class Compare &#x3D; less&lt;Key&gt;,
-    class Allocator &#x3D; allocator&lt;pair&lt;const Key,T&gt; &gt; 
-&gt; class map;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">template</span> <span class="token operator">&lt;</span> 
+    <span class="token keyword">class</span> <span class="token class-name">Key</span><span class="token punctuation">,</span> 
+    <span class="token keyword">class</span> <span class="token class-name">T</span><span class="token punctuation">,</span> 
+    <span class="token keyword">class</span> <span class="token class-name">Compare</span> <span class="token operator">=</span> less<span class="token operator">&lt;</span>Key<span class="token operator">></span><span class="token punctuation">,</span>
+    <span class="token keyword">class</span> <span class="token class-name">Allocator</span> <span class="token operator">=</span> allocator<span class="token operator">&lt;</span>pair<span class="token operator">&lt;</span><span class="token keyword">const</span> Key<span class="token punctuation">,</span>T<span class="token operator">></span> <span class="token operator">></span> 
+<span class="token operator">></span> <span class="token keyword">class</span> <span class="token class-name">map</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>以<code>priority_queue</code>为例：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">template&lt;
-    class T,
-    class Container &#x3D; std::vector&lt;T&gt;,
-    class Compare &#x3D; std::less&lt;typename Container::value_type&gt;
-&gt; class priority_queue;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">template</span><span class="token operator">&lt;</span>
+    <span class="token keyword">class</span> <span class="token class-name">T</span><span class="token punctuation">,</span>
+    <span class="token keyword">class</span> <span class="token class-name">Container</span> <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">,</span>
+    <span class="token keyword">class</span> <span class="token class-name">Compare</span> <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span>less<span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">Container</span><span class="token double-colon punctuation">::</span>value_type<span class="token operator">></span>
+<span class="token operator">></span> <span class="token keyword">class</span> <span class="token class-name">priority_queue</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>二者都有一个名为<code>Compare</code>的class。但是需要注意的是，cppreference在<code>priority_queue</code>中有这样一段话:</p>
 <blockquote>
 <p>Note that the Compare parameter is defined such that it returns true if its first argument comes before its second argument in a weak ordering. But because the priority queue outputs largest elements first, the elements that “come before” are actually output last. That is, the front of the queue contains the “last” element according to the weak ordering imposed by Compare.</p>
@@ -416,53 +416,53 @@
 </ul>
 <p>在<code>map</code>和其他一些STL容器中，Compare定义的顺序就是实际的输出顺序了。</p>
 <p>如果要使用自己定义Compare顺序，可以这样定义：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">class myCompare &#123;
-  bool operator()(const typename &amp; item1, const typename &amp; item2) const &#123;
-    &#x2F;&#x2F;define your order,
-  &#125;
-&#125;;
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">myCompare</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">bool</span> <span class="token keyword">operator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">typename</span> <span class="token operator">&amp;</span> item1<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">typename</span> <span class="token operator">&amp;</span> item2<span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">//define your order,</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>例如在<code>priority_queue</code>中实现int的<code>less</code>功能：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">class myCompare &#123;
-public:
-  bool operator()(const int &amp; item1, const int &amp; item2) const &#123;
-    return item1 &lt; item2;
-  &#125;
-&#125;;
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">myCompare</span> <span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+  <span class="token keyword">bool</span> <span class="token keyword">operator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">&amp;</span> item1<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">&amp;</span> item2<span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> item1 <span class="token operator">&lt;</span> item2<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">priority_queue&lt;int&gt; queue1;
-priority_queue&lt;int, vector&lt;int&gt;, myCompare&gt; queue2;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">priority_queue<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> queue1<span class="token punctuation">;</span>
+priority_queue<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span> vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span><span class="token punctuation">,</span> myCompare<span class="token operator">></span> queue2<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>完整示例:</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
-#include &lt;vector&gt;
-#include &lt;queue&gt;
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;queue></span></span>
 
-using namespace std;
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
 
-class myCompare
-&#123;
-public:
-  bool operator()(const int &amp;item1, const int &amp;item2) const
-  &#123;
-    return item1 &lt; item2;
-  &#125;
-&#125;;
+<span class="token keyword">class</span> <span class="token class-name">myCompare</span>
+<span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+  <span class="token keyword">bool</span> <span class="token keyword">operator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">&amp;</span>item1<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">&amp;</span>item2<span class="token punctuation">)</span> <span class="token keyword">const</span>
+  <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> item1 <span class="token operator">&lt;</span> item2<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
 
-int main()
-&#123;
-  priority_queue&lt;int, vector&lt;int&gt;, myCompare&gt; queue2;
-  for (int i &#x3D; 1; i &lt; 100; ++i)
-  &#123;
-    queue2.emplace(i);
-  &#125;
-  while (!queue2.empty())
-  &#123;
-    cout &lt;&lt; queue2.top() &lt;&lt; &#39; &#39;;
-    queue2.pop();
-  &#125;
-  cout &lt;&lt; &#39;\n&#39;;
-  return 0;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+  priority_queue<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span> vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span><span class="token punctuation">,</span> myCompare<span class="token operator">></span> queue2<span class="token punctuation">;</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">100</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span>
+  <span class="token punctuation">&#123;</span>
+    queue2<span class="token punctuation">.</span><span class="token function">emplace</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">!</span>queue2<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">&#123;</span>
+    cout <span class="token operator">&lt;&lt;</span> queue2<span class="token punctuation">.</span><span class="token function">top</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token char">' '</span><span class="token punctuation">;</span>
+    queue2<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  cout <span class="token operator">&lt;&lt;</span> <span class="token char">'\n'</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>注意如果自己指定了Compare，同时需要指定Container，应为第n个参数自定义之后，前面的n-1个参数都不能缺省，都需要手动指定。</p>
 
                 
