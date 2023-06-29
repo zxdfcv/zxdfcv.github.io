@@ -4,8 +4,8 @@
 
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-    <meta name="keywords" content="Category: 模拟器, 计算机科学, 北航, 体系结构, 算法">
-    <meta name="description" content="这是张翼翔的个人网站">
+    <meta name="keywords" content="实验室工作 GPU缓存 GPU基础知识, 计算机科学, 北航, 体系结构, 算法">
+    <meta name="description" content="GPU基础知识">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Category: 模拟器 | Yixiang&#39;s Blog</title>
+    <title>实验室工作 GPU缓存 GPU基础知识 | Yixiang&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/go.png">
     
 
@@ -332,296 +332,511 @@
 
 </header>
 
-    <div class="bg-cover pd-header about-cover">
-    <div class="container">
-    <div class="row">
-    <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
-        <div class="brand">
-            <div class="title center-align">
-                
-                菜鸟的计科冒险
-                
-            </div>
+    
 
-            <div class="description center-align">
-                
-                <span id="subtitle"></span>
-                <script src="/libs/typed/typed.js"></script>
-                <script>
-                    var typed = new Typed("#subtitle", {
-                        strings: [ 
-                            
-                                "从来没有真正的绝境, 只有心灵的迷途",
-                            
-                                "Never really desperate, only the lost of the soul",
-                            
-                        ],
-                        startDelay: 300,
-                        typeSpeed: 100,
-                        loop: true,
-                        backSpeed: 50,
-                        showCursor: true
-                    });
-                </script>
-                
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">实验室工作 GPU缓存 GPU基础知识</h1>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/">
+                            <span class="chip bg-color">体系结构</span>
+                        </a>
+                        
+                        <a href="/tags/GPU/">
+                            <span class="chip bg-color">GPU</span>
+                        </a>
+                        
+                        <a href="/tags/%E6%A8%A1%E6%8B%9F%E5%99%A8/">
+                            <span class="chip bg-color">模拟器</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/%E6%A8%A1%E6%8B%9F%E5%99%A8/" class="post-category">
+                            模拟器
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2023-06-29
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="gpu基础知识"><a class="markdownIt-Anchor" href="#gpu基础知识"></a> GPU基础知识</h1>
+<h2 id="cuda-的编程模型概述"><a class="markdownIt-Anchor" href="#cuda-的编程模型概述"></a> CUDA 的编程模型概述</h2>
+<p>当通过 CUDA 编译时，GPU 可以被视为极高数量并行线程的计算设备。<br>
+目前主流的英伟达 GPU 模拟器都是基于 CUDA 编程模型的。</p>
+<h2 id="gpu-线程调度与-cuda-编程模型"><a class="markdownIt-Anchor" href="#gpu-线程调度与-cuda-编程模型"></a> GPU 线程调度与 CUDA 编程模型</h2>
+<p>GPU 本质上是 CPU 的一个协处理器，用于多线程执行大量相同指令。GPU 所运算的指令及数据一般由 CPU 进行分配，而英伟达架构 GPU 采用 CUDA 编程模型实现应用程序到 GPU 硬件的联系。CUDA 应用程序一般由多个 Kernel 组成，每个 Kernel 由大量线程并行执行，以执行特定的计算任务。Kernel 中的线程被分层次组织为网格（Grid）、线程块（Block）以及线程（Thread）。如图 1，每个 Kernel 的被分成多个线程块，每个线程块又包含大量线程，这些线程执行相同代码，但处理不同的数据。</p>
+<p>GPU 中，每个 CUDA Core 同一时刻只能执行一个线程，然而 GPU 需要处理大量指令相同的线程，在线程层面调度是低效的。在 CUDA 模型的线程块中，一定数量（如 32 个）线程组成一个线程束（warp），同一个线程束中的所有线程同一时刻只会执行同一条指令，因而线程束为 GPU 执行的最小调度单位。当 Kernel 执行时，调度程序将线程块分配给不同的流多处理器，一个线程块中的所有线程束会在一流多处理器上执行，而单个流多处理器可以同时执行多个线程块。不同的线程调度方式对 CUDA 应用程序的性能有显著影响。</p>
+<p><img src="/2023/06/29/%E5%AE%9E%E9%AA%8C%E5%AE%A4%E5%B7%A5%E4%BD%9C-GPU%E7%BC%93%E5%AD%98-GPU%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/a1e1b4357b2b28730450855e9a9d5c62d90f2e2b177f84c938cae8d91146214e.png" alt="图 1"></p>
+<h2 id="线程块-block"><a class="markdownIt-Anchor" href="#线程块-block"></a> 线程块 Block</h2>
+<p>一个线程块是一个线程的批处理，它通过一些快速的共享内存有效地分享数据并且在制定的内存访问中同步它们的执行。更准确地说，它可以在 Kernel 中指定同步点，一个块里的线程被挂起直到它们所有都到达同步点（采用同步机制）。</p>
+<p>每个线程由它的线程 ID 所确定，ID 是块内的线程编号。根据线程的ID 可以进行复杂寻址，一个应用程序可以指定一个块作为一个二维或三维数组的任意大小，并且通过一个 2- 或 3- 组件索引代替来指定每条线程。对于一个大小为 (Dx，Dy)二维块，线程的索引是(x, y)，这个线程 ID 是(x + y Dx)。而对于一个三维的大小为 (Dx，Dy，Dz)的块，这个线程的索引是(x，y，z)，线程的 ID 是(x + y Dx + z DxDy)。</p>
+<h2 id="线程束-warp"><a class="markdownIt-Anchor" href="#线程束-warp"></a> 线程束 warp</h2>
+<p>线程块在一个批处理中被一个多处理器执行，被称作 active。每个active 块被划分成为 SIMD 线程组，称为 warps; 每一条这样的 warp 包含数量相同的线程，叫做 warp 大小，并且在 SIMD 方式下通过多处理器执行; 线程调度程序周期性地从一条 warp 切换到另一条warp，以达到多处理器计算资源使用的最大化。warp 是线程调度的最小单元。</p>
+<p>注意，块被划分成为 warp 的方式总是相同的; 每条 warp 包含连续的线程（一般用十六进制掩码 mask 的形式表示，每一个二进制位表示一个 thread，置位为 1 表示线程活跃，否则不活跃），线程索引从第一个warp 包含着的线程 0 开始递增。</p>
+<h2 id="线程块栅格-grid"><a class="markdownIt-Anchor" href="#线程块栅格-grid"></a> 线程块栅格 Grid</h2>
+<p>一个块可以包含的线程最大数量是有限的。然而，执行同一个kernel 的块可以合成一批线程块的栅格，因此通过单一 kernel 发送的请求的线程总数可以是非常巨大的。线程协作的减少会造成性能的损失，因为来自同一个栅格的不同线程块中的线程彼此之不间能通讯和同步。这个模式允许 kernel 用不同的并行能力有效地运行在各种设备上而不用再编译：一个设备可以序列地运行栅格的所有块</p>
+<ul>
+<li>如果它有非常少的并行特性</li>
+<li>如果它有很多的并行的特性</li>
+<li>通常是二者的组合。</li>
+</ul>
+<p>每个块是由它的块 ID 确定，块的 ID 是在栅格之内的块编号。根据块ID 可以帮助进行复杂寻址，一个应用程序可也以指定一个栅格作为任意大小的一个二维数组，并且通过一个 2- 组件索引替换来制定每个块。对于一个大小为 (Dx，Dy) 二维块，这个块的索引是(x，y)，块的 ID 是(x + y Dx)。</p>
+<h2 id="内存或显存"><a class="markdownIt-Anchor" href="#内存或显存"></a> 内存或显存</h2>
+<p>一条执行在设备上的线程，只允许通过如下的内存空间使用设备的 DRAM 和 On-Chip 内存，如图 2 所<br>
+示：</p>
+<ul>
+<li>读写每条线程的寄存器，</li>
+<li>读写每条线程的本地内存，</li>
+<li>读写每个块的共享内存，</li>
+<li>读写每个栅格的全局内存，</li>
+<li>只读每个栅格的常量内存，</li>
+<li>只读每个栅格的纹理内存。</li>
+</ul>
+<p>全局，常量和纹理内存空间可以通过主机或者同一应用程序持续的通过kernel 调用来完成读取或写入。<br>
+全局，常量和纹理内存空间对不同内存的用法加以优化。纹理内存同样提供不同的寻址模式，也为一些<br>
+特殊的数据格式进行数据过滤。</p>
+<p><img src="/2023/06/29/%E5%AE%9E%E9%AA%8C%E5%AE%A4%E5%B7%A5%E4%BD%9C-GPU%E7%BC%93%E5%AD%98-GPU%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/324652b173d0b92297c53ef7506903de21d4767aa11db547b87ac4a42dcc6b07.png" alt="图 2"></p>
+<h2 id="硬件实现"><a class="markdownIt-Anchor" href="#硬件实现"></a> 硬件实现</h2>
+<p>设备 (GPU) 可以被看作一组多处理器，如图 3 所示。每个多处理器使用单一指令，多数据架构 (SIMD) ：在任何给定的时钟周期内，多处理器的每个处理器执行同一指令，但操作不同的数据。 每个多处理器使用四个以下类型的 on-chip（片上）内存：</p>
+<ul>
+<li>每个处理器一组本地32 位寄存器，</li>
+<li>并行数据缓存或共享内存，被所有处理器共享实现内存空间共享，</li>
+<li>通过设备内存的一个只读区域，一个只读常量缓冲器被所有处理器共享，</li>
+<li>通过设备内存的一个只读区域，一个只读纹理缓冲器被所有处理器共享，</li>
+</ul>
+<p>本地和全局内存空间作为设备内存的读写区域，而不被缓冲。<br>
+每个多处理器通过纹理单元访问纹理缓冲器，它执行各种各样的寻址模式和数据过滤。</p>
+<p><img src="/2023/06/29/%E5%AE%9E%E9%AA%8C%E5%AE%A4%E5%B7%A5%E4%BD%9C-GPU%E7%BC%93%E5%AD%98-GPU%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/ac3d130062e5e936152f8c13035a72acc105ae1006811692a415c51ea42280a7.png" alt="图 3"></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        Author:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Yixiang Zhang</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        Link:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://zxdfcv.github.io/2023/06/29/%E5%AE%9E%E9%AA%8C%E5%AE%A4%E5%B7%A5%E4%BD%9C-GPU%E7%BC%93%E5%AD%98-GPU%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">http://zxdfcv.github.io/2023/06/29/%E5%AE%9E%E9%AA%8C%E5%AE%A4%E5%B7%A5%E4%BD%9C-GPU%E7%BC%93%E5%AD%98-GPU%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        Reprint policy:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    All articles in this blog are used except for special statements
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    reprint policy. If reproduced, please indicate source
+                    <a href="/about" target="_blank">Yixiang Zhang</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>Copied successfully, please follow the reprint policy of this article</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">more</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/">
+                            <span class="chip bg-color">体系结构</span>
+                        </a>
+                        
+                        <a href="/tags/GPU/">
+                            <span class="chip bg-color">GPU</span>
+                        </a>
+                        
+                        <a href="/tags/%E6%A8%A1%E6%8B%9F%E5%99%A8/">
+                            <span class="chip bg-color">模拟器</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+    <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
 <script>
-    // 每天切换 banner 图.  Switch banner image every day.
-    var bannerUrl = "/medias/banner/" + new Date().getDay() + '.jpg';
-    $('.bg-cover').css('background-image', 'url(' + bannerUrl + ')');
+    let gitalk = new Gitalk({
+        clientID: '745f152f39e12e38b015',
+        clientSecret: '4fcac922f40bb86196bf94a04399292edba69dbf',
+        repo: 'zxdfcv.github.io',
+        owner: 'zxdfcv',
+        admin: ["zxdfcv"],
+        id: '2023-06-29T16-34-47',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
 </script>
 
-
-    </div>
-</div>
-
-<main class="content">
+    
 
     
 
-<div id="category-cloud" class="container chip-container">
-    <div class="card">
-        <div class="card-content">
-            <div class="tag-title center-align">
-                <i class="fas fa-bookmark"></i>&nbsp;&nbsp;Post Categories
-            </div>
-            <div class="tag-chips">
-                
-                
-                
-                <a href="/categories/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" title="体系结构: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F9EBEA;">体系结构
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/OO/" title="OO: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F5EEF8;">OO
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/OS/" title="OS: 7">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #D5F5E3;">OS
-                        <span class="tag-length">7</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/C/" title="C++: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #E8F8F5;">C++
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/LaTeX/" title="LaTeX: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #FEF9E7;">LaTeX
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E6%A8%A1%E6%8B%9F%E5%99%A8/" title="模拟器: 2">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-active "
-                            style="background-color: #F8F9F9;">模拟器
-                        <span class="tag-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%9E%84%E9%80%A0/" title="面向对象设计与构造: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #82E0AA;">面向对象设计与构造
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" title="操作系统: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #D7BDE2;">操作系统
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/" title="算法学习: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #A3E4D7;">算法学习
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E7%A7%91%E5%B9%BB/" title="科幻: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #85C1E9;">科幻
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/git/" title="git: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F8C471;">git
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E9%9A%8F%E7%AC%94/" title="随笔: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F9E79F;">随笔
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-            </div>
-        </div>
-    </div>
-</div>
-
+    
 
     
 
-    <article id="articles" class="container articles">
-        <div class="row tags-posts">
-            
-            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2023/06/29/%E5%AE%9E%E9%AA%8C%E5%AE%A4%E5%B7%A5%E4%BD%9C-GPU%E7%BC%93%E5%AD%98-GPU%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
-                        <div class="card-image tag-image">
-                            
-                            
-                            <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="实验室工作 GPU缓存 GPU基础知识">
-                            
-                            <span class="card-title">实验室工作 GPU缓存 GPU基础知识</span>
-                        </div>
-                    </a>
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                GPU基础知识
-                            
-                        </div>
-                        <div class="publish-info">
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
+            <div class="card">
+                <a href="/2023/06/29/%E5%AE%9E%E9%AA%8C%E5%AE%A4%E5%B7%A5%E4%BD%9C-GPU%E7%BC%93%E5%AD%98-GPU%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="实验室工作 GPU缓存 GPU基础知识">
+                        
+                        <span class="card-title">实验室工作 GPU缓存 GPU基础知识</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            GPU基础知识
+                        
+                    </div>
+                    <div class="publish-info">
                             <span class="publish-date">
                                 <i class="far fa-clock fa-fw icon-date"></i>2023-06-29
                             </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E6%A8%A1%E6%8B%9F%E5%99%A8/" class="post-category">
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%A8%A1%E6%8B%9F%E5%99%A8/" class="post-category">
                                     模拟器
                                 </a>
-                                
-                                
-                            </span>
-                        </div>
+                            
+                            
+                        </span>
                     </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/">
-                            <span class="chip bg-color">体系结构</span>
-                        </a>
-                        
-                        <a href="/tags/GPU/">
-                            <span class="chip bg-color">GPU</span>
-                        </a>
-                        
-                        <a href="/tags/%E6%A8%A1%E6%8B%9F%E5%99%A8/">
-                            <span class="chip bg-color">模拟器</span>
-                        </a>
-                        
-                    </div>
-                    
                 </div>
-            </div>
-            
-            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2023/01/21/GPM-icnts-second-stage/">
-                        <div class="card-image tag-image">
-                            
-                            <img src="/medias/MCM_cover.png" class="responsive-img" alt="GPM_icnts second stage">
-                            
-                            <span class="card-title">GPM_icnts second stage</span>
-                        </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/">
+                        <span class="chip bg-color">体系结构</span>
                     </a>
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                GPM_icnts 第二阶段工作
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-01-21
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E6%A8%A1%E6%8B%9F%E5%99%A8/" class="post-category">
-                                    模拟器
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
                     
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/">
-                            <span class="chip bg-color">体系结构</span>
-                        </a>
-                        
-                        <a href="/tags/GPU/">
-                            <span class="chip bg-color">GPU</span>
-                        </a>
-                        
-                        <a href="/tags/%E6%A8%A1%E6%8B%9F%E5%99%A8/">
-                            <span class="chip bg-color">模拟器</span>
-                        </a>
-                        
-                    </div>
+                    <a href="/tags/GPU/">
+                        <span class="chip bg-color">GPU</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%A8%A1%E6%8B%9F%E5%99%A8/">
+                        <span class="chip bg-color">模拟器</span>
+                    </a>
                     
                 </div>
+                
             </div>
-            
         </div>
-    </article>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2023/06/21/BUAA-SCSE-2-2-%E5%A4%A7%E4%BA%8C%E4%B8%8B%E6%80%BB%E7%BB%93/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="BUAA_SCSE_2-2 大二下总结">
+                        
+                        <span class="card-title">BUAA_SCSE_2-2 大二下总结</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            大二下总结
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-06-21
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E9%9A%8F%E7%AC%94/" class="post-category">
+                                    随笔
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E9%9A%8F%E7%AC%94/">
+                        <span class="chip bg-color">随笔</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
 </main>
 
 
