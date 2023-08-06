@@ -5,7 +5,12 @@
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
     <meta name="keywords" content="探究 Shell 脚本第一行的作用和写法, 计算机科学, 北航, 体系结构, 算法">
-    <meta name="description" content="">
+    <meta name="description" content=" 前言
+在管理一个网站的时候，为了方便 uwsgi 的访问，写了一个脚本：
+
+#!/bin/bash
+
+echo -e &#34;\033[34m---------------------wsgi process------------------">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -436,7 +441,66 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h2 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h2>
+<p>在管理一个网站的时候，为了方便 uwsgi 的访问，写了一个脚本：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">
+<span class="token comment">#!/bin/bash</span>
+
+<span class="token builtin class-name">echo</span> <span class="token parameter variable">-e</span> <span class="token string">"<span class="token entity" title="\033">\033</span>[34m---------------------wsgi process--------------------<span class="token entity" title="\033">\033</span>[0m"</span> <span class="token comment"># -e开启转义</span>
+
+<span class="token function">ps</span> <span class="token parameter variable">-ef</span> <span class="token operator">|</span> <span class="token function">grep</span> uwsgi.ini <span class="token operator">|</span> <span class="token function">grep</span> <span class="token parameter variable">-v</span> <span class="token function">grep</span>
+
+<span class="token function">sleep</span> <span class="token number">0.5</span>
+
+<span class="token builtin class-name">echo</span> <span class="token parameter variable">-e</span> <span class="token string">"<span class="token entity" title="\n">\n</span>--------------------going to close--------------------"</span>
+
+<span class="token function">ps</span> <span class="token parameter variable">-ef</span> <span class="token operator">|</span> <span class="token function">grep</span> uwsgi.ini <span class="token operator">|</span> <span class="token function">grep</span> <span class="token parameter variable">-v</span> <span class="token function">grep</span> <span class="token operator">|</span> <span class="token function">awk</span> <span class="token string">'&#123;print $2&#125;'</span> <span class="token operator">|</span> <span class="token function">xargs</span> <span class="token function">kill</span> <span class="token parameter variable">-9</span> <span class="token comment"># $2 表示行内的第二个字段，xargs 是传递给命令参数的过滤器</span>
+
+<span class="token function">sleep</span> <span class="token number">0.5</span>
+
+<span class="token builtin class-name">echo</span> <span class="token parameter variable">-e</span> <span class="token string">'\n----------check if the kill action is correct----------'</span>
+
+<span class="token comment">#/pubilc/summer_-python_-project_-backend/uwsgi --ini uwsgi.ini &amp; > /dev/null</span>
+uwsgi <span class="token parameter variable">--ini</span> uwsgi.ini <span class="token operator">&amp;</span> <span class="token operator">></span> /dev/null
+
+<span class="token builtin class-name">echo</span> <span class="token parameter variable">-e</span> <span class="token string">'\n\033[42;1m--------------------started...---------------------\033[0m'</span>
+
+<span class="token function">sleep</span> <span class="token number">1</span>
+
+<span class="token function">ps</span> <span class="token parameter variable">-ef</span> <span class="token operator">|</span> <span class="token function">grep</span> uwsgi.ini <span class="token operator">|</span> <span class="token function">grep</span> <span class="token parameter variable">-v</span> <span class="token function">grep</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>但是在查资料的时候，无意之间发现 <code>shell</code> 脚本开头一行有两种写法，现在探究一下。</p>
+<p>这两种写法为 <code>#!/bin/bash</code> 和 <code>#!/usr/bin/env bash</code>。</p>
+<p><code>#!/bin/bash</code> 是直接指定了应该去哪里找 <code>bash</code><br>
+<code>#!/usr/bin/env bash</code> 则是告诉系统去 <code>$PATH</code> 包含的目录中挨个去找，先找到哪个，就用哪个。这两种写法各有有缺点，分析如下：</p>
+<h2 id="usrbinenv-bash-的优缺点"><a class="markdownIt-Anchor" href="#usrbinenv-bash-的优缺点"></a> <code>#!/usr/bin/env bash</code> 的优缺点</h2>
+<h3 id="优点"><a class="markdownIt-Anchor" href="#优点"></a> 优点</h3>
+<p><code>#!/usr/bin/env bash</code> 不必在系统的特定位置查找命令解释器，为多系统间的移植提供了极大的灵活性和便利性（某些系统的一些命令解释器并不在 <code>/bin</code> 或 一些约定的目录下，而是一些比较奇怪的目录）。<br>
+在不了解主机的环境时，<code>#!/usr/bin/env bash</code> 写法可以使开发工作快速地展开。</p>
+<h3 id="缺点"><a class="markdownIt-Anchor" href="#缺点"></a> 缺点</h3>
+<p><code>#!/usr/bin/env bash</code> 在对安全性比较看重时，该写法会出现安全隐患。</p>
+<p><code>#!/usr/bin/env bash</code> 从 <code>$PATH</code> 中查找命令解释器所在的位置并匹配第一个找到的位置，这意味着可以伪造一个假的命令解释器（如自己写一个<strong>假</strong>的 <code>bash</code>），并将伪造后的命令解释器所在目录写入 <code>PATH</code> 环境变量中并位于靠前位置，这样，就形成了安全隐患。</p>
+<p>而 <code>/bin</code> 由于一般只有 <code>root</code> 用户才有操作权限，所以，<code>#!/bin/bash</code> 这种写法相对较为安全</p>
+<p><code>#!/usr/bin/env</code> 无法传递多个参数（这是由于 <code>Shebang</code> 解析造成的，并非 <code>env</code> 命令的缘故）。</p>
+<p>如：<br>
+<code>#!/usr/bin/perl -w</code><br>
+<code>#!/bin/csh -f</code></p>
+<p>而如果使用 #!/usr/bin/env perl -w 这种写法的话，perl -w 会被当成一个参数，于是，根本找不到 perl -w 这个命令解释器，就会出错。</p>
+<p>某些系统 <code>env</code> 命令的位置也比较奇怪，这种写法会找不到 <code>env</code> 命令。</p>
+<h2 id="binbash-的优缺点"><a class="markdownIt-Anchor" href="#binbash-的优缺点"></a> <code>#!/bin/bash</code> 的优缺点</h2>
+<h3 id="优点-2"><a class="markdownIt-Anchor" href="#优点-2"></a> 优点</h3>
+<p>准确指出所需命令解释器的位置<br>
+安全性相对较高<br>
+可以传递多个参数</p>
+<h3 id="缺点-2"><a class="markdownIt-Anchor" href="#缺点-2"></a> 缺点</h3>
+<p>移植性相对较差，很多系统的命令解释器位置不一致<br>
+一些命令解释器的位置记不住<br>
+到底用哪个<br>
+两个都可以<br>
+如果对安全性比较看重，使用 <code>#!/bin/bash</code><br>
+如果对安全性不是很看重，但对移植性（灵活性）比较看重，使用 <code>#!/usr/bin/env bash</code>，看自己的意愿，喜好</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_37164975/article/details/106181500">参考博客</a></p>
+
                 
             </div>
             <hr/>
