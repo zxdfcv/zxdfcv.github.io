@@ -449,7 +449,8 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>C++ STL 中许多容器涉及比较，如<code>map</code>,<code>set</code>,<code>priority_queue</code>等，这就需要我们实现元素的比较方法。</p>
+                <h2 id="基本用法"><a class="markdownIt-Anchor" href="#基本用法"></a> 基本用法</h2>
+<p>C++ STL 中许多容器涉及比较，如<code>map</code>,<code>set</code>,<code>priority_queue</code>等，这就需要我们实现元素的比较方法。</p>
 <p>以<code>map</code>为例(before c++17)：</p>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">template</span> <span class="token operator">&lt;</span> 
     <span class="token keyword">class</span> <span class="token class-name">Key</span><span class="token punctuation">,</span> 
@@ -468,11 +469,12 @@
 <p>Note that the Compare parameter is defined such that it returns true if its first argument comes before its second argument in a weak ordering. But because the priority queue outputs largest elements first, the elements that “come before” are actually output last. That is, the front of the queue contains the “last” element according to the weak ordering imposed by Compare.</p>
 </blockquote>
 <ul>
-<li>也即如果元素a、b的弱序为&lt;a, b&gt;, 那么a比b“小”，b比a“大”，a排在b的前面。但是优先队列先输出最“大”的元素，故Compare定义了小于关系，实质是输出大顶堆，定义了大于关系，实质是输出小顶对。这正好对应离散数学的相关概念。</li>
+<li>也即如果元素 a、b 的弱序为 &lt;a, b&gt;, 那么 a 比 b “小”，b 比 a “大”，a 排在 b 的前面。但是优先队列先输出最“大”的元素，故 Compare 定义了小于关系，实质是输出大顶堆，定义了大于关系，实质是输出小顶堆。这正好对应离散数学的相关概念。</li>
 <li>此外弱序若还是反对称的，则就是全序。</li>
 </ul>
-<p>在<code>map</code>和其他一些STL容器中，Compare定义的顺序就是实际的输出顺序了。</p>
-<p>如果要使用自己定义Compare顺序，可以这样定义：</p>
+<p>在<code>map</code>和其他一些 STL 容器中，Compare 定义的顺序就是实际的输出顺序了。</p>
+<p>这个优先队列（堆）之所以很特殊，在于其本身的性质及其理解离散数学中偏序概念的角度比较独特。</p>
+<p>如果要使用自己定义 Compare 顺序，可以这样定义：</p>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">myCompare</span> <span class="token punctuation">&#123;</span>
   <span class="token keyword">bool</span> <span class="token keyword">operator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">typename</span> <span class="token operator">&amp;</span> item1<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">typename</span> <span class="token operator">&amp;</span> item2<span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">&#123;</span>
     <span class="token comment">//define your order,</span>
@@ -521,6 +523,15 @@ priority_queue<span class="token operator">&lt;</span><span class="token keyword
   <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>注意如果自己指定了Compare，同时需要指定Container，应为第n个参数自定义之后，前面的n-1个参数都不能缺省，都需要手动指定。</p>
+<h2 id="拓展"><a class="markdownIt-Anchor" href="#拓展"></a> 拓展</h2>
+<p>C++ 标准中提供了用于比较的泛型类，即 greater、 less、equal 等。以 less 为例：</p>
+<blockquote>
+<p>A specialization of std::less for any pointer type yields a strict total order, even if the built-in operator&lt; does not. The strict total order is consistent among specializations of std::less, std::greater, std::less_equal, and std::greater_equal for that pointer type, and is also consistent with the partial order imposed by the corresponding built-in operators (&lt;, &gt;, &lt;= and &gt;=).</p>
+</blockquote>
+<p>这段话说 less 是服从严格全序关系的。</p>
+<p>其成员函数为 <code>operations()</code>，所以 <code>less&lt;T&gt;()</code> 可以直接用于对应类的比较中，例如：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token function">sort</span><span class="token punctuation">(</span>arr1<span class="token punctuation">,</span> arr1 <span class="token operator">+</span> n<span class="token punctuation">,</span> <span class="token generic-function"><span class="token function">less</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这里就不用自己编写 cmp 函数了。</p>
 
                 
             </div>
