@@ -471,34 +471,35 @@
 <p>可以看到，安装程序自动添加了系统环境变量的设置。</p>
 <p><img src="/2024/08/21/BUAA-OO-Pre-0-%E5%B7%A5%E5%85%B7%E9%93%BE%E5%92%8C-Java-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/step6.png" alt="图7"></p>
 <h3 id="自己配置环境变量"><a class="markdownIt-Anchor" href="#自己配置环境变量"></a> 自己配置环境变量</h3>
+<p>配置过程中的引号一定要删掉！！！</p>
 <p>有时候我们还是需要自己配置环境变量，原因如下：</p>
 <ol>
 <li>
 <p><strong>版本切换的灵活性：</strong></p>
 <ul>
-<li>当你手动配置 <code>JAVA_HOME</code> 变量时，可以根据需要手动修改这个变量的值来指向不同版本的 JDK。例如，你可能有两个 JDK 版本分别安装在 <code>C:\Program Files\Java\jdk-8</code> 和 <code>C:\Program Files\Java\jdk-11</code>，你可以通过修改 <code>JAVA_HOME</code> 变量的值来快速切换当前使用的 JDK 版本。</li>
+<li>当我们手动配置 <code>JAVA_HOME</code> 变量时，可以根据需要手动修改这个变量的值来指向不同版本的 JDK。例如，可能有两个 JDK 版本分别安装在 <code>C:\Program Files\Java\jdk-8</code> 和 <code>C:\Program Files\Java\jdk-11</code>，我们可以通过修改 <code>JAVA_HOME</code> 变量的值来快速切换当前使用的 JDK 版本。</li>
 <li>配合修改 <code>PATH</code> 变量中的 <code>%JAVA_HOME%\bin</code>，可以确保系统正确使用所选择的 JDK 版本。</li>
 </ul>
 </li>
 <li>
 <p><strong>多版本管理：</strong></p>
 <ul>
-<li>手动配置可以让你在同一台机器上方便地管理多个 JDK 版本。不同项目可能需要不同版本的 JDK，通过手动配置，你可以在不同的终端会话或脚本中切换到所需的 JDK 版本。</li>
-<li>例如，你可以编写批处理脚本来自动切换 <code>JAVA_HOME</code> 的值，并且刷新环境变量，满足不同项目的需要。</li>
+<li>手动配置可以让我们在同一台机器上方便地管理多个 JDK 版本。不同项目可能需要不同版本的 JDK，通过手动配置，我们可以在不同的终端会话或脚本中切换到所需的 JDK 版本。</li>
+<li>例如，我们可以编写批处理脚本来自动切换 <code>JAVA_HOME</code> 的值，并且刷新环境变量，满足不同项目的需要。</li>
 </ul>
 </li>
 <li>
 <p><strong>避免冲突：</strong></p>
 <ul>
-<li>自动配置通常会将 JDK 的路径直接添加到系统的 <code>PATH</code> 中，但如果你安装了多个版本的 JDK，可能会导致路径冲突，使得系统可能无法确定应该使用哪个版本的工具。</li>
-<li>手动配置则允许你完全掌控哪个版本的 JDK 被使用，避免版本冲突问题。</li>
+<li>自动配置通常会将 JDK 的路径直接添加到系统的 <code>PATH</code> 中，但如果我们安装了多个版本的 JDK，可能会导致路径冲突，使得系统可能无法确定应该使用哪个版本的工具。</li>
+<li>手动配置则允许我们完全掌控哪个版本的 JDK 被使用，避免版本冲突问题。</li>
 </ul>
 </li>
 <li>
 <p><strong>更好的可控性和透明度：</strong></p>
 <ul>
-<li>手动配置使你更清楚地了解当前系统使用的是哪个版本的 JDK，尤其是在开发环境中需要不同的 JDK 版本时，手动配置提供了更大的透明度和可控性。</li>
-<li>你可以通过简单的命令行检查或脚本配置来确认和调整环境配置。</li>
+<li>手动配置使我们更清楚地了解当前系统使用的是哪个版本的 JDK，尤其是在开发环境中需要不同的 JDK 版本时，手动配置提供了更大的透明度和可控性。</li>
+<li>我们可以通过简单的命令行检查或脚本配置来确认和调整环境配置。</li>
 </ul>
 </li>
 </ol>
@@ -526,7 +527,7 @@
 <p>很多人在双击 PATH 的时候，发现打开后，并没有按照行进行分别展开，全部集中在一行里面，这是因为你的第一个是以 % 开头的环境变量，只需要将以 % 开头的全部裁剪（<kbd>Ctrl</kbd> + <kbd>X</kbd>），然后移到最后面，让第一个变量是以磁盘开头的变量就行；也就是说 % 不要打头。</p>
 <p>如果切换后，Java 版本还是没变，这是因为你的 PATH 里面自动配置了Java 的版本，只需要把这些删除即可。</p>
 <h3 id="另一种方法临时"><a class="markdownIt-Anchor" href="#另一种方法临时"></a> 另一种方法（临时）</h3>
-<p>假设你有两个版本的 JDK，JDK 8 和 JDK 11，你可以创建两个脚本来切换 <code>JAVA_HOME</code>：</p>
+<p>假设W有两个版本的 JDK，JDK 8 和 JDK 11，我们可以创建两个脚本来切换 <code>JAVA_HOME</code>：</p>
 <ul>
 <li>
 <p>切换到 JDK 8：</p>
@@ -539,7 +540,7 @@
 <span class="token command"><span class="token keyword">set</span> <span class="token variable">PATH</span><span class="token operator">=</span><span class="token variable">%JAVA_HOME%</span>\bin;<span class="token variable">%PATH%</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 </li>
 </ul>
-<p>通过运行相应的脚本，你可以轻松切换 JDK 版本，而不需要每次都手动修改环境变量。</p>
+<p>通过运行相应的脚本，就可以轻松切换 JDK 版本，而不需要每次都手动修改环境变量。</p>
 
                 
             </div>
@@ -682,30 +683,29 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;Current
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2024/08/21/BUAA-OO-Pre-0-%E5%B7%A5%E5%85%B7%E9%93%BE%E5%92%8C-Java-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
+                <a href="/2024/08/24/BUAA-OO-HW-8-%E7%AC%AC%E4%BA%8C%E5%8D%95%E5%85%83%E5%8D%9A%E5%AE%A2%E4%BD%9C%E4%B8%9A/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="BUAA-OO-Pre-0 工具链和 Java 环境配置">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="BUAA_OO_HW 8 第二单元博客作业">
                         
-                        <span class="card-title">BUAA-OO-Pre-0 工具链和 Java 环境配置</span>
+                        <span class="card-title">BUAA_OO_HW 8 第二单元博客作业</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            面向对象工具链和环境配置
+                            OO 第二单元博客作业
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-08-21
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-08-24
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -718,7 +718,6 @@
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
@@ -726,8 +725,8 @@
                         <span class="chip bg-color">OO</span>
                     </a>
                     
-                    <a href="/tags/Java/">
-                        <span class="chip bg-color">Java</span>
+                    <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%9E%84%E9%80%A0/">
+                        <span class="chip bg-color">面向对象设计与构造</span>
                     </a>
                     
                 </div>
