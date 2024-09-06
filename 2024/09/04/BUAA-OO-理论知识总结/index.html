@@ -4,8 +4,8 @@
 
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-    <meta name="keywords" content="BUAA_OO_HW 8 第二单元博客作业, 计算机科学, 北航, 体系结构, 算法">
-    <meta name="description" content="OO 第二单元博客作业">
+    <meta name="keywords" content="BUAA OO 理论知识总结, 计算机科学, 北航, 体系结构, 算法">
+    <meta name="description" content="OO 理论知识总结">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>BUAA_OO_HW 8 第二单元博客作业 | Yixiang&#39;s Blog</title>
+    <title>BUAA OO 理论知识总结 | Yixiang&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/go.png">
     
 
@@ -371,12 +371,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">BUAA_OO_HW 8 第二单元博客作业</h1>
+                    <h1 class="description center-align post-title">BUAA OO 理论知识总结</h1>
                 </div>
             </div>
         </div>
@@ -429,7 +429,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2024-08-24
+                    2024-09-04
                 </div>
                 
 
@@ -453,72 +453,22 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="序言"><a class="markdownIt-Anchor" href="#序言"></a> 序言</h2>
-<p>多线程的程序设计，其实有迹可循。主要要在架构上精心设计，通过优秀的数据结构和轻量化的锁的使用降低代码复杂度，最后从多个方面系统 debug，在评测机确定错误类型后，通过使用 IDE 和编程语言提供的各种工具解决 bug。</p>
-<p>然而，我在后两个方面还缺乏系统的训练，投入时间不足，好的架构可以快速学习到，但多线程编程和 debug 的技巧并非唾手可得。如果没有时间的投入，再巧妙的构思也难以正确的变为现实。《后出师表》有言：“高帝明并日月，谋臣渊深，然涉险被创，危然后安。”汉高祖刘邦雄才大略，群臣灿若星河，还要经历艰险，身受创伤，遭遇危难才能安定。我们对多线程的了解本来就比单线程少，倘若还只花费相同甚至更少的时间，不努力学习和理解，经历更多的痛苦，如何更深入地习得多线程编程的技巧，取得更好的成绩？</p>
-<p>这一单元的作业留给我学习和思考的无疑太多太多……</p>
-<h2 id="hw5分析"><a class="markdownIt-Anchor" href="#hw5分析"></a> hw5分析</h2>
-<h3 id="hw5-同步块的设置和锁的选择"><a class="markdownIt-Anchor" href="#hw5-同步块的设置和锁的选择"></a> hw5 同步块的设置和锁的选择</h3>
-<p>本次作业的锁全部<code>synchronized</code>锁，主要是模仿PPT和上机练习中给出的方法。由于<code>Strategy</code>是输入和电梯之间的共享对象，主要对<code>Strategy</code>类中的所有方法加锁，使之成为一个线程安全类。在<code>InputData</code>类和<code>Elevator</code>类中设置了同步块。我的同步块和方法设置的比较混乱，感觉应该将同步块尽可能抽象成同步方法，但是这样好像不能解决所有问题，还在持续理解中。</p>
-<h3 id="hw5设计"><a class="markdownIt-Anchor" href="#hw5设计"></a> hw5设计</h3>
-<ul>
-<li>调度器设计：采用随机调度器，将请求编号模<code>6</code>放入对应的电梯中（不敢用过于复杂的调度器，因为害怕出线程安全问题）。</li>
-<li>这样的调度显然有极大的局限性，不符合实际生活的情形，在运行时间、耗电量和等待时间上的表现都极为平庸。</li>
-</ul>
-<h3 id="hw5-bug分析"><a class="markdownIt-Anchor" href="#hw5-bug分析"></a> hw5 bug分析</h3>
-<p>由于采用了简单的设计，加之采用了大佬的评测机和print流调试方法，本次作业强测和互测均没有被发现bug。</p>
-<h3 id="hw5-uml类图"><a class="markdownIt-Anchor" href="#hw5-uml类图"></a> hw5 UML类图</h3>
-<p><img src="https://i-blog.csdnimg.cn/blog_migrate/e8ec7aebb8b6c80810f0290cea96bee8.png#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="hw6-分析"><a class="markdownIt-Anchor" href="#hw6-分析"></a> hw6 分析</h2>
-<h3 id="hw6-同步块的设置和锁的选择"><a class="markdownIt-Anchor" href="#hw6-同步块的设置和锁的选择"></a> hw6 同步块的设置和锁的选择</h3>
-<p>本次作业的锁仍然全部使用<code>synchronized</code>锁，但是深入了解了了这种锁的实现原理。特别是掌握了同步块内<code>wait</code>和<code>notify</code>/<code>notifyALL</code>的使用方法。同步块中使用<code>Object.wait()</code>会立即释放锁，而使用<code>Object.notifyAll()</code>/<code>Object.notify()</code>则会等到退出同步块中才执行。</p>
-<h3 id="hw6设计"><a class="markdownIt-Anchor" href="#hw6设计"></a> hw6设计</h3>
-<ul>
-<li>调度器设计：无调度器，自由竞争。当一个请求到来的时候，所有没有接到请求的电梯都去争抢这个请求。之所以要这么写，主要是因为比较简单。这次作业加入了增加和维护电梯的请求，我担心这会对调度器的设计产生很大影响（事实证明是我错了），所以选择了稳妥的办法，争取将这次作业写对，最终也是如愿以偿。</li>
-<li>这样的调度仍然有局限性。由于电梯倾巢而出，但最终只有一个电梯能抢到乘客，这会对电量造成极大浪费。</li>
-</ul>
-<h3 id="hw6-bug分析"><a class="markdownIt-Anchor" href="#hw6-bug分析"></a> hw6 bug分析</h3>
-<p>这一次作业我发现我在处理复杂多线程程序bug方面存在很大不足，虽然在这次作业中没有暴露出来（修复bug时间较为充足），但这一致命弱点为本单元最后一次作业的失手埋下了隐患。</p>
-<h3 id="hw6-uml类图"><a class="markdownIt-Anchor" href="#hw6-uml类图"></a> hw6 UML类图</h3>
-<p><img src="https://i-blog.csdnimg.cn/blog_migrate/28a69503ecac071d2bd23229c294b95f.png#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="hw7-分析"><a class="markdownIt-Anchor" href="#hw7-分析"></a> hw7 分析</h2>
-<p>之前的<code>synchronized</code>锁不变，增加了<code>semaphore</code>信号量，用于控制同一层开门<code>服务</code>和<code>只接人</code>的电梯数。同时由于采用了影子电梯的方法，即在分配请求的时候先让每一个电梯模拟搭载乘客，计算出运行时间，取运行时间最小的电梯搭载这个乘客。</p>
-<h3 id="hw7设计"><a class="markdownIt-Anchor" href="#hw7设计"></a> hw7设计</h3>
-<ul>
-<li>调度器设计：设计时间了完备的调度策略，即影子电梯策略。花费三天时间进行重构，最重要是是对电梯上锁，使得其能够获取某一个时间片下电梯的状态，用<code>ShadowElevator</code>进行模拟，将<code>sleep</code>直接换成增加对应的时间，快速得到运行时间计算结果，获取局部最优电梯。</li>
-<li>这样的调度比较优秀，但是考虑细节较多，能在大多数情况取得好的性能，但也不可能尽善尽美。影子电梯的仿真特性决定了它是一种优秀的调度，能够在各种电梯性能指标中取得较好的平衡。</li>
-</ul>
-<p>这次作业是一次完全的重构，让我对调度器的了解更加深入了。但可惜输在了debug和时间上，分数上受到巨大损失（<s>真的好伤心</s>），但我学到的东西比前两次加起来还多，要是能再多5-6小时的debug，这将是一次很完美的作业。</p>
-<h3 id="hw7-uml类图"><a class="markdownIt-Anchor" href="#hw7-uml类图"></a> hw7 UML类图</h3>
-<p><img src="https://i-blog.csdnimg.cn/blog_migrate/b12ee5d52eda9c03e305da51495e5430.png#pic_center" alt="在这里插入图片描述"></p>
-<h3 id="hw7-bug分析"><a class="markdownIt-Anchor" href="#hw7-bug分析"></a> hw7 bug分析</h3>
-<p>这次bug较多。强测错了8个点，互测被刀中两刀（<s>准备蓝桥杯和赶冯如杯没时间了debug了</s>）最为可惜的bug是电梯移动超过两层的bug，这一个bug我现在还没找到很好的架构方法。此外还有偶尔死锁的bug，目前也没有发现很好的解决办法。这可能是由于采用影子电梯后系统复杂度大大增加，加之我多线程的dug能力不足导致的（总的来说还是时间不够）。</p>
-<h2 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h2>
-<p>本单元三次作业都基于消费者-生产者模型</p>
-<ul>
-<li>三次作业中，消费者（电梯）生产者（调度器）产品（请求）的产生形式和功能不断发生变化，越来越复杂，但是它们的协作方法却基本维持不变。在基本模型上，对这三者进行恰当设计就可以很好拓展到更复杂的模式中，但一定要注意确保基本的功能正确（如电梯运行速度，移动层数等）！这是拓展的根基，不容动摇。</li>
-<li>第三次作业 UML协作图如图：</li>
-</ul>
-<p><img src="https://i-blog.csdnimg.cn/blog_migrate/64acfd02928085854afa55dc49b533b4.jpeg#pic_center" alt="sequence graphe"></p>
-<ul>
-<li>前面说到，个性化需求，如电梯属性是易变    的，但是基本功能，如运送乘客的需求是不变的，这就要求我们在基本架构上不断推陈出新，做出改进。</li>
-</ul>
-<h2 id="心得体会"><a class="markdownIt-Anchor" href="#心得体会"></a> 心得体会</h2>
-<ul>
-<li>线程安全方面，了解了互斥和死锁的概念，并且深刻认识到了线程协作可能带来的巨大问题。线程写作远没有单线程那么来的直接，必须通过精心的设计，才能满足需要。</li>
-<li>层次化设计方面，要求每一个类都各司其职，井然有序。在这一点上我还做的不好。我仍然不太会抽象类的功能和职责，导致大量类存在不必要的协作，耦合度的提高在多线程中意味着灾难。在之后我会更加注意降低类的耦合性，提高内聚性。这方面主要学习了OO度量方<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>C</mi><mi>O</mi><mi>M</mi></mrow><annotation encoding="application/x-tex">LCOM</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span> (类方法缺乏内聚度)。</li>
-</ul>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>C</mi><mi>O</mi><mi>M</mi></mrow><annotation encoding="application/x-tex">LCOM</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span>定义如下：<br>
-如果类<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi></mrow><annotation encoding="application/x-tex">C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span></span></span></span>定义了<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span>个方法<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>M</mi><mn>1</mn></msub><mo separator="true">,</mo><mo>⋯</mo><mtext> </mtext><mo separator="true">,</mo><msub><mi>M</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">M_1, \cdots, M_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, 设<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>I</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">{I_1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07847em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span>是方法<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>M</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">M_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>所用的实例变量集，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>=</mo><mo stretchy="false">{</mo><mo stretchy="false">(</mo><msub><mi>I</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>I</mi><mn>2</mn></msub><mo stretchy="false">)</mo><mi mathvariant="normal">∣</mi><msub><mi>I</mi><mn>1</mn></msub><mo>⋂</mo><msub><mi>I</mi><mn>2</mn></msub><mo>=</mo><mi mathvariant="normal">∅</mi><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">P = \{(I_1, I_2) | I_1 \bigcap I_2 = \emptyset\}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.00001em;vertical-align:-0.25001em;"></span><span class="mopen">{</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07847em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07847em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord">∣</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07847em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">⋂</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07847em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∅</span><span class="mclose">}</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>=</mo><mo stretchy="false">{</mo><mo stretchy="false">(</mo><msub><mi>I</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>I</mi><mn>2</mn></msub><mo stretchy="false">)</mo><mi mathvariant="normal">∣</mi><msub><mi>I</mi><mn>1</mn></msub><mo>⋂</mo><mi>I</mi><mn>2</mn><mo mathvariant="normal">≠</mo><mi mathvariant="normal">∅</mi><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">Q = \{(I_1, I_2)|I_1 \bigcap I2 \neq \emptyset\}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">Q</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.00001em;vertical-align:-0.25001em;"></span><span class="mopen">{</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07847em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07847em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord">∣</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07847em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">⋂</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel"><span class="mrel"><span class="mord vbox"><span class="thinbox"><span class="rlap"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="inner"><span class="mrel"></span></span><span class="fix"></span></span></span></span></span><span class="mrel">=</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∅</span><span class="mclose">}</span></span></span></span>。</p>
-<p class="katex-block katex-error" title="ParseError: KaTeX parse error: No such environment: equation* at position 7: \begin{̲e̲q̲u̲a̲t̲i̲o̲n̲*̲}̲
-LCOM = \begin{…">\begin{equation*}
-LCOM = \begin{cases}
-\vert P \vert - \vert Q\vert \ if\ \vert P \vert &gt; \vert Q\vert, \\
-0\ else
-\end{cases}
-\end{equation*}
-</p>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>C</mi><mi>O</mi><mi>M</mi></mrow><annotation encoding="application/x-tex">LCOM</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span> 越大，类的封装性就越差，类的负荷越重，应该分成几个子类；<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>C</mi><mi>O</mi><mi>M</mi></mrow><annotation encoding="application/x-tex">LCOM</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span>越小，类的内聚度就越大，功能就越专一，封装新就越好。</p>
+                <h3 id="程序设计的结构"><a class="markdownIt-Anchor" href="#程序设计的结构"></a> 程序设计的结构</h3>
+<p>序列结构<br>
+• 元素之间呈现线性序列特征<br>
+• 关系：prev，next<br>
+• 数据示例：线性列表<br>
+• 行为示例：顺序计算<br>
+• 层次结构<br>
+• 元素之间呈现层次特征<br>
+• 关系：parent, children<br>
+• 数据示例：单位部门组织<br>
+• 行为示例：函数调用<br>
+• 嵌套结构<br>
+• 元素之间呈现递归嵌入特征（一个元素作为其自身组成部分重复出现）<br>
+• 关系：kind of, instance of<br>
+• 数据示例：树<br>
+• 行为示例：递归调用</p>
 
                 
             </div>
@@ -545,7 +495,7 @@ LCOM = \begin{cases}
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://zxdfcv.github.io/2024/08/24/BUAA-OO-HW-8-%E7%AC%AC%E4%BA%8C%E5%8D%95%E5%85%83%E5%8D%9A%E5%AE%A2%E4%BD%9C%E4%B8%9A/">http://zxdfcv.github.io/2024/08/24/BUAA-OO-HW-8-%E7%AC%AC%E4%BA%8C%E5%8D%95%E5%85%83%E5%8D%9A%E5%AE%A2%E4%BD%9C%E4%B8%9A/</a>
+                    <a href="http://zxdfcv.github.io/2024/09/04/BUAA-OO-%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">http://zxdfcv.github.io/2024/09/04/BUAA-OO-%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -633,7 +583,7 @@ LCOM = \begin{cases}
         repo: 'zxdfcv.github.io',
         owner: 'zxdfcv',
         admin: ["zxdfcv"],
-        id: '2024-08-24T10-49-49',
+        id: '2024-09-04T18-45-48',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -665,31 +615,31 @@ LCOM = \begin{cases}
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2024/08/24/BUAA-OO-HW-12-%E7%AC%AC%E4%B8%89%E5%8D%95%E5%85%83%E5%8D%9A%E5%AE%A2%E4%BD%9C%E4%B8%9A/">
+                <a href="/2024/09/06/BUAA-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="BUAA_OO_HW 12 第三单元博客作业">
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="BUAA 数据库系统原理 知识点整理">
                         
-                        <span class="card-title">BUAA_OO_HW 12 第三单元博客作业</span>
+                        <span class="card-title">BUAA 数据库系统原理 知识点整理</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            OO 第三单元博客作业
+                            数据库系统原理 知识点整理
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2024-08-24
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-09-06
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/OO/" class="post-category">
-                                    OO
+                            <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="post-category">
+                                    数据库
                                 </a>
                             
                             
@@ -699,12 +649,8 @@ LCOM = \begin{cases}
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/OO/">
-                        <span class="chip bg-color">OO</span>
-                    </a>
-                    
-                    <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%9E%84%E9%80%A0/">
-                        <span class="chip bg-color">面向对象设计与构造</span>
+                    <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+                        <span class="chip bg-color">数据库</span>
                     </a>
                     
                 </div>
@@ -718,31 +664,31 @@ LCOM = \begin{cases}
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/08/21/BUAA-OO-Pre-0-%E5%B7%A5%E5%85%B7%E9%93%BE%E5%92%8C-Java-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
+                <a href="/2024/08/29/%E6%90%9E%E6%9C%BA%E6%B5%8B%E8%AF%95-2-%E5%8F%B0%E5%BC%8F%E6%9C%BA-CPU-%E9%99%8D%E5%8E%8B%E8%B6%85%E9%A2%91/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="BUAA-OO-Pre-0 工具链和 Java 环境配置">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="搞机测试 2 台式机 CPU 降压超频">
                         
-                        <span class="card-title">BUAA-OO-Pre-0 工具链和 Java 环境配置</span>
+                        <span class="card-title">搞机测试 2 台式机 CPU 降压超频</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            面向对象工具链和环境配置
+                            台式机 CPU 降压超频
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-08-21
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-08-29
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/OO/" class="post-category">
-                                    OO
+                            <a href="/categories/%E6%90%9E%E6%9C%BA/" class="post-category">
+                                    搞机
                                 </a>
                             
                             
@@ -752,12 +698,8 @@ LCOM = \begin{cases}
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/OO/">
-                        <span class="chip bg-color">OO</span>
-                    </a>
-                    
-                    <a href="/tags/Java/">
-                        <span class="chip bg-color">Java</span>
+                    <a href="/tags/%E6%90%9E%E6%9C%BA/">
+                        <span class="chip bg-color">搞机</span>
                     </a>
                     
                 </div>
