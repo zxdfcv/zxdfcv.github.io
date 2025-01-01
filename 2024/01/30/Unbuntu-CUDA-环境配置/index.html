@@ -453,7 +453,8 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>在 Ubuntu 20.04.6 LTS Desktop 上配置指定版本 CUDA 的实验环境的步骤如下：</p>
+                <h2 id="典型-cuda-环境配置"><a class="markdownIt-Anchor" href="#典型-cuda-环境配置"></a> 典型 CUDA 环境配置</h2>
+<p>在 Ubuntu 20.04.6 LTS Desktop 上配置指定版本 CUDA 的实验环境的步骤如下：</p>
 <ul>
 <li>进入官网，找到下载界面<br>
 <img src="/2024/01/30/Unbuntu-CUDA-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/image-1.png" alt="图1"></li>
@@ -497,7 +498,15 @@ apt-key <span class="token function">add</span> /var/cuda-repo-ubuntu2004-11-6-l
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">apt-get</span> <span class="token parameter variable">-y</span> <span class="token function">install</span> cuda<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>不再赘述。</p>
 <p>总的来说，这一系列代码完成了 CUDA 环境的配置，是 Linux 系统下典型的包安装实例，具有一定参考价值。</p>
-
+<h2 id="wsl-cuda-环境配置"><a class="markdownIt-Anchor" href="#wsl-cuda-环境配置"></a> WSL CUDA 环境配置</h2>
+<p>安装旧版环境，尽量不要用 deb 包管理，直接用 runfile、tar，血的教训！！！</p>
+<p>命令类似（来自官网）：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> nvidia-utils-550
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> nvidia-driver-550
+<span class="token function">wget</span> https://developer.download.nvidia.com/compute/cuda/12.4.1/local_installers/cuda_12.4.1_550.54.15_linux.run
+<span class="token function">sudo</span> <span class="token function">sh</span> cuda_12.4.1_550.54.15_linux.run
+cuda_12.4.1_550.54.15_linux.run // 补充 driver
+<span class="token function">sudo</span> <span class="token function">sh</span> cuda_12.4.1_550.54.15_linux.run <span class="token parameter variable">--silent</span> <span class="token parameter variable">--driver</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
                 
             </div>
             <hr/>

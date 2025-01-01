@@ -5,7 +5,7 @@
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
     <meta name="keywords" content="BUAA 离散数学2 知识点整理, 计算机科学, 北航, 体系结构, 算法">
-    <meta name="description" content="">
+    <meta name="description" content="离散数学2 知识点整理">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -399,11 +399,24 @@
                 <div class="col s7">
                     
                     <div class="article-tag">
-                        <span class="chip bg-color">No tag</span>
+                        
+                        <a href="/tags/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/">
+                            <span class="chip bg-color">离散数学</span>
+                        </a>
+                        
                     </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/" class="post-category">
+                            离散数学
+                        </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -436,7 +449,22 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h2 id="图论"><a class="markdownIt-Anchor" href="#图论"></a> 图论</h2>
+<h3 id="欧拉路径和欧拉回路"><a class="markdownIt-Anchor" href="#欧拉路径和欧拉回路"></a> 欧拉路径和欧拉回路</h3>
+<h4 id="对于无向图"><a class="markdownIt-Anchor" href="#对于无向图"></a> 对于无向图</h4>
+<p>对于无向图，所有边都是连通的：</p>
+<ul>
+<li>存在欧拉路径的充分必要条件:度数为奇数的点只能有 0 或 2 个</li>
+<li>存在欧拉回路的充分必要条件:度数为奇数的点只能有 0 个</li>
+</ul>
+<h4 id="对于有向图"><a class="markdownIt-Anchor" href="#对于有向图"></a> 对于有向图</h4>
+<p>对于有向图，所有边都是连通的：</p>
+<ul>
+<li>要么所有点的出度均等于入度;要么除了两个点之外，其余所有点的出度等于入度，剩余的两个点:一个满足出度比入度多 1 (起点)，另一个满足入度比出度多 1 (终点)</li>
+<li>存在欧拉回路的充分必要条件:所有点的出度均等于入度。</li>
+</ul>
+<p>算法：<code>dfs</code> 后序遍历，用边判重。序列倒序为终点到起点的欧拉路径。</p>
+
                 
             </div>
             <hr/>
@@ -499,7 +527,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                     <div class="article-tag">
-                        <span class="chip bg-color">No tag</span>
+                        
+                        <a href="/tags/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/">
+                            <span class="chip bg-color">离散数学</span>
+                        </a>
+                        
                     </div>
                     
                 </div>
