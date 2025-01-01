@@ -821,9 +821,19 @@ cl /d1 reportSingleClassLayout[ClassName] [Programname].cpp</p>
 子函数如果不重写纯虚函数，则也是抽象类</p>
 <h3 id="虚析构和纯虚析构函数"><a class="markdownIt-Anchor" href="#虚析构和纯虚析构函数"></a> 虚析构和纯虚析构函数</h3>
 <p>纯虚析构 <code>=0</code> 声明之后还要实现<br>
-解决通过父类指针释放子类对象的问题</p>
+解决通过父类指针释放子类对象的问题<br>
+只要有纯虚析构就是抽象类了</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">virtual</span> <span class="token operator">~</span><span class="token function">Animal</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// 纯虚析构</span>
+
+<span class="token comment">/* 类外加上实现 */</span> <span class="token class-name">Animal</span><span class="token double-colon punctuation">::</span><span class="token operator">~</span><span class="token function">Animal</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+
+<span class="token keyword">virtual</span> <span class="token function">Animal</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span> <span class="token comment">// 虚析构</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="case-study"><a class="markdownIt-Anchor" href="#case-study"></a> Case Study</h3>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">CPU</span> <span class="token punctuation">&#123;</span>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;iostream></span></span>
+
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">CPU</span> <span class="token punctuation">&#123;</span>
 <span class="token keyword">public</span><span class="token operator">:</span>
     <span class="token keyword">virtual</span> <span class="token keyword">void</span> <span class="token function">calculate</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
@@ -841,9 +851,23 @@ cl /d1 reportSingleClassLayout[ClassName] [Programname].cpp</p>
         m_cpu <span class="token operator">=</span> cpu<span class="token punctuation">,</span> m_gpu <span class="token operator">=</span> gpu<span class="token punctuation">,</span> m_memory <span class="token operator">=</span> memory<span class="token punctuation">;</span>
     <span class="token punctuation">&#125;</span>
     <span class="token keyword">void</span> <span class="token function">work</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        m_cpu<span class="token operator">-></span>work<span class="token punctuation">;</span>
-        m_memory<span class="token operator">-></span>work<span class="token punctuation">;</span>
-        m_gpu<span class="token operator">-></span>work<span class="token punctuation">;</span>
+        m_cpu<span class="token operator">-></span><span class="token function">calculate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        m_memory<span class="token operator">-></span><span class="token function">display</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        m_gpu<span class="token operator">-></span><span class="token function">ldst</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token operator">~</span><span class="token function">computer</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>m_cpu <span class="token operator">!=</span> <span class="token keyword">nullptr</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">delete</span><span class="token punctuation">(</span>m_cpu<span class="token punctuation">)</span><span class="token punctuation">;</span>        
+            m_cpu <span class="token operator">=</span> <span class="token keyword">nullptr</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>m_gpu <span class="token operator">!=</span> <span class="token keyword">nullptr</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">delete</span><span class="token punctuation">(</span>m_gpu<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            m_gpu <span class="token operator">=</span> <span class="token keyword">nullptr</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>m_memory <span class="token operator">!=</span> <span class="token keyword">nullptr</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">delete</span><span class="token punctuation">(</span>m_memory<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            m_memory <span class="token operator">=</span> <span class="token keyword">nullptr</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
     <span class="token punctuation">&#125;</span>
 <span class="token keyword">private</span><span class="token operator">:</span>
     CPU m_cpu<span class="token punctuation">;</span>
@@ -852,44 +876,68 @@ cl /d1 reportSingleClassLayout[ClassName] [Programname].cpp</p>
 <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
 <span class="token keyword">class</span> <span class="token class-name">AMDCPU</span> <span class="token operator">:</span> <span class="token base-clause"><span class="token keyword">public</span> <span class="token class-name">CPU</span></span> <span class="token punctuation">&#123;</span>
 <span class="token keyword">public</span><span class="token operator">:</span>
-    <span class="token function">work</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">void</span> <span class="token function">calculate</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
         cout <span class="token operator">&lt;&lt;</span> <span class="token string">"AMD CPU 开始工作了"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
 <span class="token keyword">class</span> <span class="token class-name">AMDGPU</span> <span class="token operator">:</span> <span class="token base-clause"><span class="token keyword">public</span> <span class="token class-name">GPU</span></span> <span class="token punctuation">&#123;</span>
 <span class="token keyword">public</span><span class="token operator">:</span>
-    <span class="token function">work</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">void</span> <span class="token function">display</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
         cout <span class="token operator">&lt;&lt;</span> <span class="token string">"AMD GPU 开始工作了"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
 <span class="token keyword">class</span> <span class="token class-name">AMDMemeory</span> <span class="token operator">:</span> <span class="token base-clause"><span class="token keyword">public</span> <span class="token class-name">Memory</span></span> <span class="token punctuation">&#123;</span>
-    <span class="token function">work</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">void</span> <span class="token function">ldst</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
         cout <span class="token operator">&lt;&lt;</span> <span class="token string">"AMD Memory 开始工作了"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
 <span class="token keyword">class</span> <span class="token class-name">IntelCPU</span> <span class="token operator">:</span> <span class="token base-clause"><span class="token keyword">public</span> <span class="token class-name">CPU</span></span> <span class="token punctuation">&#123;</span>
 <span class="token keyword">public</span><span class="token operator">:</span>
-    <span class="token function">work</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">void</span> <span class="token function">calculate</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
         cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Intel CPU 开始工作了"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
 <span class="token keyword">class</span> <span class="token class-name">IntelGPU</span> <span class="token operator">:</span> <span class="token base-clause"><span class="token keyword">public</span> <span class="token class-name">GPU</span></span> <span class="token punctuation">&#123;</span>
 <span class="token keyword">public</span><span class="token operator">:</span>
-    <span class="token function">work</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">void</span> <span class="token function">display</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
         cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Intel GPU 开始工作了"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
     <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
 <span class="token keyword">class</span> <span class="token class-name">IntelMemeory</span> <span class="token operator">:</span> <span class="token base-clause"><span class="token keyword">public</span> <span class="token class-name">Memory</span></span> <span class="token punctuation">&#123;</span>
-    <span class="token function">work</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">void</span> <span class="token function">ldst</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
         cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Intel Memory 开始工作了"</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
     <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token comment">// provide a deconstrutive function</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// the first cpu</span>
+    CPU <span class="token operator">*</span>intelCPU <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token function">IntelCPU</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 也可以不加括号</span>
+    GPU <span class="token operator">*</span>intelGPU <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token function">IntelGPU</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Memory <span class="token operator">*</span>intelMem <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token function">IntelMemory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Computer <span class="token operator">*</span>computer1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token function">Computer</span><span class="token punctuation">(</span>intelCPU<span class="token punctuation">,</span> intelGPU<span class="token punctuation">,</span> intelMem<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    computer1<span class="token operator">-></span><span class="token function">work</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">delete</span><span class="token punctuation">(</span>computer1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token comment">// the second cpu</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="vscode-c"><a class="markdownIt-Anchor" href="#vscode-c"></a> VSCode C++</h2>
 <p>.vscode 中的文件<br>
 tasks.json<br>
 launch.json<br>
 c_cpp_properties.json</p>
 <h2 id="c-文件-io"><a class="markdownIt-Anchor" href="#c-文件-io"></a> C++ 文件 IO</h2>
+<h3 id="回顾c-语言文件的操作"><a class="markdownIt-Anchor" href="#回顾c-语言文件的操作"></a> 回顾：C 语言文件的操作</h3>
+<h3 id="文件操作"><a class="markdownIt-Anchor" href="#文件操作"></a> 文件操作</h3>
+<p><code>&lt;fstream&gt;</code></p>
+<ul>
+<li>文本文件</li>
+<li>二进制文件</li>
+</ul>
+<h4 id="文件操作的类型"><a class="markdownIt-Anchor" href="#文件操作的类型"></a> 文件操作的类型</h4>
+<p>ofstream<br>
+ifstream<br>
+fstream</p>
 
                 
             </div>
@@ -1306,7 +1354,7 @@ c_cpp_properties.json</p>
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2023-2024</span>
+                <span id="year">2023-2025</span>
             
             <a href="/about" target="_blank">Yixiang Zhang</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>

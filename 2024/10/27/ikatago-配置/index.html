@@ -453,7 +453,16 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">https://github.com/kinfkong/ikatago-resources/tree/master/dockerfiles<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+                <p>利用脚本安装：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">
+<span class="token builtin class-name">cd</span> ~<span class="token punctuation">;</span> /bin/bash <span class="token parameter variable">-c</span> <span class="token string">"<span class="token variable"><span class="token variable">$(</span><span class="token function">curl</span> <span class="token parameter variable">-fsSL</span> https://ikatago-resources.oss-cn-beijing.aliyuncs.com/all/install.sh<span class="token variable">)</span></span>"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>如果报错“sh: curl: command not found”是没有curl，先安装一下。</p>
+<pre class="line-numbers language-shel" data-language="shel"><code class="language-shel">apt-get update
+apt install curl
+&#96;&#96;&#96; shell
+
+&#96;&#96;&#96; shell
+https:&#x2F;&#x2F;github.com&#x2F;kinfkong&#x2F;ikatago-resources&#x2F;tree&#x2F;master&#x2F;dockerfiles<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>最高支持到 cuda11，需要做一些小修改。</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> ~/work<span class="token punctuation">;</span> ./run.sh zxdfcv Nz216318<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python">python3
@@ -1015,7 +1024,7 @@ nvcc <span class="token parameter variable">--version</span><span aria-hidden="t
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2023-2024</span>
+                <span id="year">2023-2025</span>
             
             <a href="/about" target="_blank">Yixiang Zhang</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
