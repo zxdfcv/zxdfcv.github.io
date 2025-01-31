@@ -1,0 +1,1445 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+    <meta name="keywords" content="GPGPUSim 学习, 计算机科学, 北航, 体系结构, 算法">
+    <meta name="description" content="本手册提供了 GPGPUSim 3.x 版本的文档。GPGPUSim 是一个周期精确的模拟器，聚焦 GPU 计算 (通用 GPU)。GPGPU-Sim 3.x 是最新的 GPGPUSim 版本。其包含了对 2.x 版本的诸多增强。
+本手册主">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>GPGPUSim 学习 | Yixiang&#39;s Blog</title>
+    <link rel="icon" type="image/png" href="/go.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+
+<body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/go.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Yixiang&#39;s Blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>Index</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>Tags</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>Categories</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>Archives</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>About</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>Contact</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/OS" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>OS</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/CO" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>CO</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="Search" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/go.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Yixiang&#39;s Blog</div>
+        <div class="logo-desc">
+            
+            这是张翼翔的个人网站
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			Index
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			Tags
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			Categories
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			Archives
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			About
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			Contact
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/OS" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			OS
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/CO" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			CO
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/zxdfcv/zxdfcv.github.io" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/zxdfcv/zxdfcv.github.io" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">GPGPUSim 学习</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/">
+                            <span class="chip bg-color">体系结构</span>
+                        </a>
+                        
+                        <a href="/tags/GPU/">
+                            <span class="chip bg-color">GPU</span>
+                        </a>
+                        
+                        <a href="/tags/%E6%A8%A1%E6%8B%9F%E5%99%A8/">
+                            <span class="chip bg-color">模拟器</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" class="post-category">
+                            体系结构
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2025-01-25
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>本手册提供了 GPGPUSim 3.x 版本的文档。GPGPUSim 是一个周期精确的模拟器，聚焦 GPU 计算 (通用 GPU)。GPGPU-Sim 3.x 是最新的 GPGPUSim 版本。其包含了对 2.x 版本的诸多增强。</p>
+<p>本手册主要分层 3 个部分。</p>
+<ul>
+<li>GPGPU-Sim 3.x 版本的微体系结构模型</li>
+<li>一个 GPGPU-Sim 的使用章节，主要包括一下信息：
+<ul>
+<li>不同的仿真模式</li>
+<li>设置选项（如何修改仿真体系结构的高层次参数）</li>
+<li>仿真输出（微体系结构的统计数据）</li>
+<li>当 GPGPU-Sim 性能仿真程序由于时间模型的错误出错或崩溃时的 debug 策略。</li>
+</ul>
+</li>
+<li>一个解释 GPGPU-Sim 3.x 内部软件设计的章节。此章节的目标是为想要拓展模拟器以利于自身研究的使用者提供一个起点。</li>
+</ul>
+<h2 id="微结构模型"><a class="markdownIt-Anchor" href="#微结构模型"></a> 微结构模型</h2>
+<p>此章节描述了 GPGPU-Sim 3.x 建模的微结构模型。这个模型比 GPGPU-Sim 2.x  的时间模型更加详细。一些新的细节是通过检查 Nvidia 的专利得到的（这说明查看专利申请是逆向工程的好方法qaq）。这些细节包括建模取指令，记分牌，寄存器堆文件访存。3.x 的其他改进包括更详细的纹理缓存模型（基于<a target="_blank" rel="noopener" href="http://www-graphics.stanford.edu/papers/texture_prefetch/">预取纹理缓存结构</a>）。此章节首先描述微体系结构的总体设计，紧接着描述各个组成部分，包括 SIMT core（硬件实现为 SM subcore），簇（SM core），互连网络和内存分分区（常见于 L2，也就是 global memory）。</p>
+<h3 id="总览"><a class="markdownIt-Anchor" href="#总览"></a> 总览</h3>
+<p>GPGPU-Sim 3.x 运行由 CPU 部分和 GPU 部分组成的二进制代码文件。但是，GPGPU-Sim 中的微结构模型在 GPU 忙碌的时候报告周期，它没有建模 GPU 的时间或者 PCIe 的时间（也就是 GPU 和 CPU 间的内存转换）。有一些工作尝试结合 CPU 和 GPU 模拟器（由 GPGPUSim 建模），例如 <a target="_blank" rel="noopener" href="http://www.fusionsim.ca/">fusionsim</a>（链接已经挂了）。</p>
+<h4 id="精度"><a class="markdownIt-Anchor" href="#精度"></a> 精度</h4>
+<p>我们计算了模拟器 IPC 和真实硬件的相关性。当设置使用本地硬件指令集（PTXPlus，使用 <code>-gpgpu_ptx_convert_to_ptxplus option</code> 配置），GPGPUSim 3.1.0 获得了 98.3% 的相关性，如图 1 所示。</p>
+<h4 id="顶层架构"><a class="markdownIt-Anchor" href="#顶层架构"></a> 顶层架构</h4>
+<p>GPGPU-Sim 支持 4 个独立的时钟域</p>
+<ol>
+<li>SIMT Core 簇（SM）时钟域</li>
+<li>互联网络时钟域</li>
+<li>L2 缓存时钟域，适用于所有的内存分割逻辑，除了 DRAM</li>
+<li>DRAM 时钟域</li>
+</ol>
+<p>时钟频率可以是任何值 (相互之间无倍率要求)。也就是说，我们假设不同的时钟域之间存在同步器。</p>
+<p>以下设计非常巧妙！</p>
+<p>在 GPGPU-Sim 3.x 模型，相邻单元的时钟域通过交叉缓冲队列进行连接，其填充速率是源域的时钟频率，取出速率是目标域的时钟评论。</p>
+<h3 id="simt-core-簇"><a class="markdownIt-Anchor" href="#simt-core-簇"></a> SIMT Core 簇</h3>
+<p>SIMT Cores 被分组成 SIMT Core 簇。同一个簇里的 SIMT Cores 共享一个互连网络的端口。</p>
+<p><img src="/2025/01/25/GPGPUSim-%E5%AD%A6%E4%B9%A0/Cluster-arch.png" alt="SIMT_Core_arch"></p>
+<p><strong>图 4</strong></p>
+<p>如上图所示，每个 SIMT Core Cluster 有一个单向传输的响应 FIFO (队列)，存储从互连网络注入的包 (数据，指令包)。这些包要么被导入一个 SIMT Core 的指令缓存 (如果它是服务于取指令未命中的内存相应)，要被导入 SIMT Core 的内存流水线 (LDST unit，访存单元)。数据包以 FIFO 的方式取出，如果核心无法接受 FIFO 头部的数据包，则响应 FIFO 将停止。对于 LDST 单元产生访存请求的情况，每个 SIMT Core 拥有自己的互连网络注入端口。但注入端口缓冲，是由簇内所有 SIMT Core 共享的。</p>
+<h3 id="simt-cores"><a class="markdownIt-Anchor" href="#simt-cores"></a> SIMT Cores</h3>
+<p>下图展示了 GPGPU-Sim 3.x 仿真的 SIMT Core 微结构。SIMT Core 是一个高度多线程化的流水线 SIMD (单指令多数据处理器)，大概等价于 Nvidia GPU 中的 SM (流式多处理器) 或者 AMD GPU 中的 CU (计算单元)。SP (流处理器) 或者 CUDA 单元对应着 SIMD core 中 ALU 流水线的一条管道。</p>
+<p><img src="/2025/01/25/GPGPUSim-%E5%AD%A6%E4%B9%A0/Simt-core.png" alt="SIMT_Core_arch"><br>
+<strong>图 5</strong></p>
+<p>此微结构模型包含诸多 GPGPU-Sim 早期版本未发现的细节。主要的差异如下：</p>
+<ul>
+<li>一个建模指令缓存并将 warp 调度 (发射) 阶段和新前端</li>
+<li>记分牌逻辑，可以让一个 warp 的多条指令立即进入流水线</li>
+<li>操作数收集器 (operand collector) 的详细模型，用于调度对单端口寄存器文件 bank 的操作数访问（用于减少寄存器文件的芯片面积和功耗）</li>
+<li>支持多 SIMD 功能单元的灵活模型。这允许内存指令和 ALU 指令在不同的流水线中执行。</li>
+</ul>
+<h4 id="前端"><a class="markdownIt-Anchor" href="#前端"></a> 前端</h4>
+<p>如下所述，前端的主要阶段包括指令缓存访问和指令缓冲逻辑，记分板和调度逻辑，SIMT Stack。</p>
+<h5 id="取指令和译码"><a class="markdownIt-Anchor" href="#取指令和译码"></a> 取指令和译码</h5>
+<p>图 5 中的指令缓冲 (I-Buffer) 块用于缓冲指令，当这些指令从指令缓存中被取时。指令缓冲块被静态划分。所有在 SIMT Core 上运行的 warps 都有专用存储以放置指令。在当前的模型中，每个 warp 都有 2 个 I-Buffer 入口。这个 warp，每个 I-Buffer 入口有一个有效位，一个就绪位和一条解码的指令。入口的有效位指示着 I-Buffer 入口有一条未发射的指令。而就绪位指示着此 warp 的解码指令准备被发射到执行流水线。从概念上讲，就绪位在调度时和发射阶段通过记分牌和硬件资源的可用性进行设置 (在模拟器软件中，执行准备就绪检查，<strong>而非实际设置</strong>一个就绪位)。初始状态下，I-Buffer 是空的，所有有效位和就绪位处于非激活状态。</p>
+<p>如一个 warp 在 I-Buffer 中没有任何有效的指令，则有资格进行取指令操作。这些有资格的 warp  以轮转的调度方法获取指令缓存。一旦某条指令被选择，将发送一条读请求到指令缓存，使用当前调度 warp 的下一条地址。默认设置下，将取回两条连续的指令。一旦调度 warp 取指令，其 I-Buffer 的有效位将被激活，直到取回的指令发射到执行流水线。</p>
+<p>指令缓存是一个只读的，无阻塞的组相连缓存，可以模拟 FIFO 和 LRU 替换策略，带有 on-miss 或者 on-fill 分配策略。对于指令缓存的请求将产生命中 (hit)，缺失 (miss) 和预定失败 (reservation fail) 三种情况。预定失败是指未命中状态保持寄存器 (miss status hoding register, MSHR) 已经装满，或者缓存组里已经没有可以替换的块，因为所有的块都被之前等待请求的预定占满了 (请查看缓存这一节以获取更多细节)。在命中和缺失这两种情况下，轮转取指令调度器将移动到下一个 warp 进行处理。在命中的情况下，取回的指令将被送到译码阶段。在缺失的情况下，指令缓存将生成一个请求。当正在等待缺失的时候，此 warp 不会访问指令缓存。</p>
+<p>当其所有的线程都完成执行，且没有未解决的<mark>存储</mark>或者等待写入<mark>本地寄存器</mark>的数据时，一个 warp 完成执行，且不再被取指令调度器考虑。当其所有的 warp 都完成执行，且没有等待中的操作时，一个线程块 (thread block) 完成执行。当其发出的所有线程块执行完毕，一个核函数 (kernel) 完成执行。</p>
+<p>在译码阶段，最近取回的指令被译码和存储到到它们在 I-Buffer 中等待发射的对应的入口。</p>
+<p>此阶段的模拟器软件设计在后面的<a href="#if-id-model">取指令和解码软件模型</a>设计中描述。</p>
+<h5 id="指令发射"><a class="markdownIt-Anchor" href="#指令发射"></a> 指令发射</h5>
+<p>第二个轮转仲裁器选择一个 warp 以从 I-Buffer 发射到流水线的剩余部分。此仲裁器和之前调度指令缓存访问的仲裁器解耦。此发射仲裁器可以设置为在每个周期从相同 warp 发射多个指令。当前检查的 warp 中的每个有效的指令 (也就是已经被解码且没有被发射) 由此个被发射，当 (1) 此 warp 没有在屏障 (barrier) 处等待，(2) 其在 I-Buffer 入口处有有效的指令，(3) 记分牌检查通过 (请看<strong>记分牌</strong>这一节以获取更多细节)，(4) 指令流水想的操作数获取阶段没有暂停。</p>
+<p>访存指令 (memory instruction，包括加载 (load)，存储 (store), 内存屏障 (memory barrier)) 将被发送到内存流水线。对于其他指令，它总是偏好 SP 流水线，如果此操作还能够被 SFU 流水线执行。但是，如果一个控制冒险 (此外还有结构冒险，数据冒险) 被检测到，那么此 warp 在 I-Buffer 中对应的指令将被冲刷掉。此 warp 的下一个 PC 更新为更新为下一条指令的地址 (假设所有的分支都不取)。对于更多关于处理控制流的信息，参考SIMT Stack。</p>
+<p>在发射阶段，屏障指令被执行。同时，SIMT 栈被更新 (查看 SIMT 栈部分以获取更多细节)，寄存器依赖被追踪 (查看记分牌系列以获取更多细节)。warp 在发射阶段等待屏障 (CUDA 编程中的 <code>__syncthreads()</code> 指令)。</p>
+<h5 id="simt-栈"><a class="markdownIt-Anchor" href="#simt-栈"></a> SIMT 栈</h5>
+<p>每个 warp 有一个 SIMT 栈，以处理单指令执行时的分支分离和多线程结构。因为分离减少了这些结构的效率，可以采用不同的技术来降低这种影响。一种最简单的技巧是基于后支配者堆栈的重汇聚机制。这一技巧在最早能够重新汇聚的地方同步了分离的分支，以增加 SIMT 结构的效率。和之前的版本一样，GPGPU-Sim 3.x 版本采用了这一机制。</p>
+<p>SIMT 栈的条目 (entry) 代表了不同的分离水平。在每个分离的分支中，一个新的条目被压入栈顶。当此 warp 到达重新汇聚的点时，弹出栈顶部的条目。每个条目存储新分支的目标 PC，直接后支配者重汇聚 PC 以及向这个分支分离的线程的活跃掩码。在我们的模型中，每个 warp 的 SIMT 栈在这个 warp 的每条指令发射之后更新。目标 PC，在不分离的情况下，正常地被更新为下一个 PC。但是，在分离的情况下，有着新目标 PC，分离线程的对应掩码以及它们的立即后支持者的新的条目被压入栈中。因此，如果 SIMT 栈顶端入口的下一个PC不等于当前被检查指令的 PC，则检测到控制冒险。</p>
+<p>详见 Dynamic Warp Formation: Efficient MIMD Control Flow on SIMD Graphics Hardware (<a target="_blank" rel="noopener" href="http://doi.acm.org/10.1145/1543753.1543756">http://doi.acm.org/10.1145/1543753.1543756</a>) 以获取更多细节。</p>
+<blockquote>
+<p>注意这里引入了编译中 SSA 的相关概念，需要复习一下。</p>
+</blockquote>
+<p>注意，我们知道 NVIDIA 和 AMD 实际上是使用特殊的指令修改了它们的分离堆栈的内容。这些分离堆栈指令在 PTX 中没有暴露，但在实际硬件 SASS 指令集(可见使用 decuda 或 NVIDIA 的 cuobjdump)中可见。当 GPGPU-Sim 3.x 的当前版本被配置为通过 PTXPlus (见 <a href="#ptx-vs-ptxplus">PTX vs . PTXPlus</a> 部分)执行 SASS 时，它忽略了这些低级指令，而是创建了一个可比较的控制流图来识别即时的后控制者。我们计划在 GPGPU-Sim 3.x 的未来版本中支持低级分支指令的执行。</p>
+<h4 id="记分牌"><a class="markdownIt-Anchor" href="#记分牌"></a> 记分牌</h4>
+<p>记分牌算法检查 WAW 和 RAW 数据依赖冒险。如前面所述，warp 写入的寄存器在指令发射阶段被保留。记分牌算法通过 warp ID 进行索引。它将所需的寄存器编号存储在一个 warp ID 对应的条目中。被保留的寄存器将在回写阶段释放。</p>
+<p>如前面所述，直到记分牌表明没有 WAW 和 RAW 数据冒险时，warp 中已解码的指令才能被调度发射。记分牌通过追踪已经发射但未回写的指令写了哪些寄存器来追踪 WAW 和 RAW 数据依赖冒险。</p>
+<h4 id="寄存器访问和操作数收集器"><a class="markdownIt-Anchor" href="#寄存器访问和操作数收集器"></a> 寄存器访问和操作数收集器</h4>
+<p>NVIDIA 的各种专利描述了一种被称为”操作数收集器 (operand collector)“的结构。操作数收集器是一组缓冲器和仲裁逻辑，	用单端口的 RAM 的多 bank 外观。整体布局节省了功耗和芯片面积，对提高吞吐量有重要意义。注意，AMD 也使用 banked 寄存器文件，但编译器负责确保这些文件被访问而不会发生 bank 冲突。</p>
+<blockquote>
+<p>这里的 bank 不太好翻译，翻译成银行有点怪，其实就是一个分块结构。</p>
+</blockquote>
+<p>图 6 给出了GPGPU - Sim 3.x 对操作数采集器建模的详细方式。</p>
+<p><img src="/2025/01/25/GPGPUSim-%E5%AD%A6%E4%B9%A0/Operandcollector.png" alt="operand_collector"></p>
+<p><strong>图 6</strong></p>
+<p>收集单元 (collector units) 并不用于通过寄存器重命名来消除名字依赖，而是用于在时间上分散寄存器操作数的访问，以确保在单个周期内不会对同一个寄存器库 (bank) 进行多次访问。在图示的组织结构中，每个收集单元包含三个操作数条目 (operand entries)。每个操作数条目包含 4 个字段：一个有效位 (valid bit)、一个寄存器标识符 (register identifier)、一个就绪位 (ready bit) 以及操作数数据 (operand data)。每个操作数数据字段可以容纳一个 128 字节的源操作数，该操作数由 32 个 4 字节元素组成 (每个标量线程一个 4 字节值，适用于一个 warp)。此外，收集单元包含一个标识符，用于指示该指令所属的 warp。仲裁器 (arbitrator) 为每个寄存器库维护一个读取请求队列 (read request queue)，用于存放访问请求，直到它们被授予访问权限。</p>
+<p>当从解码阶段获取到一条指令，且此时有一个空闲的收集单元，这个单元将被分配到这条指令，同时操作数，warp，寄存器标识符及有效字段将被填充。此外，源操作数读取请求在仲裁器中排队。为了简化设计，执行单元回写的数据始终优先于读取请求。仲裁器选择一组最多 4 个非冲突访问请求并发送到寄存器文件。此选择是为了减少 crossbar (互连) 和收集器单元的面积，使得每个收集器单元每个周期仅接收一个操作数。</p>
+<p>当每个操作数从寄存器文件中读取并放入相应的收集器单元中，设置了一个“就绪位”。最后，当所有操作数准备就绪时，指令将发给SIMD执行单元。</p>
+<p>在我们的模型中，每个后端管道（SP，SFU，MEM）都有一组专用的收集器单元，并且它们共享一组通用收集器单元。每个管道可用的单元数量以及通用单元池的容量是可配置的。</p>
+<h4 id="alu-流水线"><a class="markdownIt-Anchor" href="#alu-流水线"></a> ALU 流水线</h4>
+<p>GPGPU-Sim 有两种 ALU 功能单元</p>
+<ul>
+<li>SP 单元，执行所有类型的 ALU 指令除了超越函数运算。</li>
+<li>SFU 单元，执行超越函数运算指令 (Sine, Cosine, Log 等)。</li>
+</ul>
+<p>两种类型的单元都实现了流水线化和 SIMD 化。SP 单元每个周期通常执行一条 warp 指令，而 SFU 单元通常要好几个周期才能执行一条 warp 指令，这取决于指令的类型。例如，SFU 单元每 4 个周期可以执行一条 Sine 指令，每 2 个周期执行一个倒数指令 (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><mi>x</mi></mfrac></mrow><annotation encoding="application/x-tex">\frac{1}{x}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.190108em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">x</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>)。</p>
+<p>不同类型指令的执行延迟通常也不同。</p>
+<p>每个 SIMT 核有一个 SP 单元和一个 SFU 单元。每个单元有一个独立的操作数收集器的发射接收端口 (由于接收操作数收集器的数据)。两个单元共享相同的连接回写阶段的输出流水线寄存器。操作数收集器的输出中，有一个结果总线分配器，以确保不会由于共享回写而导致这些单元陷入暂停。在发射到对应的功能单元之前，需要为每条指令在结果总线中分配一个周期槽。需要注意的是，内存流水线有其独立的回写阶段，并且不受此结果总线分配器的管理。</p>
+<p><a href="#gpgpusim-software-design">软件设计部分</a>包含模型的更多实现细节。</p>
+<h4 id="内存流水线"><a class="markdownIt-Anchor" href="#内存流水线"></a> 内存流水线</h4>
+<p>GPGPU-Sim 支持 CUDA 中的各种内存空间，这些空间在 PTX 中可见。在我们的模型中，每个 SIMT 核心都有 4 种不同的片上一级内存：共享内存、数据缓存、常量缓存和纹理缓存。下表展示了每种片上内存服务的内存访问类型。</p>
+<table>
+<thead>
+<tr>
+<th><strong>Core Memory</strong></th>
+<th><strong>PTX Accesses</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Shared memory (R/W)</td>
+<td>CUDA shared memory (OpenCL local memory) accesses only</td>
+</tr>
+<tr>
+<td>Constant cache (Read Only)</td>
+<td>Constant memory and parameter memory</td>
+</tr>
+<tr>
+<td>Texture cache (Read Only)</td>
+<td>Texture accesses only</td>
+</tr>
+<tr>
+<td>Data cache (R/W - evict-on-write for global memory, writeback for local memory)</td>
+<td>Global and Local memory accesses (Local memory = Private data in OpenCL)</td>
+</tr>
+</tbody>
+</table>
+<p>尽管这些内存空间在物理上被建模为独立的结构，但它们都是内存流水线（LDST单元）的组成部分，因此它们共享相同的写回阶段。以下描述了每个内存空间的服务方式：</p>
+<ul>
+<li><strong>纹理内存 (Texture Memory)</strong> - 对纹理内存的访问会被缓存到 L1 纹理缓存（仅用于纹理访问）中，也会被缓存到 L2 缓存（如果启用）。L1 纹理缓存是根据 1998 年论文中描述的特殊设计 ([3] (<a target="_blank" rel="noopener" href="http://wwwgraphics.stanford.edu/papers/texture_prefetch/">http://wwwgraphics.stanford.edu/papers/texture_prefetch/</a>))。GPU 上的线程不能写入纹理内存，因此 L1 纹理缓存是只读的。</li>
+<li><strong>共享内存 (Shared Memory)</strong> - 每个 SIMT 核心包含一个可配置的共享内存区域，线程块中的线程可以共享该内存。此内存空间没有 L2 支持，并且由程序员显式管理。</li>
+<li>**常量内存 (Constant Memory) ** - 常量和参数内存被缓存到只读的常量缓存中。</li>
+<li>**参数内存 (Parameter Memory) ** - 与常量内存类似，由只读常量缓存服务。</li>
+<li>**本地内存 (Local Memory) ** - 本地内存会被缓存到 L1 数据缓存，并由 L2 缓存支持。与全局内存类似处理，但值会在逐出时写回，因为本地内存 (私有数据) 无法共享。</li>
+<li><strong>全局内存 (Global Memory)</strong> - 全局内存和本地内存的访问都通过 L1 数据缓存进行服务。来自同一 warp 的标量线程的访问会在半 warp 级别上进行合并，如 CUDA 3.1 编程指南中所述 ([4] (<a target="_blank" rel="noopener" href="http://developer.nvidia.com/nvidia-gpucomputing-documentation">http://developer.nvidia.com/nvidia-gpucomputing-documentation</a>))。这些访问的处理速率为每个 SIMT 核心周期 2 次，因此，一个完美合并的内存指令 (每个半 warp 一次访问) 可以在一个周期内得到服务。对于生成超过 2 次访问的指令，这些访问会以每周期 2 次的速率访问内存系统。例如，如果一条内存指令生成 32 次访问 (每个 warp 的一个 lane 一次)，它将至少需要 16 个 SIMT 核心周期才能将指令移到下一个流水线阶段。</li>
+</ul>
+<p>下面的小节描述了第一层存储器结构。</p>
+<h5 id="span-idl1-data-cachel1-数据缓存span"><a class="markdownIt-Anchor" href="#span-idl1-data-cachel1-数据缓存span"></a> <span id="l1-data-cache">L1 数据缓存</span></h5>
+<p>L1 缓存是用于本地和全局内存访问的私有的，每个 SIMT 核心的第一级缓存。L1 缓存没有划分 bank，能够为每个 SIMT Core 的两个聚合内存请求服务。到来的内存请求跨度不能超过 L1 数据缓存的两条缓存线 (cache line)。需要注意的是 L1 数据缓存并不是连贯的。</p>
+<p>下表总结了 L1 数据缓存的写策略。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Local Memory</th>
+<th>Global Memory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Write Hit</td>
+<td>Write-back</td>
+<td>Write-evict</td>
+</tr>
+<tr>
+<td>Write Miss</td>
+<td>Write no-allocate</td>
+<td>Write no-allocate</td>
+</tr>
+</tbody>
+</table>
+<p>对于**本地内存 (Local Memory) <strong>，L1数据缓存 (L1 Data Cache) 采用</strong>写回 (Write-back) <strong>策略，并使用 <strong>不分配写 (Write No-Allocate)<strong>策略。对于</strong>全局内存 (Global Memory)</strong>，<strong>写命中 (Write Hit)<strong>会导致缓存块被</strong>驱逐 (Eviction)</strong>。这一策略模拟了 PTX ISA 规范中所定义的</strong>全局存储 (Global Store)**的默认策略 [5] (<a target="_blank" rel="noopener" href="http://developer.nvidia.com/nvidia-gpucomputing-documentation">http://developer.nvidia.com/nvidia-gpucomputing-documentation</a>)。</p>
+<blockquote>
+<p><strong>不分配写 (Write No-Allocate)<strong>是一种</strong>缓存写策略</strong>，指的是当一个写操作<strong>未命中缓存 (Cache Miss) <strong>时，数据不会被加载到缓存，而是直接写入主存 (或者更高级的缓存，如 L2/L3)。<br>
+这种策略的核心思想是，</strong>“写入数据不需要缓存，因为它可能不会被立即再次读取。”</strong></p>
+</blockquote>
+<p>对 L1 数据缓存命中的内存访问将在<strong>一个 SIMT 核心时钟周期</strong>内完成处理。未命中的访问请求会被插入到<strong>FIFO 未命中队列</strong> (FIFO miss queue)。L1 数据缓存<strong>每个 SIMT 核心时钟周期</strong>最多可以生成一个填充请求 (fill request)，前提是互连注入缓冲区 (interconnection injection buffers) 能够接受该请求。</p>
+<p>缓存使用未命中状态保持寄存器 (Miss Status Holding Registers，MSHR) 来存储正在处理的未命中状态。这些寄存器被建模为全相联数组 (fully-associative array)。如果在一个请求正在传输的同时发生了<strong>冗余的内存访问</strong>，这些访问将被<strong>合并</strong>到 MSHR 中，以避免重复请求相同的缓存块。MSHR 表具有固定数量的 MSHR 条目，每个 MSHR 条目可以为<strong>单个缓存行</strong>服务多个未命中请求。MSHR 的条目数量以及每个条目可服务的最大请求数是<strong>可配置的</strong>。</p>
+<p>当缓存未命中时，该请求将被添加到 MSHR 表中。如果该缓存行<strong>没有正在进行的请求</strong>，则会生成一个填充请求 (fill request，和之前的访存请求<strong>不同</strong>！)。当填充请求的响应到达缓存时，该缓存行会被插入到缓存中，并且<strong>相应的 MSHR 条目将被标记为已填充 (filled)</strong>。对于已填充的 MSHR 条目，每个周期最多可以处理一个请求。<strong>当所有等待该 MSHR 条目的请求都被响应和处理完毕后，该 MSHR 条目将被释放</strong>。</p>
+<h5 id="纹理缓存-texture-cache"><a class="markdownIt-Anchor" href="#纹理缓存-texture-cache"></a> 纹理缓存 (Texture Cache)</h5>
+<p>纹理缓存模型是<strong>预取 (prefetching) 纹理缓存</strong> (<a target="_blank" rel="noopener" href="http://www-graphics.stanford.edu/papers/texture_prefetch/">参考</a>）。纹理内存访问通常表现出<strong>空间局部性 (spatial locality) <strong>，研究发现，大约 <strong>16 KB</strong> 的存储即可有效捕获这种局部性 (<a target="_blank" rel="noopener" href="http://graphics.stanford.edu/papers/texture_cache/">参考</a>)。在现实的图形使用场景下，许多纹理缓存访问会发生未命中 (cache miss)。从 DRAM 访问纹理数据的延迟通常在</strong>数百个时钟周期</strong>的量级。</p>
+<p>由于<strong>存储访问延迟较长且缓存容量较小</strong>，缓存分配策略变得至关重要。<strong>预取纹理缓存</strong>通过<strong>在时间上解耦缓存标签（cache tags）和缓存数据块（cache blocks）的状态</strong>来解决这个问题。<strong>标签数组（tag array）</strong> 代表了缓存在<strong>数百个时钟周期后</strong>服务未命中请求后的状态，而<strong>数据数组（data array）</strong> 代表了未命中请求完成后缓存的实际状态。</p>
+<p><strong>关键机制</strong>在于使用<strong>重排序缓冲区（reorder buffer）</strong>，确保返回的<strong>纹理未命中数据</strong>按照<strong>标签数组看到的访问顺序</strong>正确地放入数据数组。更多细节请参阅<strong>原始论文</strong>（<a target="_blank" rel="noopener" href="http://www-graphics.stanford.edu/papers/texture_prefetch/">参考</a>）。</p>
+<h5 id="常量只读缓存constant-read-only-cache"><a class="markdownIt-Anchor" href="#常量只读缓存constant-read-only-cache"></a> 常量（只读）缓存（Constant (Read Only) Cache）</h5>
+<p>对常量内存（constant memory）和参数内存（parameter memory）的访问都会通过 L1 常量缓存（L1 constant cache）。该缓存采用标签数组（tag array），其工作方式与 L1 数据缓存类似，唯一的区别是它不能被写入（只读）。</p>
+<h4 id="线程块-cta-工作组-work-group-调度"><a class="markdownIt-Anchor" href="#线程块-cta-工作组-work-group-调度"></a> 线程块 / CTA / 工作组 (work group) 调度</h4>
+<p>上面三个概念其实是一种东西。线程块在 CUDA 术语中称为合作线程数组 (Cooperative Thread Arrays, CTAs)，在 OpenCL 中称为工作组 (Work Group)。它们被一次性发射到 SIMT Cores 中。线程块发射机制在每个 SIMT Core 时钟周期以轮转方式选择和循环 SIMT Core 簇 (也就是 SM)。对于每个被选中的 SIMT Core 簇，将以轮转的方法选择和循环 SIMT Cores。对于每个选中的 SIMT 核，如果该 SIMT 上有足够的资源，则将从所选核函数 (kernel) 发出一个线程块。</p>
+<p>如果应用使用了多个 CUDA 流或者命令队列，可以在 GPGPU-Sim 中同步执行多个核函数 (kernel)。不同的核函数可以在不同的 SIMT Core 上执行。单个 SIMT Core 一次只能从单个内核执行线程块。如果正在同步执行多个核函数，将同样以轮转的方式选择核函数向每个 SIMT Core 发射。</p>
+<p><a target="_blank" rel="noopener" href="http://developer.nvidia.com/nvidia-gpu-computing-documentation">NVIDIA CUDA 编程指南</a>中描述了 CUDA 体系结构上的同步核函数 (kernel) 执行。</p>
+<h3 id="互连网络"><a class="markdownIt-Anchor" href="#互连网络"></a> 互连网络</h3>
+<p>互连网络负责SIMT核心集群和内存分区单元之间的通信。为了模拟互连网络，我们将“booksim”模拟器与GPGPU-Sim接口。Booksim是一个独立的网络模拟器，可以在此处找到（<a target="_blank" rel="noopener" href="http://cva.stanford.edu/books/ppin/%EF%BC%89%E3%80%82Booksim%E8%83%BD%E5%A4%9F%E6%A8%A1%E6%8B%9F%E5%9F%BA%E4%BA%8E%E8%99%9A%E6%8B%9F%E9%80%9A%E9%81%93%E7%9A%84Tori%E5%92%8CFly%E7%BD%91%E7%BB%9C%EF%BC%8C%E5%B9%B6%E4%B8%94%E5%85%B7%E6%9C%89%E9%AB%98%E5%BA%A6%E7%9A%84%E5%8F%AF%E9%85%8D%E7%BD%AE%E6%80%A7%E3%80%82%E5%AE%83%E5%8F%AF%E4%BB%A5%E9%80%9A%E8%BF%87%E5%8F%82%E8%80%83Dally%E5%92%8CTowles%E7%9A%84%E3%80%8APrinciples">http://cva.stanford.edu/books/ppin/）。Booksim能够模拟基于虚拟通道的Tori和Fly网络，并且具有高度的可配置性。它可以通过参考Dally和Towles的《Principles</a> and Practices of Interconnection Networks》一书来最好地理解。我们将修改后的booksim版本称为Intersim。Intersim具有自己的时钟域。原始的booksim仅支持单一的互连网络。我们做了一些修改，使其能够模拟两个互连网络：一个用于从SIMT核心集群到内存分区的流量，另一个用于从内存分区到SIMT核心集群的流量。这是避免可能导致协议死锁的循环依赖的一种方式。另一种方式是在单一物理网络上为请求和响应流量分配专用虚拟通道，但当前版本的公共发布版未完全支持此功能。注意：Stanford现已发布了Booksim的更新版本（Booksim 2.0），但GPGPU-Sim 3.x尚未使用它。请注意，SIMT核心集群之间并不直接通信，因此在互连网络中没有一致性流量的概念。只有四种数据包类型：（1）从SIMT核心集群发送到内存分区的读请求和（2）写请求，以及（3）从内存分区发送到SIMT核心集群的读回复和写确认。</p>
+<h4 id="集中特性"><a class="markdownIt-Anchor" href="#集中特性"></a> 集中特性</h4>
+<p>在GPGPU-Sim中，SIMT核心集群充当外部集中器。从互连网络的角度来看，SIMT核心集群是一个单独的节点，连接到该节点的路由器只有一个注入端口和一个弹出端口。</p>
+<h4 id="与gpgpu-sim的接口"><a class="markdownIt-Anchor" href="#与gpgpu-sim的接口"></a> 与GPGPU-Sim的接口</h4>
+<p>无论其内部配置如何，互连网络都提供一个简单的接口，用于与连接到它的SIMT核心集群和内存分区进行通信。为了注入数据包，SIMT核心集群或内存控制器首先检查网络是否有足够的缓冲区空间来接受它们的数据包，然后将数据包发送到网络。对于弹出操作，它们会检查网络中是否有等待弹出的数据包，如果有，则将其弹出。这些操作发生在每个单元的时钟域中。数据包的序列化由网络接口内部处理，例如，SIMT核心集群在SIMT核心集群的时钟域中注入数据包，但路由器每个互连时钟周期只接受一个flit。更多实现细节可以在软件设计部分找到。</p>
+<blockquote>
+<p>这里的 flit 意思是微片，但我还没有在代码中找到对应的实现。</p>
+</blockquote>
+<h3 id="内存分区"><a class="markdownIt-Anchor" href="#内存分区"></a> 内存分区</h3>
+<p>GPGPUSim 的内存系统由一组内存分区 (memory partition) 建模。如图 7 所示。每个内存分区包括一个 L2 bank，一个 DRAM 访存调度器和一个片外 DRAM 通道。原子操作的功能执行也发生在原子操作执行阶段的内存分区中。每个内存分区都分配了一个物理内存地址的子集。默认情况下，全局线性地址空间在按256个字节分块的分区之间交织在一起。地址空间的分区以及地址空间对 DRAM 行，每个分区中的 bank 和列的详细映射都是可配置的，并且在地址解码部分中进行了描述。</p>
+<p><img src="/2025/01/25/GPGPUSim-%E5%AD%A6%E4%B9%A0/Mempart-arch.png" alt="mempart_arch"></p>
+<p><strong>图 7</strong></p>
+<p>当 <strong>L2 缓存</strong>（启用时）可用于处理传入的**纹理（Texture）**请求，以及（在相应配置下）**非纹理（Non-Texture）<strong>的内存请求。需要注意的是，在 <strong>Quadro FX 5800（GT200）</strong> 配置中，<strong>L2 缓存仅用于处理纹理引用</strong>。当发生</strong>缓存未命中（Cache Miss）**时，<strong>L2 缓存存储体（Cache Bank）<strong>会向</strong>DRAM 通道（DRAM Channel）<strong>生成内存请求，这些请求将由</strong>离片式 GDDR3 DRAM（Off-Chip GDDR3 DRAM）</strong> 进行处理。</p>
+<p>下列小节将更详细地描述<strong>数据流如何在内存分区（Memory Partition）中流动</strong>，以及前述各个<strong>组件的具体工作方式</strong>。</p>
+<h4 id="内存分区连接和交通流量"><a class="markdownIt-Anchor" href="#内存分区连接和交通流量"></a> 内存分区连接和交通流量</h4>
+<p>上图 <strong>Figure 7 (#label-fig:mem_partition)</strong> 展示了单个内存分区（Memory Partition）内部的三个子组件，以及在它们之间传输内存请求和响应的多个 FIFO 队列。</p>
+<p>内存请求包从互连（Interconnect）进入内存分区，并首先进入 ICNT-&gt;L2 队列。非纹理（Non-Texture）访问请求通过 Raster Operations Pipeline（ROP）队列处理，以模拟最小 460 个 L2 时钟周期的流水线延迟，这一延迟基于对 GT200 架构的微基准测试研究（<a target="_blank" rel="noopener" href="http://www.stuffedcow.net/files/gpuarch-ispass2010.pdf%EF%BC%89%E3%80%82L2">http://www.stuffedcow.net/files/gpuarch-ispass2010.pdf）。L2</a> 缓存存储体（L2 Cache Bank）每个 L2 时钟周期从 ICNT-&gt;L2 队列取出一个请求并进行处理。对于未命中 L2 缓存的请求，L2 会向 L2-&gt;DRAM 队列推送新的离片 DRAM（Off-Chip DRAM）请求。如果 L2 缓存被禁用，请求包会直接从 ICNT-&gt;L2 队列取出，并直接推入 L2-&gt;DRAM 队列，仍然遵循 L2 时钟频率。从离片 DRAM 返回的填充请求（Fill Requests）会从 DRAM-&gt;L2 队列取出，并由 L2 缓存存储体处理。L2 缓存对 SIMT 核心的读取响应（Read Replies）则被推入 L2-&gt;ICNT 队列，通过互连传输给 SIMT 核心。</p>
+<p>DRAMlatency 队列是一个固定延迟（Fixed Latency）队列，它用于建模 L2 访问和 DRAM 访问之间的最小延迟（即 L2 未命中后访问 DRAM 所需的最短延迟）。这一延迟基于微基准测试的观察，队列的作用是简单地模拟这种延迟（而不是复现引起该延迟的硬件机制）。从 L2-&gt;DRAM 队列输出的请求会在 DRAMlatency 队列中停留固定数量的 SIMT 核心时钟周期，然后，每个 DRAM 时钟周期，DRAM 通道会从 DRAMlatency 队列取出一个请求，并交由离片 DRAM 处理。每个 DRAM 时钟周期，处理完成的请求会被推入 DRAM-&gt;L2 队列。</p>
+<p>需要注意的是，从互连进入内存分区（ROPor ICNT-&gt;L2 队列）的数据传输发生在 L2 时钟域，而从内存分区注入回互连（L2-&gt;ICNT 队列）的数据传输发生在互连（ICNT）时钟域。</p>
+<h4 id="l2-缓存模型和缓存层次结构"><a class="markdownIt-Anchor" href="#l2-缓存模型和缓存层次结构"></a> L2 缓存模型和缓存层次结构</h4>
+<p>L2 缓存模型和位于 SIMT Core 中的 L1 数据缓存非常相似。可以查看之前的<a href="#l1-data-cache">章节</a>以获取更多细节。当启用缓存全局内存空间数据时，L2 充当带有如下表所示写入策略的读/写缓存。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Local Memory</th>
+<th>Global Memory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Write Hit</td>
+<td>Write-back for L1 write-backs</td>
+<td>Write-evict</td>
+</tr>
+<tr>
+<td>Write Miss</td>
+<td>Write no-allocate</td>
+<td>Write no-allocate</td>
+</tr>
+</tbody>
+</table>
+<p>另外，需要注意的是，L2 缓存是一个统一的末级缓存（last level cache），由所有 SIMT 核心共享，而 L1 缓存是每个 SIMT 核心私有的。</p>
+<p>私有的 L1 数据缓存（L1 data caches）<strong>不是一致的（non-coherent）</strong>（其他 L1 缓存仅用于只读地址空间）。GPGPU-Sim 中的缓存层次结构是<strong>非包含性（non-inclusive）且非排他性（non-exclusive）**的。此外，在缓存层次结构中，随着缓存级别的增加，缓存行大小**不会减少（non-decreasing cache line size）</strong>。同时，来自<strong>一级缓存（L1）的内存请求不能跨越两个 L2 缓存行</strong>。这两个限制确保：</p>
+<ol>
+<li><strong>来自低级缓存的请求可以由高级缓存中的一个缓存行提供服务</strong>。这保证了 L1 缓存的请求可以被 L2 缓存原子地处理。</li>
+<li><strong>原子操作（Atomic Operations）在 L2 缓存中不需要访问多个缓存块</strong>。</li>
+</ol>
+<p>这一限制简化了缓存设计，并防止在 L1 缓存请求非原子化处理时可能出现的<strong>活锁（Live-lock）问题</strong>。</p>
+<h4 id="原子操作执行阶段"><a class="markdownIt-Anchor" href="#原子操作执行阶段"></a> 原子操作执行阶段</h4>
+<p>原子操作执行阶段是一个非常理想化的原子指令执行模型。具有非冲突内存访问的原子指令在内存分区中合并为一个内存请求，并在一个周期内执行。在性能模型中，我们目前将原子操作建模为一个全局加载操作，跳过L1数据缓存。这在SIMT核心中生成所有必要的寄存器写回流量（以及数据危害停顿）。在L2缓存中，原子操作将已访问的缓存行标记为脏（将其状态更改为已修改），以生成写回到DRAM的流量。如果L2缓存未启用（或仅用于纹理访问），则原子操作不会生成DRAM写流量（这是一个非常理想化的模型）。</p>
+<h4 id="dram-调度和时序模型"><a class="markdownIt-Anchor" href="#dram-调度和时序模型"></a> DRAM 调度和时序模型</h4>
+<blockquote>
+<p>timing model 最好翻译成时序模型，而不是时间模型。</p>
+</blockquote>
+<p>GPGPU-Sim模拟了DRAM调度和时序。GPGPU-Sim实现了两种开放页模式的DRAM调度器：FIFO（先进先出）调度器和FR-FCFS（先到先服务）调度器，下面将对其进行描述。这些可以通过配置选项-gpgpu_dram_scheduler进行选择。</p>
+<h5 id="fifo-调度器"><a class="markdownIt-Anchor" href="#fifo-调度器"></a> FIFO 调度器</h5>
+<p>FIFO调度器按照接收到的顺序处理请求。这通常会导致大量的预充电和激活操作，因此会导致较差的性能，特别是对于那些生成大量内存流量的应用，这些应用相对于其执行的计算量来说，内存流量占比过大。</p>
+<h5 id="fr-fcfs"><a class="markdownIt-Anchor" href="#fr-fcfs"></a> FR-FCFS</h5>
+<p>先行行先到先服务（FR-FCFS）调度器优先处理对当前打开行的请求。调度器将首先调度队列中所有指向已打开行的请求。如果没有这样的请求，调度器将为最旧的请求打开一个新行。此调度器的代码位于dram_sched.h/.cc文件中。</p>
+<h4 id="dram-时序模型"><a class="markdownIt-Anchor" href="#dram-时序模型"></a> DRAM 时序模型</h4>
+<p>GPGPU-Sim精确模拟了图形DRAM内存。目前，GPGPU-Sim 3.x模拟的是GDDR3 DRAM，尽管我们正在努力添加详细的GDDR5。可以使用选项-gpgpu_dram_timing_opt nbk:tCCD:tRRD:tRCD:tRAS:tRP:tRC:CL:WL:tCDLR:tWR设置以下DRAM时序参数。目前，我们没有模拟DRAM刷新操作的时序。有关每个参数的更多细节，请参见GDDR3规格（<a target="_blank" rel="noopener" href="http://www.hynix.com/datasheet/pdf/dram/HY5RS123235FP(Rev1.3).pdf%EF%BC%89%E3%80%82">http://www.hynix.com/datasheet/pdf/dram/HY5RS123235FP(Rev1.3).pdf）。</a></p>
+<p>nbk：内存银行数量 number of banks<br>
+tCCD：列到列延迟（不同银行的RD/WR到RD/WR）Column to Column Delay (RD/WR to RD/WR different banks)<br>
+tRRD：行到行延迟（不同银行的激活到激活）Row to Row Delay (Active to Active different banks)<br>
+tRCD：行到列延迟（激活到RD/WR/RTR/WTR/LTR）Row to Column Delay (Active to RD/WR/RTR/WTR/LTR)<br>
+tRAS：激活到预充电命令周期 Active to PRECHARGE command period<br>
+tRP：预充电命令周期 PRECHARGE command period<br>
+tRC：激活到激活命令周期（同一银行）Active to Active command period (same bank)<br>
+CL：CAS延迟 CAS Latency WRITE latency<br>
+WL：写延迟 WRITE latency<br>
+tCDLR：最后数据输入到读取延迟（从写操作到读操作的切换）Last data-in to Read Delay (switching from write to read)<br>
+tWR：写恢复时间 WRITE recovery time</p>
+<blockquote>
+<p>这一块是 DRAM 相关的知识，我不是特别了解，就只是按字面意思翻译了一下</p>
+</blockquote>
+<p>在我们的模型中，每个内存银行的命令按轮询方式调度。银行按圆形数组排列，并有一个指针指向优先级最高的银行。调度器按顺序遍历银行并发出命令。每当为某个银行发出激活或预充电命令时，优先级指针将指向下一个银行，确保其他银行的待处理命令最终会被调度。</p>
+<h3 id="指令集体系结构isa"><a class="markdownIt-Anchor" href="#指令集体系结构isa"></a> 指令集体系结构（ISA）</h3>
+<h4 id="ptx和sass"><a class="markdownIt-Anchor" href="#ptx和sass"></a> PTX和SASS</h4>
+<p>GPGPU-Sim 模拟 NVIDIA使用的 Parallel Thread eXecution（PTX）指令集。PTX 是一个伪汇编指令集；即它不能直接在硬件上执行。ptxas 是 NVIDIA 发布的汇编器，用于将 PTX 汇编成硬件运行的本地指令集 SASS。每一代硬件支持不同版本的 SASS。因此，PTX 在编译时会被编译成多个对应不同硬件代的 SASS 版本。尽管如此，PTX代码仍然被嵌入到二进制文件中，以支持未来的硬件。在运行时，运行时系统会根据可用硬件选择适当的SASS版本。如果没有匹配的版本，运行时系统会调用嵌入PTX的即时编译器（JIT），将其编译成对应硬件的SASS。</p>
+<h4 id="ptxplus"><a class="markdownIt-Anchor" href="#ptxplus"></a> PTXPlus</h4>
+<p>GPGPU-Sim能够运行PTX。然而，由于PTX不是实际在硬件上运行的代码，它的准确性是有限的。主要原因是编译器的过程，如强度归约、指令调度、寄存器分配等。</p>
+<p>为了在GPGPU-Sim中运行SASS代码，需要添加新功能：</p>
+<p>新的寻址模式 更复杂的条件码和谓词 额外的指令 额外的数据类型</p>
+<p>为了避免开发和维护两个解析器和两个功能执行引擎（一个用于PTX，另一个用于SASS），我们选择扩展PTX，加入所需的功能，以提供与SASS一一对应的映射。PTX及其扩展被称为PTXPlus。为了运行SASS，我们执行一个语法转换，将SASS转换为PTXPlus。</p>
+<p>PTXPlus的语法与PTX非常相似，只是在此基础上添加了新的寻址模式、更复杂的条件码和谓词、额外的指令和更多的数据类型。需要注意的是，PTXPlus是PTX的超集，这意味着有效的PTX也是有效的PTXPlus。有关PTX和PTXPlus之间具体差异的更多细节，请参见#PTX vs. PTXPlus。</p>
+<h4 id="从sass到ptxplus"><a class="markdownIt-Anchor" href="#从sass到ptxplus"></a> 从SASS到PTXPlus</h4>
+<p>当配置文件指示 GPGPU-Sim 运行 SASS 时，使用一个转换工具 cuobjdump_to_ptxplus，将二进制文件中嵌入的 SASS 转换为 PTXPlus。有关转换过程的完整细节，请参见 #PTXPlus Conversion。然后，使用 PTXPlus 进行仿真。当 SASS 转换为 PTXPlus 时，只有语法发生变化，指令及其顺序与 SASS 完全一致。因此，编译器优化应用于本地代码的效果得以完全保留。目前，GPGPU-Sim 仅支持将 GT200 SASS 转换为 PTXPlus。</p>
+<h2 id="span-idgpgpusim-software-designgpgpu-sim-的软件设计span"><a class="markdownIt-Anchor" href="#span-idgpgpusim-software-designgpgpu-sim-的软件设计span"></a> <span id="gpgpusim-software-design">GPGPU-SIM 的软件设计</span></h2>
+<p><span id="if-id-model"><strong>取指令和解码软件模型</strong></span></p>
+<p><span id="ptx-vs-ptxplus"><strong>PTX vs. PTXPlus</strong></span></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        Author:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Yixiang Zhang</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        Link:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://zxdfcv.github.io/2025/01/25/GPGPUSim-%E5%AD%A6%E4%B9%A0/">http://zxdfcv.github.io/2025/01/25/GPGPUSim-%E5%AD%A6%E4%B9%A0/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        Reprint policy:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    All articles in this blog are used except for special statements
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    reprint policy. If reproduced, please indicate source
+                    <a href="/about" target="_blank">Yixiang Zhang</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>Copied successfully, please follow the reprint policy of this article</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">more</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/">
+                            <span class="chip bg-color">体系结构</span>
+                        </a>
+                        
+                        <a href="/tags/GPU/">
+                            <span class="chip bg-color">GPU</span>
+                        </a>
+                        
+                        <a href="/tags/%E6%A8%A1%E6%8B%9F%E5%99%A8/">
+                            <span class="chip bg-color">模拟器</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+    <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '745f152f39e12e38b015',
+        clientSecret: '4fcac922f40bb86196bf94a04399292edba69dbf',
+        repo: 'zxdfcv.github.io',
+        owner: 'zxdfcv',
+        admin: ["zxdfcv"],
+        id: '2025-01-25T12-18-32',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
+            <div class="card">
+                <a href="/2025/01/25/GPGPUSim-%E5%AD%A6%E4%B9%A0/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="GPGPUSim 学习">
+                        
+                        <span class="card-title">GPGPUSim 学习</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-01-25
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" class="post-category">
+                                    体系结构
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/">
+                        <span class="chip bg-color">体系结构</span>
+                    </a>
+                    
+                    <a href="/tags/GPU/">
+                        <span class="chip bg-color">GPU</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%A8%A1%E6%8B%9F%E5%99%A8/">
+                        <span class="chip bg-color">模拟器</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2025/01/05/%E7%94%9F%E4%BA%A7%E5%AE%9E%E4%B9%A0%E8%87%AA%E6%88%91%E9%89%B4%E5%AE%9A/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="生产实习自我鉴定">
+                        
+                        <span class="card-title">生产实习自我鉴定</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            生产实习自我鉴定
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-01-05
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%85%B6%E4%BB%96/" class="post-category">
+                                    其他
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%AE%9E%E4%B9%A0/">
+                        <span class="chip bg-color">实习</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="8076669983"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2023-2025</span>
+            
+            <a href="/about" target="_blank">Yixiang Zhang</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;Total visits:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;Total visitors:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:21371055@buaa.edu.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+    <a href="https://twitter.com/Yixiang96412220" class="tooltipped" target="_blank" data-tooltip="关注我的Twitter: https://twitter.com/Yixiang96412220" data-position="top" data-delay="50">
+        <i class="fab fa-twitter"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1079109002" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1079109002" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://weibo.com/7643997574" class="tooltipped" target="_blank" data-tooltip="关注我的微博: https://weibo.com/7643997574" data-position="top" data-delay="50">
+        <i class="fab fa-weibo"></i>
+    </a>
+
+
+
+    <a href="https://www.zhihu.com/people/zhang-yi-xiang-4-42" class="tooltipped" target="_blank" data-tooltip="关注我的知乎: https://www.zhihu.com/people/zhang-yi-xiang-4-42" data-position="top" data-delay="50">
+        <i class="fab fa-zhihu1">知</i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+
+</body>
+
+</html>
