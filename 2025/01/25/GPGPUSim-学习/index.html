@@ -472,11 +472,11 @@
 <li>一个解释 GPGPU-Sim 3.x 内部软件设计的章节。此章节的目标是为想要拓展模拟器以利于自身研究的使用者提供一个起点。</li>
 </ul>
 <h2 id="微结构模型"><a class="markdownIt-Anchor" href="#微结构模型"></a> 微结构模型</h2>
-<p>此章节描述了 GPGPU-Sim 3.x 建模的微结构模型。这个模型比 GPGPU-Sim 2.x  的时间模型更加详细。一些新的细节是通过检查 Nvidia 的专利得到的（这说明查看专利申请是逆向工程的好方法qaq）。这些细节包括建模取指令，记分牌，寄存器堆文件访存。3.x 的其他改进包括更详细的纹理缓存模型（基于<a target="_blank" rel="noopener" href="http://www-graphics.stanford.edu/papers/texture_prefetch/">预取纹理缓存结构</a>）。此章节首先描述微体系结构的总体设计，紧接着描述各个组成部分，包括 SIMT core（硬件实现为 SM subcore），簇（SM core），互连网络和内存分分区（常见于 L2，也就是 global memory）。</p>
+<p>此章节描述了 GPGPU-Sim 3.x 建模的微结构模型。这个模型比 GPGPU-Sim 2.x  的时间模型更加详细。一些新的细节是通过检查 Nvidia 的专利得到的（这说明查看专利申请是逆向工程的好方法qaq）。这些细节包括建模取指令，记分牌，寄存器堆文件访存。3.x 的其他改进包括更详细的纹理缓存模型（基于<a target="_blank" rel="noopener" href="http://www-graphics.stanford.edu/papers/texture_prefetch/">预取纹理缓存结构</a>）。此章节首先描述微体系结构的总体设计，紧接着描述各个组成部分，包括 SIMT core（硬件实现为 SM），簇（SM 簇），互连网络和内存分分区（常见于 L2，也就是 global memory）。</p>
 <h3 id="总览"><a class="markdownIt-Anchor" href="#总览"></a> 总览</h3>
 <p>GPGPU-Sim 3.x 运行由 CPU 部分和 GPU 部分组成的二进制代码文件。但是，GPGPU-Sim 中的微结构模型在 GPU 忙碌的时候报告周期，它没有建模 GPU 的时间或者 PCIe 的时间（也就是 GPU 和 CPU 间的内存转换）。有一些工作尝试结合 CPU 和 GPU 模拟器（由 GPGPUSim 建模），例如 <a target="_blank" rel="noopener" href="http://www.fusionsim.ca/">fusionsim</a>（链接已经挂了）。</p>
 <h4 id="精度"><a class="markdownIt-Anchor" href="#精度"></a> 精度</h4>
-<p>我们计算了模拟器 IPC 和真实硬件的相关性。当设置使用本地硬件指令集（PTXPlus，使用 <code>-gpgpu_ptx_convert_to_ptxplus option</code> 配置），GPGPUSim 3.1.0 在削减规模过后的 RODINIA 测试集（大约 260 个核函数）上获得了 98.3% 的相关性（图 1），97.3 % 的相关性（图 2）。我们的测试集包括了所有来自 [Che et. al. 2009] 论文中的基准测试集，以及 RODINIA 较晚版本的一些测试集。图中的每一个点代表一个核函数的发射。由于一些异常值，平均绝对误差为 35% 及 62%。</p>
+<p>我们计算了模拟器 IPC 和真实硬件的相关性。当设置使用本地硬件指令集（PTXPlus，使用 <code>-gpgpu_ptx_convert_to_ptxplus option</code> 配置），GPGPU-Sim 3.1.0 在削减规模过后的 RODINIA 测试集（大约 260 个核函数）上获得了 98.3% 的相关性（图 1），97.3 % 的相关性（图 2）。我们的测试集包括了所有来自 [Che et. al. 2009] 论文中的基准测试集，以及 RODINIA 较晚版本的一些测试集。图中的每一个点代表一个核函数的发射。由于一些异常值，平均绝对误差为 35% 及 62%。</p>
 <p>我们已经将用于计算这些相关性的<a target="_blank" rel="noopener" href="http://gpgpu-sim.org/manual/index.php/File:Correlation.xls">电子表格</a>包含在内，以演示如何计算这些相关系数。</p>
 <p><img src="/2025/01/25/GPGPUSim-%E5%AD%A6%E4%B9%A0/Correl_gt200.png" alt="图 1"></p>
 <p><img src="/2025/01/25/GPGPUSim-%E5%AD%A6%E4%B9%A0/Correl_fermi.png" alt="图 2"></p>
@@ -496,8 +496,11 @@
 <p><img src="/2025/01/25/GPGPUSim-%E5%AD%A6%E4%B9%A0/Cluster-arch.png" alt="SIMT_Core_arch"></p>
 <p><strong>图 4</strong></p>
 <p>如上图所示，每个 SIMT Core Cluster 有一个单向传输的响应 FIFO（队列），存储从互连网络注入的包（数据，指令包）。这些包要么被导入一个 SIMT Core 的指令缓存 (如果它是服务于取指令未命中的内存相应)，要被导入 SIMT Core 的内存流水线（LDST unit，访存单元）。数据包以 FIFO 的方式取出，如果 SIMT Core 无法接受 FIFO 头部的数据包，则响应 FIFO 将停止。对于 LDST 单元产生访存请求的情况，每个 SIMT Core 拥有自己的互连网络注入端口。但注入端口缓冲，是由簇内所有 SIMT Core 共享的。</p>
+<blockquote>
+<p>注意 SIMT Core 相当于 SM，而不是 SM 的 subcore。GPGPU-Sim 3.x 版本不支持 subcore。</p>
+</blockquote>
 <h3 id="simt-cores"><a class="markdownIt-Anchor" href="#simt-cores"></a> SIMT Cores</h3>
-<p>下图展示了 GPGPU-Sim 3.x 仿真的 SIMT Core 微结构。SIMT Core 是一个高度多线程化的流水线 SIMD (单指令多数据处理器)，大概等价于 Nvidia GPU 中的 SM (流式多处理器) 或者 AMD GPU 中的 CU (计算单元)。SP (流处理器) 或者 CUDA 单元对应着 SIMD core 中 ALU 流水线的一条管道。</p>
+<p>下图展示了 GPGPU-Sim 3.x 仿真的 SIMT Core 微结构。SIMT Core 是一个高度多线程化的流水线 SIMD (单指令多数据处理器)，大概等价于 Nvidia GPU 中的 <mark>SM</mark> (流式多处理器) 或者 AMD GPU 中的 <mark>CU</mark> (计算单元)。SP (流处理器) 或者 CUDA 单元对应着 SIMD core 中 ALU 流水线的一条管道。</p>
 <p><img src="/2025/01/25/GPGPUSim-%E5%AD%A6%E4%B9%A0/Simt-core.png" alt="图 5"></p>
 <p>此微结构模型包含诸多 GPGPU-Sim 早期版本未发现的细节。主要的差异如下：</p>
 <ul>
@@ -632,11 +635,11 @@
 <p>如果应用使用了多个 CUDA 流或者命令队列，可以在 GPGPU-Sim 中同步执行多个核函数 (kernel)。不同的核函数可以在不同的 SIMT Core 上执行。单个 SIMT Core 一次只能从单个内核执行线程块。如果正在同步执行多个核函数，将同样以轮转的方式选择核函数向每个 SIMT Core 发射。</p>
 <p><a target="_blank" rel="noopener" href="http://developer.nvidia.com/nvidia-gpu-computing-documentation">NVIDIA CUDA 编程指南</a>中描述了 CUDA 体系结构上的同步核函数 (kernel) 执行。</p>
 <h3 id="互连网络"><a class="markdownIt-Anchor" href="#互连网络"></a> 互连网络</h3>
-<p>互连网络负责SIMT核心集群和内存分区单元之间的通信。为了模拟互连网络，我们将“booksim”模拟器与 GPGPU-Sim 接口。Booksim 是一个独立的网络模拟器，可以在<a target="_blank" rel="noopener" href="http://cva.stanford.edu/books/ppin/">此处</a>找到。Booksim 能够模拟基于虚拟通道的 Tori 和 Fly 网络，并且具有高度的可配置性。它可以通过参考 Dally 和 Towles 的《Principles and Practices of Interconnection Networks》一书来最好地理解。我们将修改后的 booksim 版本称为 Intersim。Intersim 具有自己的时钟域。原始的 booksim 仅支持单一的互连网络。我们做了一些修改，使其能够模拟两个互连网络：一个用于从SIMT Core 簇（SM）到内存分区的流量，另一个用于从内存分区到 SIMT Core 簇（SM）的流量。这是避免可能导致协议死锁的循环依赖的一种方式。另一种方式是在单一物理网络上为请求和响应流量分配专用虚拟通道，但当前版本的公共发布版未完全支持此功能。注意：Stanford 现已发布了 Booksim 的更新版本（Booksim 2.0），但 GPGPU-Sim 3.x 尚未使用它。请注意，SIMT Core 簇（SM）之间并不直接通信，因此在互连网络中没有一致性流量的概念。只有四种数据包类型：（1）从 SIMT Core 簇（SM）发送到内存分区的读请求和（2）写请求，以及（3）从内存分区发送到SIMT核心集群的读回复和（4）写确认。</p>
+<p>互连网络负责SIMT核心集群和内存分区单元之间的通信。为了模拟互连网络，我们将“booksim”模拟器与 GPGPU-Sim 接口。Booksim 是一个独立的网络模拟器，可以在<a target="_blank" rel="noopener" href="http://cva.stanford.edu/books/ppin/">此处</a>找到。Booksim 能够模拟基于虚拟通道的 Tori 和 Fly 网络，并且具有高度的可配置性。它可以通过参考 Dally 和 Towles 的《Principles and Practices of Interconnection Networks》一书来最好地理解。我们将修改后的 booksim 版本称为 Intersim。Intersim 具有自己的时钟域。原始的 booksim 仅支持单一的互连网络。我们做了一些修改，使其能够模拟两个互连网络：一个用于从SIMT Core 簇（SM 簇，也可以说是 SM 组）到内存分区的流量，另一个用于从内存分区到 SIMT Core 簇（SM 簇）的流量。这是避免可能导致协议死锁的循环依赖的一种方式。另一种方式是在单一物理网络上为请求和响应流量分配专用虚拟通道，但当前版本的公开发布版未完全支持此功能。注意：Stanford 现已发布了 Booksim 的更新版本（Booksim 2.0），但 GPGPU-Sim 3.x 尚未使用它。请注意，SIMT Core 簇（SM 簇）之间并不直接通信，因此在互连网络中没有一致性流量的概念。只有四种数据包类型：（1）从 SIMT Core 簇（SM 簇）发送到内存分区的读请求和（2）写请求，以及（3）从内存分区发送到SIMT核心集群的读回复和（4）写确认。</p>
 <h4 id="集中特性"><a class="markdownIt-Anchor" href="#集中特性"></a> 集中特性</h4>
 <p>在 GPGPU-Sim 中，SIMT Core 簇（SM）充当外部集中器。从互连网络的角度来看，SIMT Core 簇（SM）是一个单独的节点，连接到该节点的路由器（router）只有一个注入端口和一个弹出端口。</p>
 <h4 id="与gpgpu-sim的接口"><a class="markdownIt-Anchor" href="#与gpgpu-sim的接口"></a> 与GPGPU-Sim的接口</h4>
-<p>无论其内部配置如何，互连网络都提供一个简单的接口，用于与连接到它的 SIMT Core 簇（SM）和内存分区进行通信。为了注入数据包，SIMT Core 簇（SM）或内存控制器首先检查网络是否<strong>有足够的缓冲区空间</strong>来接受它们的数据包，然后将数据包发送到网络。对于弹出操作，它们会检查网络中是否有等待弹出的数据包，如果有，则将其弹出。这些操作发生在<strong>每个单元的时钟域</strong>中。数据包的序列化由网络接口内部处理，例如，SIMT Core 簇（SM）在 SIMT Core 簇（SM）的时钟域中注入数据包，但路由器每个互连时钟周期只接受一个 flit。更多实现细节可以在软件设计部分找到。</p>
+<p>无论其内部配置如何，互连网络都提供一个简单的接口，用于与连接到它的 SIMT Core 簇（SM）和内存分区进行通信。为了注入数据包，SIMT Core 簇（SM 簇）或内存控制器首先检查网络是否<strong>有足够的缓冲区空间</strong>来接受它们的数据包，然后将数据包发送到网络。对于弹出操作，它们会检查网络中是否有等待弹出的数据包，如果有，则将其弹出。这些操作发生在<strong>每个单元的时钟域</strong>中。数据包的序列化由网络接口内部处理，例如，SIMT Core 簇（SM 簇）在 SIMT Core 簇（SM 簇）的时钟域中注入数据包，但路由器每个互连时钟周期只接受一个 flit。更多实现细节可以在软件设计部分找到。</p>
 <blockquote>
 <p>这里的 flit 意思是微片，但我还没有在代码中找到对应的实现。</p>
 </blockquote>
@@ -647,7 +650,7 @@
 <p>下列小节将更详细地描述数据流如何在内存分区（Memory Partition）中流动，以及前述各个组件的具体工作方式。</p>
 <h4 id="内存分区连接和交通流量"><a class="markdownIt-Anchor" href="#内存分区连接和交通流量"></a> 内存分区连接和交通流量</h4>
 <p>Figure 展示了单个内存分区（Memory Partition）内部的三个子组件，以及在它们之间传输内存请求和响应的多个 FIFO 队列。</p>
-<p>内存请求包从互连（Interconnect）进入内存分区，并首先进入 ICNT-&gt;L2 队列。非纹理（Non-Texture）访问请求通过 Raster Operations Pipeline（ROP）队列处理，以模拟最小 460 个 L2 时钟周期的流水线延迟，这一延迟基于对 GT200 架构的微基准测试研究（<a target="_blank" rel="noopener" href="http://www.stuffedcow.net/files/gpuarch-ispass2010.pdf%EF%BC%89%E3%80%82L2">http://www.stuffedcow.net/files/gpuarch-ispass2010.pdf）。L2</a> 缓存存储体（L2 Cache Bank）每个 L2 时钟周期从 ICNT-&gt;L2 队列取出一个请求并进行处理。对于未命中 L2 缓存的请求，L2 会向 L2-&gt;DRAM 队列推送新的离片 DRAM（Off-Chip DRAM）请求。如果 L2 缓存被禁用，请求包会直接从 ICNT-&gt;L2 队列取出，并直接推入 L2-&gt;DRAM 队列，仍然遵循 L2 时钟频率。从离片 DRAM 返回的填充请求（Fill Requests）会从 DRAM-&gt;L2 队列取出，并由 L2 缓存存储体处理。L2 缓存对 SIMT 核心的读取响应（Read Replies）则被推入 L2-&gt;ICNT 队列，通过互连传输给 SIMT 核心。</p>
+<p>内存请求包从互连（Interconnect）进入内存分区，并首先进入 <mark>ICNT-&gt;L2</mark> 队列。非纹理（Non-Texture）访问请求通过 Raster Operations Pipeline（ROP）队列处理，以模拟最小 460 个 L2 时钟周期的流水线延迟，这一延迟基于对 GT200 架构的微基准测试研究（<a target="_blank" rel="noopener" href="http://www.stuffedcow.net/files/gpuarch-ispass2010.pdf%EF%BC%89%E3%80%82L2">http://www.stuffedcow.net/files/gpuarch-ispass2010.pdf）。L2</a> 缓存存储体（L2 Cache Bank）每个 L2 时钟周期从 ICNT-&gt;L2 队列取出一个请求并进行处理。对于未命中 L2 缓存的请求，L2 会向 L2-&gt;DRAM 队列推送新的离片 DRAM（Off-Chip DRAM）请求。如果 L2 缓存被禁用，请求包会直接从 ICNT-&gt;L2 队列取出，并直接推入 L2-&gt;DRAM 队列，仍然遵循 L2 时钟频率。从离片 DRAM 返回的填充请求（Fill Requests）会从 DRAM-&gt;L2 队列取出，并由 L2 缓存存储体处理。L2 缓存对 SIMT 核心的读取响应（Read Replies）则被推入 L2-&gt;ICNT 队列，通过互连传输给 SIMT 核心。</p>
 <p>DRAM latency 队列是一个固定延迟（Fixed Latency）队列，它用于建模 L2 访问和 DRAM 访问之间的最小延迟（即 L2 未命中后访问 DRAM 所需的最短延迟）。这一延迟基于微基准测试的观察，队列的作用是<strong>简单地模拟这种延迟</strong>（而不是复现引起该延迟的硬件机制）。从 L2-&gt;DRAM 队列输出的请求会在 DRAM latency 队列中停留固定数量的 SIMT 核心时钟周期，然后，每个 DRAM 时钟周期，DRAM 通道会从 DRAM latency 队列取出一个请求，并交由离片 DRAM 处理。每个 DRAM 时钟周期，处理完成的请求会被推入 DRAM-&gt;L2 队列。</p>
 <p>需要注意的是，从互连进入内存分区（ROPor ICNT-&gt;L2 队列）的数据传输发生在 L2 时钟域，而从内存分区注入回互连（L2-&gt;ICNT 队列）的数据传输发生在互连（ICNT）时钟域。</p>
 <h4 id="l2-缓存模型和缓存层次结构"><a class="markdownIt-Anchor" href="#l2-缓存模型和缓存层次结构"></a> L2 缓存模型和缓存层次结构</h4>
@@ -707,7 +710,7 @@ tWR：写恢复时间 WRITE recovery time</p>
 <blockquote>
 <p>这一块是 DRAM 相关的知识，我不是特别了解，就只是按字面意思翻译了一下</p>
 </blockquote>
-<p>在我们的模型中，每个内存银行的命令按轮转方式调度。bank 按圆形数组排列，并有一个指针指向优先级最高的 bank。调度器按顺序遍历 bank 并发出命令。每当为某个 bank 发出激活或预充电命令时，优先级指针将指向下一个bank，确保其他 bank 的待处理命令最终会被调度。</p>
+<p>在我们的模型中，每个内存 bank（内存银行，存储体）的命令按轮转方式调度。bank 按圆形数组排列，并有一个指针指向优先级最高的 bank。调度器按顺序遍历 bank 并发出命令。每当为某个 bank 发出激活或预充电命令时，优先级指针将指向下一个bank，确保其他 bank 的待处理命令最终会被调度。</p>
 <h3 id="指令集体系结构isa"><a class="markdownIt-Anchor" href="#指令集体系结构isa"></a> 指令集体系结构（ISA）</h3>
 <h4 id="ptx和sass"><a class="markdownIt-Anchor" href="#ptx和sass"></a> PTX和SASS</h4>
 <p>GPGPU-Sim 模拟 NVIDIA使用的 Parallel Thread eXecution（PTX）指令集。PTX 是一个伪汇编指令集；即它不能直接在硬件上执行。ptxas 是 NVIDIA 发布的汇编器，用于将 PTX 汇编成硬件运行的本地指令集 SASS。每一代硬件支持不同版本的 SASS。因此，PTX 在编译时会被编译成多个对应不同硬件代的 SASS 版本。尽管如此，PTX 代码仍然被嵌入到二进制文件中，以支持未来的硬件。在运行时，运行时系统会根据可用硬件选择适当 的SASS 版本。如果没有匹配的版本，运行时系统会调用嵌入 PTX 的即时编译器（JIT），将其编译成对应硬件的 SASS。</p>
@@ -873,56 +876,58 @@ tWR：写恢复时间 WRITE recovery time</p>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;Current
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2025/01/25/GPGPUSim-%E5%AD%A6%E4%B9%A0/">
+                <a href="/2025/02/02/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-20250202-acwing-1052-%E8%AE%BE%E8%AE%A1%E5%AF%86%E7%A0%81/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="GPGPUSim 学习">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="每日一题 20250202 acwing 1052 设计密码">
                         
-                        <span class="card-title">GPGPUSim 学习</span>
+                        <span class="card-title">每日一题 20250202 acwing 1052 设计密码</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            GPGPUSim 学习
+                            
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2025-01-25
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2025-02-02
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" class="post-category">
-                                    体系结构
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/">
-                        <span class="chip bg-color">体系结构</span>
+                    <a href="/tags/C/">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
-                    <a href="/tags/GPU/">
-                        <span class="chip bg-color">GPU</span>
+                    <a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/">
+                        <span class="chip bg-color">每日一题</span>
                     </a>
                     
-                    <a href="/tags/%E6%A8%A1%E6%8B%9F%E5%99%A8/">
-                        <span class="chip bg-color">模拟器</span>
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+                        <span class="chip bg-color">动态规划</span>
                     </a>
                     
                 </div>
