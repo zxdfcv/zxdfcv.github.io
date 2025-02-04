@@ -4,7 +4,7 @@
 
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-    <meta name="keywords" content="accel-sim 的正确运行方式, 计算机科学, 北航, 体系结构, 算法">
+    <meta name="keywords" content="Accel-Sim 的正确运行方式, 计算机科学, 北航, 体系结构, 算法">
     <meta name="description" content="accel-sim 的正确运行方式">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>accel-sim 的正确运行方式 | Yixiang&#39;s Blog</title>
+    <title>Accel-Sim 的正确运行方式 | Yixiang&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/go.png">
     
 
@@ -371,12 +371,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">accel-sim 的正确运行方式</h1>
+                    <h1 class="description center-align post-title">Accel-Sim 的正确运行方式</h1>
                 </div>
             </div>
         </div>
@@ -449,34 +449,51 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="instructions-on-using-tracer-tool-for-accel-sim"><a class="markdownIt-Anchor" href="#instructions-on-using-tracer-tool-for-accel-sim"></a> Instructions on using tracer tool for Accel-sim</h3>
-<p>util/</p>
-<ul>
-<li>
-<p>To generate traces for specific individual application:</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># example: to run the tracer on hardware device 0 for vecadd app</span>
+                <h2 id="accel-sim-trace-收集工具的使用方法"><a class="markdownIt-Anchor" href="#accel-sim-trace-收集工具的使用方法"></a> Accel-Sim Trace 收集工具的使用方法</h2>
+<blockquote>
+<p>⚠️ 要收集 trace，必须要有对应型号的硬件设备（也就是显卡！！！）</p>
+</blockquote>
+<p>首先安装 nvbit 工具：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 安装 nvbit</span>
+./install_nvbit.sh
+<span class="token comment"># 编译工具</span>
+./make<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>为测试集套装产生 trace，运行以下命令：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 为 rodinia 工作负载在硬件设备（显卡）0 上运行 trace 收集器</span>
+./run_hw_trace.py <span class="token parameter variable">-B</span> rodinia-3.1 <span class="token parameter variable">-D</span> <span class="token number">0</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>产生的 trace 位于 <code>../../hw_run/traces/device-0/</code>。</p>
+<p>为特定的单个应用生成 trace：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 运行 vector add 应用在硬件设备（显卡）0 上运行 trace 收集器</span>
 <span class="token builtin class-name">export</span> <span class="token assign-left variable">CUDA_VISIBLE_DEVICES</span><span class="token operator">=</span><span class="token number">0</span>
-<span class="token assign-left variable">LD_PRELOAD</span><span class="token operator">=</span>/home/xu/liu/accel-sim-framework-release/util/tracer_nvbit/tracer_tool/tracer_tool.so ./run<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>the traces will be found in <code>traces</code> folder, This folder will contain:</p>
+<span class="token assign-left variable">LD_PRELOAD</span><span class="token operator">=</span>./tracer_tool/tracer_tool.so ./nvbit_release/test-apps/vectoradd/vectoradd
+<span class="token comment">#LD_PRELOAD=/home/xu/liu/accel-sim-framework-release/util/tracer_nvbit/tracer_tool/tracer_tool.so ./run</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>产生的 trace 位于 <code>traces</code> 文件夹，该文件夹包含:</p>
 <ul>
-<li>1- kernel traces files with <code>.trace</code> extension (one file per kernel), e.g. <code>kernel-1.trace</code>, <code>kernel-2.trace</code>, etc.</li>
-<li>2- <code>kernelslist</code> (one file), this contains the kernel files list that have been traced along with the CUDA memcpy commands</li>
-<li>3- <code>stats.csv</code> (one file), this contains the statistcs of the kernels, e.g. how many kernels traced, traced intructions, etc.</li>
+<li>1 - 核函数 trace 文件（以 <code>.trace</code> 作为扩展名（每个核函数一个文件））。例如：<code>kernel-1.trace</code>，<code>kernel-2.trace</code>。</li>
+<li>2 - <code>kernelslist</code> (one file), this contains the kernel files list that have been traced along with the CUDA memcpy commands</li>
+<li>2 - <code>kernelslist</code>（一个文件），这个文件包含了使用 CUDA memcpy 命令收集 trace 的核函数文件的列表。</li>
+<li>3 - <code>stats.csv</code> (one file), this contains the statistcs of the kernels, e.g. how many kernels traced, traced intructions, etc.</li>
+<li>3 - <code>stats.csv</code>（一个文件），这个文件包含核函数的统计数据，例如：一共收集了多少个核函数的 trace，收集 trace 包括的指令等。</li>
 </ul>
-<p>Next, you will have to do post processing for the traces. The generated traces above are not structured, we have to group them by thread block Id. To do this, run the following:</p>
+<p>现在，需要对 trace 进行后处理。之前产生的 trace 是非结构化的，我们需要通过线程块（thread block）id 对其进行分组，运行下面的命令：</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">/home/xu/liu/accel-sim-framework-release/util/tracer_nvbit/tracer_tool/traces-processing/post-traces-processing ./traces/kernelslist
 
+<span class="token comment"># 删除中间文件 #</span>
 <span class="token function">rm</span> ./traces/*.trace
 <span class="token builtin class-name">cd</span> <span class="token punctuation">..</span>
-<span class="token function">scp</span> <span class="token parameter variable">-r</span> <span class="token variable">$1</span> xu@10.212.67.3:/mnt/data/xu/accel_traces/<span class="token variable">$2</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-</ul>
-<p>run</p>
+<span class="token function">scp</span> <span class="token parameter variable">-r</span> <span class="token variable">$1</span> xu@10.212.67.3:/mnt/data/xu/accel_traces/<span class="token variable">$2</span> <span class="token comment"># 将 trace 复制到需要的地方</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>这里有一小段提示信息：.trace files are not required anymore. These are intermediate files and you can delete them to save disk space. Note that the above run_hw_trace.py script do all the steps automatically for you. 说 .trace 是中间文件，运行完之后可以删除以节省磁盘空间。</p>
+</blockquote>
+<h2 id="accel-sim-运行单个-kernel-应用"><a class="markdownIt-Anchor" href="#accel-sim-运行单个-kernel-应用"></a> Accel-Sim 运行单个 kernel 应用</h2>
   <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">source</span> ./gpu-simulator/setup_environment.sh
   
 ./gpu-simulator/bin/release/accel-sim.out <span class="token parameter variable">-trace</span> <span class="token punctuation">..</span>/<span class="token punctuation">..</span>/accel-sim/accel_traces/backprop/kernelslist.g <span class="token parameter variable">-config</span> ./gpu-simulator/gpgpu-sim/configs/tested-cfgs/SM86_RTX3070/gpgpusim.config <span class="token parameter variable">-config</span> ./gpu-simulator/configs/tested-cfgs/SM86_RTX3070/trace.config<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>.trace files are not required anymore. These are intermediate files and you can delete them to save disk space. Note that the above run_hw_trace.py script do all the steps automatically for you.</p>
-<p>这样做的好处是避免让脚本一次性运行所有 bench，导致机器承受不了。</p>
+<p>这样做的好处：</p>
+<ul>
+<li>避免让脚本一次性运行所有 bench，导致机器承受不了。</li>
+<li>可以精细化运行任务的核函数，便于在对模拟器进行修改时快速进行验证。</li>
+</ul>
 
                 
             </div>
