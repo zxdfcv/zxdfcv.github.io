@@ -450,15 +450,23 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>本文将介绍如何使用 Hexo 搭建自己的个人博客站点并部署到 GitHub Pages。将个人站点部署到 GitHub Pages 的显著优点是便捷、免费，但由于 GitHub 服务器位于国外，所以多数情况下，你访问你的 GitHub Pages 的速度将非常缓慢。为提升访问速度，将个人站点部署到腾讯云、阿里云或其它国内云服务提供商的云服务器上是一个很好的选择。</p>
+<h2 id="原理"><a class="markdownIt-Anchor" href="#原理"></a> 原理</h2>
 <p>使用服务器部署 Hexo 博客的原理图如图所示。</p>
-<p><img src="/2025/06/03/%E5%B0%86-Hexo-%E5%88%B6%E4%BD%9C%E7%9A%84-GitHub-Pages-%E9%83%A8%E7%BD%B2%E5%88%B0%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8/figure1.png" alt="云服务器搭建 Hexo 博客原理图"></p>
-<p>主要思路分为四步：</p>
+<p><img src="/2025/06/03/%E5%B0%86-Hexo-%E5%88%B6%E4%BD%9C%E7%9A%84-GitHub-Pages-%E9%83%A8%E7%BD%B2%E5%88%B0%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8/figure1.png" alt="云服务器搭建 Hexo 博客原理图">主要思路分为四步：</p>
 <ul>
 <li><code>hexo -g</code> 将 source/_posts 目录下的 markdown 文件渲染为静态资源，并将静态资源放置到 public 目录下；</li>
 <li><code>hexo deploy</code> 通过 git 将 public 目录下的博客静态资源推送到 VPS 的远程仓库中；</li>
 <li>推送更新触发 Git Hooks 将仓库内的静态资源克隆到网站根目录下；</li>
 <li>使用 nginx 作为 Web 服务器提供对博客的 HTTP 或 HTTPS 访问。</li>
 </ul>
+<blockquote>
+<p>git hooks</p>
+</blockquote>
+<h2 id="配置"><a class="markdownIt-Anchor" href="#配置"></a> 配置</h2>
+<h3 id="安装"><a class="markdownIt-Anchor" href="#安装"></a> 安装</h3>
+<p>通常情况下，购买了 VPS 后 Git 是默认已经安装的，若未安装，可通过终端命令进行安装：</p>
+<p>Debian/Ubuntu 系列：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> <span class="token function">git</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>TODO：增加树莓派 + 内网穿透搭建私有云服务器的教程。</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/269456060">将 Hexo 搭建的博客站点从 GitHub Pages 迁移到腾讯云 VPS</a></p>
 
