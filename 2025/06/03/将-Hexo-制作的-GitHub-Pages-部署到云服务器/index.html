@@ -449,8 +449,8 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>本文将介绍如何使用 Hexo 搭建自己的个人博客站点并部署到 GitHub Pages。将个人站点部署到 GitHub Pages 的显著优点是便捷、免费，但由于 GitHub 服务器位于国外，所以多数情况下，你访问你的 GitHub Pages 的速度将非常缓慢。为提升访问速度，将个人站点部署到腾讯云、阿里云或其它国内云服务提供商的云服务器上是一个很好的选择。</p>
-<h2 id="原理"><a class="markdownIt-Anchor" href="#原理"></a> 原理</h2>
+                <p>本文将介绍将 Hexo 制作的网页部署到云服务器上的具体方法。</p>
+<h2 id="1-原理"><a class="markdownIt-Anchor" href="#1-原理"></a> 1 原理</h2>
 <p>使用服务器部署 Hexo 博客的原理图如图所示。</p>
 <p><img src="/2025/06/03/%E5%B0%86-Hexo-%E5%88%B6%E4%BD%9C%E7%9A%84-GitHub-Pages-%E9%83%A8%E7%BD%B2%E5%88%B0%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8/figure1.png" alt="云服务器搭建 Hexo 博客原理图">主要思路分为四步：</p>
 <ul>
@@ -462,11 +462,168 @@
 <blockquote>
 <p>git hooks</p>
 </blockquote>
-<h2 id="配置"><a class="markdownIt-Anchor" href="#配置"></a> 配置</h2>
+<h2 id="2-配置"><a class="markdownIt-Anchor" href="#2-配置"></a> 2 配置</h2>
 <h3 id="安装"><a class="markdownIt-Anchor" href="#安装"></a> 安装</h3>
 <p>通常情况下，购买了 VPS 后 Git 是默认已经安装的，若未安装，可通过终端命令进行安装：</p>
 <p>Debian/Ubuntu 系列：</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> <span class="token function">git</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>Red Hat/CentOS 系列：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> yum <span class="token function">install</span> <span class="token function">git</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="配置本地端-ssh-登录-服务器"><a class="markdownIt-Anchor" href="#配置本地端-ssh-登录-服务器"></a> 配置本地端 SSH 登录 服务器</h3>
+<p>关于 SSH 登录配置，主要包含两步：SSH key 的本地生成和远端添加，和 github 上的配置类似，要求把本地用户的 .ssh/id_rsa.pub 复制到 服务器对应用户的 .ssh/authorized_keys 中。</p>
+<h3 id="创建-git-仓库"><a class="markdownIt-Anchor" href="#创建-git-仓库"></a> 创建 Git 仓库</h3>
+<p>创建适当的目录并将其初始化为 Git 裸库，用于存放 Hexo 博客静态资源：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mkdir</span> <span class="token parameter variable">-p</span> ~/blog/zxdfcv.git
+<span class="token builtin class-name">cd</span> ~/blog/zxdfcv.git
+<span class="token function">git</span> init <span class="token parameter variable">--bare</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="配置-git-hooks"><a class="markdownIt-Anchor" href="#配置-git-hooks"></a> 配置 Git Hooks</h3>
+<p>此时云服务器上的远程仓库只是一个裸仓库，无法用于搭建站点服务器，需要在推送更新的同时触发 Git Hooks，以将远程仓库中的博客资源放到 Nginx Web 服务器根目录下。</p>
+<p>创建 Nginx Web 根目录，并修改属主与属组：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">mkdir</span> <span class="token parameter variable">-p</span> /var/wwww/blog
+<span class="token function">sudo</span> <span class="token function">chown</span> ubuntu:ubuntu <span class="token parameter variable">-R</span> /var/wwww/blog<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>创建钩子文件，并添加可执行权限<br>
+进入远程仓库的 hook 目录下，新建钩子文件：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> ~/blog/zxdfcv.git/hooks
+<span class="token function">vim</span> post-receive<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>添加如下代码并保存，注意，<code>GIT_REPO</code> <code>TMP_GIT_CLONE</code> <code>PUBLIC_WWW</code> 的值视个人情况而定：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">echo</span> <span class="token string">"post-receive hook is running..."</span>
+
+<span class="token assign-left variable">GIT_REPO</span><span class="token operator">=</span>/root/blog/zxdfcv.git <span class="token comment"># 和上面的一致</span>
+<span class="token assign-left variable">TMP_GIT_CLONE</span><span class="token operator">=</span>/tmp/blog.zxdfcv
+<span class="token assign-left variable">PUBLIC_WWW</span><span class="token operator">=</span>/var/www/blog
+
+<span class="token function">rm</span> <span class="token parameter variable">-rf</span> <span class="token variable">$TMP_GIT_CLONE</span>
+<span class="token function">git</span> clone <span class="token variable">$GIT_REPO</span> <span class="token variable">$TMP_GIT_CLONE</span>
+<span class="token function">rm</span> <span class="token parameter variable">-rf</span> <span class="token variable">$&#123;PUBLIC_WWW&#125;</span>/*
+<span class="token function">cp</span> <span class="token parameter variable">-rf</span> <span class="token variable">$&#123;TMP_GIT_CLONE&#125;</span>/* <span class="token variable">$&#123;PUBLIC_WWW&#125;</span>/<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>为钩子文件添加可执行权限：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">chmod</span> +x post-receive<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="服务器端-nginx-配置"><a class="markdownIt-Anchor" href="#服务器端-nginx-配置"></a> 服务器端 Nginx 配置</h2>
+<h3 id="安装-nginx"><a class="markdownIt-Anchor" href="#安装-nginx"></a> 安装 Nginx</h3>
+<p>直接通过终端命令进行安装：</p>
+<p>Debian/Ubuntu 系列：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> nginx<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>Red Hat/CentOS 系列：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> yum <span class="token function">install</span> nginx<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>安装完成后，在浏览器中输入 VPS 公网 IP，出现如下页面即表示安装成功：</p>
+<p><img src="/2025/06/03/%E5%B0%86-Hexo-%E5%88%B6%E4%BD%9C%E7%9A%84-GitHub-Pages-%E9%83%A8%E7%BD%B2%E5%88%B0%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8/figure2.png" alt="nginx 默认页面"></p>
+<p>安装成功后，可通过 <code>nginx -v</code> 命令查看版本信息，本文中所使用版本为 1.20.0；可通过 <code>service nginx status</code> 或 <code>systemctl status nginx</code> 命令来查看 Nginx 运行状态；可通过 <code>nginx -V</code> 命令查看安装的 Nginx 所包含组件。</p>
+<h3 id="配置-nginx"><a class="markdownIt-Anchor" href="#配置-nginx"></a> 配置 Nginx</h3>
+<p>Nginx 安装成功后，所有<a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=148009458&amp;content_type=Article&amp;match_order=1&amp;q=%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6&amp;zhida_source=entity">配置文件</a>将位于 /etc/nginx 目录下，/etc/nginx/nginx.conf 是主配置文件。本文中对 Nginx 的配置主要做了以下五件事：</p>
+<ul>
+<li>监听 80 端口，以提供正常的 http 访问；(阿里云需要访问防火墙设置，开放 80 和 443 端口)</li>
+<li>配置 SSL，以开启网站对 https 访问的支持（需进行 SSL 证书申请与工信部 ICP 备案）；</li>
+<li>IP 访问重定向到域名访问；</li>
+<li>http 访问重定向到 https 访问；</li>
+<li>自定义 404 页面。</li>
+</ul>
+<p>下面进行具体的配置操作（假设你已经完成 SSL 证书的申请）。对于阿里云，可以在<a href="%5BSSL%E8%AF%81%E4%B9%A6_%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6_CA%E8%AE%A4%E8%AF%81_%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8-%E9%98%BF%E9%87%8C%E4%BA%91%5D(https://www.aliyun.com/product/cas?spm=5176.21213303.J_v8LsmxMG6alneH-O7TCPa.9.52842f3dkKsNos&amp;scm=20140722.S_product@@%E4%BA%91%E4%BA%A7%E5%93%81@@104379._.ID_product@@%E4%BA%91%E4%BA%A7%E5%93%81@@104379-RL_SSL%E8%AF%81%E4%B9%A6%E7%AE%A1%E7%90%86-LOC_2024SPAllResult-OR_ser-PAR1_213e36a617499719783422334e49f6-V_4-RE_new5-P0_0-P1_0)">这里</a>申请，注意免费证书的有效期只有 3 个月，每 3 个月要重新申请并更新下面位置的 ssl 证书文件。</p>
+<p><strong>首先</strong>，需要下载 ssl 证书到云服务器上一个合适的位置。这里是 <code>/etc/pki/nginx/</code> 和 <code>/etc/pki/nginx/private</code>。</p>
+<p><strong>然后</strong>，编辑主配置文件 /etc/nginx/nginx.conf 为以下内容后保存并退出。下面的设置设置利用了 hexo 自带的 404 页面（也可重定向至自定义的 404 页面）。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># For more information on configuration, see:</span>
+<span class="token comment">#   * Official English Documentation: http://nginx.org/en/docs/</span>
+<span class="token comment">#   * Official Russian Documentation: http://nginx.org/ru/docs/</span>
+
+user nginx<span class="token punctuation">;</span>
+worker_processes auto<span class="token punctuation">;</span>
+error_log /var/log/nginx/error.log<span class="token punctuation">;</span>
+pid /run/nginx.pid<span class="token punctuation">;</span>
+
+<span class="token comment"># Load dynamic modules. See /usr/share/doc/nginx/README.dynamic.</span>
+include /usr/share/nginx/modules/*.conf<span class="token punctuation">;</span>
+
+events <span class="token punctuation">&#123;</span>
+    worker_connections <span class="token number">1024</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+http <span class="token punctuation">&#123;</span>
+    log_format  main  <span class="token string">'$remote_addr - $remote_user [$time_local] "$request" '</span>
+                      <span class="token string">'$status $body_bytes_sent "$http_referer" '</span>
+                      <span class="token string">'"$http_user_agent" "$http_x_forwarded_for"'</span><span class="token punctuation">;</span>
+
+    access_log  /var/log/nginx/access.log  main<span class="token punctuation">;</span>
+
+    sendfile            on<span class="token punctuation">;</span>
+    tcp_nopush          on<span class="token punctuation">;</span>
+    tcp_nodelay         on<span class="token punctuation">;</span>
+    keepalive_timeout   <span class="token number">65</span><span class="token punctuation">;</span>
+    types_hash_max_size <span class="token number">4096</span><span class="token punctuation">;</span>
+
+    include             /etc/nginx/mime.types<span class="token punctuation">;</span>
+    default_type        application/octet-stream<span class="token punctuation">;</span>
+
+    <span class="token comment"># Load modular configuration files from the /etc/nginx/conf.d directory.</span>
+    <span class="token comment"># See http://nginx.org/en/docs/ngx_core_module.html#include</span>
+    <span class="token comment"># for more information.</span>
+    include /etc/nginx/conf.d/*.conf<span class="token punctuation">;</span>
+
+    server <span class="token punctuation">&#123;</span>
+        listen <span class="token number">80</span><span class="token punctuation">;</span>
+        server_name zcfx-03.xyz<span class="token punctuation">;</span>
+        <span class="token builtin class-name">return</span> <span class="token number">301</span> https://www.zcfx-03.xyz<span class="token variable">$request_uri</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    server <span class="token punctuation">&#123;</span>
+        listen       <span class="token number">80</span><span class="token punctuation">;</span>
+        listen       <span class="token punctuation">[</span>::<span class="token punctuation">]</span>:80<span class="token punctuation">;</span>
+        server_name  www.zcfx-03.xyz<span class="token punctuation">;</span>
+        <span class="token builtin class-name">return</span> <span class="token number">301</span> https://www.zcfx-03.xyz<span class="token variable">$request_uri</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token comment"># Settings for a TLS enabled server.</span>
+    server <span class="token punctuation">&#123;</span>
+        listen       <span class="token number">443</span> ssl http2<span class="token punctuation">;</span>
+        listen       <span class="token punctuation">[</span>::<span class="token punctuation">]</span>:443 ssl http2<span class="token punctuation">;</span>
+        server_name  zcfx-03.xyz<span class="token punctuation">;</span>
+        ssl_certificate <span class="token string">"/etc/pki/nginx/zcfx-03.xyz.pem"</span><span class="token punctuation">;</span>
+        ssl_certificate_key <span class="token string">"/etc/pki/nginx/private/zcfx-03.xyz.key"</span><span class="token punctuation">;</span>
+        ssl_session_cache shared:SSL:1m<span class="token punctuation">;</span>
+        ssl_session_timeout  10m<span class="token punctuation">;</span>
+        ssl_ciphers <span class="token assign-left variable">PROFILE</span><span class="token operator">=</span>SYSTEM<span class="token punctuation">;</span>
+        ssl_prefer_server_ciphers on<span class="token punctuation">;</span>
+
+        <span class="token builtin class-name">return</span> <span class="token number">301</span> https://www.zcfx-03.xyz<span class="token variable">$request_uri</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    server <span class="token punctuation">&#123;</span>
+        listen       <span class="token number">443</span> ssl http2<span class="token punctuation">;</span>
+        listen       <span class="token punctuation">[</span>::<span class="token punctuation">]</span>:443 ssl http2<span class="token punctuation">;</span>
+        server_name  www.zcfx-03.xyz<span class="token punctuation">;</span>
+        root         /var/www/blog<span class="token punctuation">;</span>
+
+        ssl_certificate <span class="token string">"/etc/pki/nginx/zcfx-03.xyz.pem"</span><span class="token punctuation">;</span>
+        ssl_certificate_key <span class="token string">"/etc/pki/nginx/private/zcfx-03.xyz.key"</span><span class="token punctuation">;</span>
+        ssl_session_cache shared:SSL:1m<span class="token punctuation">;</span>
+        ssl_session_timeout  10m<span class="token punctuation">;</span>
+        ssl_ciphers <span class="token assign-left variable">PROFILE</span><span class="token operator">=</span>SYSTEM<span class="token punctuation">;</span>
+        ssl_prefer_server_ciphers on<span class="token punctuation">;</span>
+
+        <span class="token comment"># Load configuration files for the default server block.</span>
+        include /etc/nginx/default.d/*.conf<span class="token punctuation">;</span>
+
+        error_page <span class="token number">404</span> /404/index.html<span class="token punctuation">;</span> <span class="token comment"># 设置 404 页面的位置</span>
+            location <span class="token operator">=</span> /40x.html <span class="token punctuation">&#123;</span>
+        <span class="token punctuation">&#125;</span>
+
+        error_page <span class="token number">500</span> <span class="token number">502</span> <span class="token number">503</span> <span class="token number">504</span> /50x.html<span class="token punctuation">;</span>
+            location <span class="token operator">=</span> /50x.html <span class="token punctuation">&#123;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>最后</strong>，通过重新加载配置文件，并设置 Nginx 开机启动：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> nginx <span class="token parameter variable">-s</span> reload
+<span class="token function">sudo</span> systemctl <span class="token builtin class-name">enable</span> nginx <span class="token comment"># 可以只用这一行</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="本地端-hexo-站点配置"><a class="markdownIt-Anchor" href="#本地端-hexo-站点配置"></a> 本地端 Hexo 站点配置</h3>
+<p>将站点配置文件中的 <code>deploy</code> 项修改为如下内容，实现本地端向 GitHub 和云服务器的双远端推送：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">deploy:
+  type: <span class="token function">git</span>
+  repository: 
+    github: https://github.com/zxdfcv/zxdfcv.github.io.git
+    vps: root@123.56.0.76:/root/blog/zxdfcv.git
+  branch: main<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>github 对应着你的 GitHub Pages 项目地址，vps 对应着你的云服务器远程仓库的地址，记得修改！</p>
+<p>最终效果：</p>
+<p><img src="/2025/06/03/%E5%B0%86-Hexo-%E5%88%B6%E4%BD%9C%E7%9A%84-GitHub-Pages-%E9%83%A8%E7%BD%B2%E5%88%B0%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8/figure5.png" alt="最终效果"></p>
+<p><strong>假如你已经完成了域名 ICP 备案，并完成了本文第 2 章的所有配置，在本地端的博客目录下执行常规的部署操作后在浏览器中输入域名应该就可以成功访问了，而且是支持 https 的！</strong></p>
 <p>TODO：增加树莓派 + 内网穿透搭建私有云服务器的教程。</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/269456060">将 Hexo 搭建的博客站点从 GitHub Pages 迁移到腾讯云 VPS</a></p>
 
@@ -607,50 +764,36 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;Current
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2025/06/03/%E5%B0%86-Hexo-%E5%88%B6%E4%BD%9C%E7%9A%84-GitHub-Pages-%E9%83%A8%E7%BD%B2%E5%88%B0%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+                <a href="/2025/06/15/Untitled/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="将 Hexo 制作的 GitHub Pages 部署到云服务器">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">将 Hexo 制作的 GitHub Pages 部署到云服务器</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            将 Hexo 制作的 GitHub Pages 部署到云服务器
+                            
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2025-06-03
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2025-06-15
+                        </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" class="post-category">
-                                    体系结构
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Yixiang Zhang
                             
                         </span>
                     </div>
-                </div>
-
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/">
-                        <span class="chip bg-color">体系结构</span>
-                    </a>
-                    
                 </div>
                 
             </div>
