@@ -449,7 +449,17 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="assignment-6-点积加速rtl"><a class="markdownIt-Anchor" href="#assignment-6-点积加速rtl"></a> Assignment 6 点积加速（RTL）</h2>
+                <h2 id="环境配置"><a class="markdownIt-Anchor" href="#环境配置"></a> 环境配置</h2>
+<p>vortex 环境配置总体来说比较流畅，参考官方给出的<a target="_blank" rel="noopener" href="https://github.com/vortexgpgpu/vortex">教程</a>即可。但是经过尝试，发现这样跑不通。排查之后发现有两个环境变量需要设置：</p>
+<ul>
+<li><code>OSVERSION</code>：设置为 <code>export OSVERSION=&quot;ubuntu/bionic&quot;</code></li>
+<li><code>TOOLDIR</code>：设置为 <code>export TOOLDIR=$HOME/tools</code></li>
+</ul>
+<p>这两个环境变量最好写入 <code>~/.bashrc</code> 中。</p>
+<p>然后出现了 <code>libtinfo</code> 的报错（error while loading shared libraries: libtinfo.so.5: cannot open shared object file: No such file or directory），可以通过下面的<a target="_blank" rel="noopener" href="https://github.com/vortexgpgpu/vortex/issues/61">方法</a>解决：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> libncurses5 <span class="token comment"># 经测试对 22.04 版本有效</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><img src="/2025/06/01/Vortex-GPU-%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%AD%A6%E4%B9%A0/pass.png" alt="测试 benchmark 运行效果"></p>
+<h2 id="assignment-6-点积加速rtl"><a class="markdownIt-Anchor" href="#assignment-6-点积加速rtl"></a> Assignment 6 点积加速（RTL）</h2>
 <p>这项作业介绍了基础的 GPU 指令集的扩展方法，用以加速硬件中的 kernel。你将添加一条用于计算整数点积新的 RISC-V 自定义指令集：VX_DOT8。你还将在 SimX 这一周期精确模拟器中实现此指令。</p>
 <h3 id="第-1-步isa-扩展"><a class="markdownIt-Anchor" href="#第-1-步isa-扩展"></a> 第 1 步：ISA 扩展</h3>
 <p>VX_DOT8 计算两个由 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">4 \times 4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">4</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span></span></span></span> int8 整数组成的向量的点积。</p>
@@ -466,14 +476,13 @@ rd  :&#x3D; destination int32 result<span aria-hidden="true" class="line-numbers
 <p>其中：</p>
 <pre class="line-numbers language-none"><code class="language-none">opcode: opcode reserved for custom instructions.
 funct3 and funct7: opcode modifiers.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p>使用自定义扩展 opcode=0x0B，其中 func7=1 和 func3=0；</p>
-<p>需要修改 <code>vx_intrinsics.h</code> 以添加新的 VX_DOT8 指令。</p>
-<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">&#x2F;&#x2F; DOT8
-inline int vx_dot8(int a, int b) &#123;
-  size_t ret;
-  asm volatile (&quot;.insn r ?, ?, ?, ?, ?, ?&quot; : &quot;&#x3D;r&quot;(?) : &quot;i&quot;(?), &quot;r&quot;(?), &quot;r&quot;(?));
-  return ret;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>使用自定义扩展 opcode=0x0B，其中 func7=1 和 func3=0；（后面译码要用）</p>
+<p>需要修改 <code>kernel/include/vx_intrinsics.h</code> 以添加新的 VX_DOT8 指令。</p>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">inline int vx_dot8(int a, int b) &#123;
+    size_t ret;
+    asm volatile (&quot;.insn r 0x0B, 0x0, 0x1, %0, %1, %2&quot; : &quot;&#x3D;r&quot;(ret) : &quot;r&quot;(a), &quot;r&quot;(b)); # ret 为返回结果
+    return ret;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>阅读以下文档以了解 insn speudo 指令格式 <a target="_blank" rel="noopener" href="https://sourceware.org/binutils/docs/as/RISC_002dV_002dFormats.html">https://sourceware.org/binutils/docs/as/RISC_002dV_002dFormats.html</a></p>
 <h3 id="第-2-步-矩阵乘法-kernel"><a class="markdownIt-Anchor" href="#第-2-步-矩阵乘法-kernel"></a> 第 2 步 矩阵乘法 kernel</h3>
 <p>实现一个使用新 H/W 扩展的简单矩阵乘法 GPU 内核。</p>
@@ -495,17 +504,89 @@ inline int vx_dot8(int a, int b) &#123;
     <span class="token punctuation">&#125;</span>
   <span class="token punctuation">&#125;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>将 <a target="_blank" rel="noopener" href="https://github.com/vortexgpgpu/vortex/blob/master/tests/regression/sgemmx">https://github.com/vortexgpgpu/vortex/blob/master/tests/regression/sgemmx</a> 下的 sgemmx 测试克隆到新文件夹 <code>tests/regressions/dot8</code> 中。</p>
+<p>将 <a target="_blank" rel="noopener" href="https://github.com/vortexgpgpu/vortex/blob/master/tests/regression/sgemmx">https://github.com/vortexgpgpu/vortex/blob/master/tests/regression/sgemmx</a> 下的 sgemmx 测试克隆到新文件夹 <code>tests/regressions/dot8</code> 中（用以建立测试 kernel）。</p>
 <p>在 <code>tests/regressions/dot8/Makefile</code> 中将 PROJECT 名称设置为 <code>dot8</code></p>
+<pre class="line-numbers language-makefile" data-language="makefile"><code class="language-makefile">ROOT_DIR <span class="token operator">:=</span> <span class="token variable">$</span><span class="token punctuation">(</span><span class="token function">realpath</span> ../../..<span class="token punctuation">)</span>
+<span class="token keyword">include</span> <span class="token variable">$</span><span class="token punctuation">(</span>ROOT_DIR<span class="token punctuation">)</span>/config.mk
+
+PROJECT <span class="token operator">:=</span> vxdot8 <span class="token comment"># 设置项目名称</span>
+
+SRC_DIR <span class="token operator">:=</span> <span class="token variable">$</span><span class="token punctuation">(</span>VORTEX_HOME<span class="token punctuation">)</span>/tests/regression/<span class="token variable">$</span><span class="token punctuation">(</span>PROJECT<span class="token punctuation">)</span>
+
+SRCS <span class="token operator">:=</span> <span class="token variable">$</span><span class="token punctuation">(</span>SRC_DIR<span class="token punctuation">)</span>/main.cpp
+
+VX_SRCS <span class="token operator">:=</span> <span class="token variable">$</span><span class="token punctuation">(</span>SRC_DIR<span class="token punctuation">)</span>/kernel.cpp
+
+OPTS <span class="token operator">?=</span> -n128
+
+<span class="token keyword">include</span> ../common.mk<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>更新 <code>main.cpp</code> 中的 matmul_cpu 以对 <code>int8_t</code> 矩阵进行操作。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">matmul_cpu</span><span class="token punctuation">(</span>TYPE_DST<span class="token operator">*</span> out<span class="token punctuation">,</span> <span class="token keyword">const</span> TYPE_SRC<span class="token operator">*</span> A<span class="token punctuation">,</span> <span class="token keyword">const</span> TYPE_SRC<span class="token operator">*</span> B<span class="token punctuation">,</span> <span class="token keyword">uint32_t</span> width<span class="token punctuation">,</span> <span class="token keyword">uint32_t</span> height<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  TYPE_SRC<span class="token operator">*</span> Bcopy <span class="token operator">=</span> <span class="token keyword">new</span> TYPE_SRC<span class="token punctuation">[</span>width <span class="token operator">*</span> height<span class="token punctuation">]</span><span class="token punctuation">;</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">uint32_t</span> row <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> row <span class="token operator">&lt;</span> height<span class="token punctuation">;</span> <span class="token operator">++</span>row<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">uint32_t</span> col <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> col <span class="token operator">&lt;</span> width<span class="token punctuation">;</span> <span class="token operator">++</span>col<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        Bcopy<span class="token punctuation">[</span>col <span class="token operator">*</span> width <span class="token operator">+</span> row<span class="token punctuation">]</span> <span class="token operator">=</span> B<span class="token punctuation">[</span>row <span class="token operator">*</span> height <span class="token operator">+</span> col<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">uint32_t</span> row <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> row <span class="token operator">&lt;</span> height<span class="token punctuation">;</span> <span class="token operator">++</span>row<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">uint32_t</span> col <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> col <span class="token operator">&lt;</span> width<span class="token punctuation">;</span> <span class="token operator">++</span>col<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      TYPE_DST <span class="token function">sum</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">uint32_t</span> e <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> e <span class="token operator">&lt;</span> width<span class="token punctuation">;</span> <span class="token operator">++</span>e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+          <span class="token comment">// B is transposed</span>
+          <span class="token comment">// sum += A[row * width + e] * B[e * width + col];</span>
+          sum <span class="token operator">+=</span> A<span class="token punctuation">[</span>row <span class="token operator">*</span> width <span class="token operator">+</span> e<span class="token punctuation">]</span> <span class="token operator">*</span> Bcopy<span class="token punctuation">[</span>e <span class="token operator">*</span> width <span class="token operator">+</span> col<span class="token punctuation">]</span><span class="token punctuation">;</span>
+      <span class="token punctuation">&#125;</span>
+      out<span class="token punctuation">[</span>row <span class="token operator">*</span> width <span class="token operator">+</span> col<span class="token punctuation">]</span> <span class="token operator">=</span> sum<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>更新 <code>tests/regressions/dot8/kernel.cpp</code> 中的 kernel_body 以使用 <code>vx_dot8</code></p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">kernel_body</span><span class="token punctuation">(</span>kernel_arg_t<span class="token operator">*</span> __UNIFORM__ arg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">auto</span> A <span class="token operator">=</span> <span class="token generic-function"><span class="token function">reinterpret_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>TYPE_SRC<span class="token operator">*</span><span class="token operator">></span></span></span><span class="token punctuation">(</span>arg<span class="token operator">-></span>A_addr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">auto</span> B <span class="token operator">=</span> <span class="token generic-function"><span class="token function">reinterpret_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>TYPE_SRC<span class="token operator">*</span><span class="token operator">></span></span></span><span class="token punctuation">(</span>arg<span class="token operator">-></span>B_addr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">auto</span> C <span class="token operator">=</span> <span class="token generic-function"><span class="token function">reinterpret_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>TYPE_DST<span class="token operator">*</span><span class="token operator">></span></span></span><span class="token punctuation">(</span>arg<span class="token operator">-></span>C_addr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">auto</span> size <span class="token operator">=</span> arg<span class="token operator">-></span>size<span class="token punctuation">;</span>
+    
+    <span class="token comment">// N * N kernels</span>
+    <span class="token comment">// nous avons envie de savoir quel kernel on est</span>
+    <span class="token keyword">auto</span> grid_x <span class="token operator">=</span> blockIdx<span class="token punctuation">.</span>x<span class="token punctuation">;</span>
+    <span class="token keyword">auto</span> grid_y <span class="token operator">=</span> blockIdx<span class="token punctuation">.</span>y<span class="token punctuation">;</span>
+
+    <span class="token keyword">auto</span> r <span class="token operator">=</span> grid_x <span class="token operator">*</span> size<span class="token punctuation">;</span>
+    <span class="token keyword">auto</span> c <span class="token operator">=</span> grid_y <span class="token operator">*</span> size<span class="token punctuation">;</span>
+    <span class="token keyword">auto</span> startA <span class="token operator">=</span> A <span class="token operator">+</span> r<span class="token punctuation">;</span>
+    <span class="token keyword">auto</span> startB <span class="token operator">=</span> B <span class="token operator">+</span> c<span class="token punctuation">;</span>
+
+    TYPE_DST sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> k <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> k <span class="token operator">&lt;</span> size<span class="token punctuation">;</span> k <span class="token operator">+=</span> <span class="token number">4</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        sum <span class="token operator">+=</span> <span class="token function">vx_dot8</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span>startA <span class="token operator">+</span> k<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span>startB <span class="token operator">+</span> k<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token operator">*</span><span class="token punctuation">(</span>C <span class="token operator">+</span> r <span class="token operator">+</span> grid_y<span class="token punctuation">)</span> <span class="token operator">=</span> sum<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这里的 kernel 和 cuda 的 kernel 类似。</p>
 <h3 id="步骤-3-对实现进行仿真"><a class="markdownIt-Anchor" href="#步骤-3-对实现进行仿真"></a> 步骤 3 对实现进行仿真</h3>
 <p>修改循环级模拟器以实现自定义 ISA 扩展。我们建议参考 SimX 中 VX_SPLIT 和 VX_PRED 指令的解码方式。</p>
 <ul>
-<li>更新 decoder.cpp 中的 op_string() 函数，打印出新的指令。</li>
-<li>更新 decoder.cpp 中的 Emulator::decode() 函数，解码新的指令格式。</li>
-</ul>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">switch</span> <span class="token punctuation">(</span>func7<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+<li>
+<p>更新 <code>sim/simx/decoder.cpp</code> 中的 <code>op_string()</code> 函数，打印出新的指令。</p>
+  <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">case</span> Opcode<span class="token double-colon punctuation">::</span>EXT1<span class="token operator">:</span>
+<span class="token keyword">switch</span> <span class="token punctuation">(</span>func7<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token keyword">case</span> <span class="token number">1</span><span class="token operator">:</span>
+  <span class="token keyword">switch</span> <span class="token punctuation">(</span>func3<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">case</span> <span class="token number">0</span><span class="token operator">:</span> <span class="token keyword">return</span> <span class="token string">"VX_DOT8"</span><span class="token punctuation">;</span>
+    <span class="token keyword">default</span><span class="token operator">:</span> 
+      std<span class="token double-colon punctuation">::</span><span class="token function">abort</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token keyword">default</span><span class="token operator">:</span>
+  std<span class="token double-colon punctuation">::</span><span class="token function">abort</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li>
+<p>更新 <code>sim/simx/decoder.cpp</code> 中的 <code>Emulator::decode()</code> 函数，解码新的指令格式。</p>
+  <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">switch</span> <span class="token punctuation">(</span>func7<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
 <span class="token keyword">case</span> <span class="token number">1</span><span class="token operator">:</span>
   <span class="token keyword">switch</span> <span class="token punctuation">(</span>func3<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
   <span class="token keyword">case</span> <span class="token number">0</span><span class="token operator">:</span>  <span class="token comment">// DOT8</span>
@@ -513,11 +594,21 @@ inline int vx_dot8(int a, int b) &#123;
     instr<span class="token operator">-></span><span class="token function">addSrcReg</span><span class="token punctuation">(</span>rs1<span class="token punctuation">,</span> RegType<span class="token double-colon punctuation">::</span>Integer<span class="token punctuation">)</span><span class="token punctuation">;</span>
     instr<span class="token operator">-></span><span class="token function">addSrcReg</span><span class="token punctuation">(</span>rs2<span class="token punctuation">,</span> RegType<span class="token double-colon punctuation">::</span>Integer<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">break</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<ul>
-<li>更新 types.h 中的 AluType 枚举，添加 DOT8 类型。</li>
-<li>更新 execute.cpp 中的 Emulator::execute()，实现实际的 VX_DOT8 仿真。您将在 ALU 功能单元上执行新的指令。</li>
-</ul>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">switch</span> <span class="token punctuation">(</span>func7<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+</li>
+<li>
+<p>更新 <code>sim/simx/types.h</code> 中的 <code>AluType</code> 枚举，添加 DOT8 类型。</p>
+  <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">enum</span> <span class="token keyword">class</span> <span class="token class-name">AluType</span> <span class="token punctuation">&#123;</span>
+  ARITH<span class="token punctuation">,</span>
+  BRANCH<span class="token punctuation">,</span>
+  SYSCALL<span class="token punctuation">,</span>
+  IMUL<span class="token punctuation">,</span>
+  IDIV<span class="token punctuation">,</span>
+  DOT8
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li>
+<p>更新 <code>sim/simx/execute.cpp</code> 中的 <code>Emulator::execute()</code>，实现实际的 VX_DOT8 仿真。你将在 ALU 功能单元上执行新的指令。</p>
+  <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">switch</span> <span class="token punctuation">(</span>func7<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
 <span class="token keyword">case</span> <span class="token number">1</span><span class="token operator">:</span>
   <span class="token keyword">switch</span> <span class="token punctuation">(</span>func3<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
   <span class="token keyword">case</span> <span class="token number">0</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span> <span class="token comment">// DOT8</span>
@@ -528,16 +619,27 @@ inline int vx_dot8(int a, int b) &#123;
       <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">uint32_t</span> t <span class="token operator">=</span> thread_start<span class="token punctuation">;</span> t <span class="token operator">&lt;</span> num_threads<span class="token punctuation">;</span> <span class="token operator">++</span>t<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
         <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>warp<span class="token punctuation">.</span>tmask<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span><span class="token punctuation">)</span>
           <span class="token keyword">continue</span><span class="token punctuation">;</span>
-        <span class="token comment">// TODO:</span>
+        <span class="token comment">// TODO: 执行 int 8 计算</span>
+        <span class="token keyword">int8_t</span> a<span class="token punctuation">,</span> b<span class="token punctuation">;</span>
+      	<span class="token keyword">int32_t</span> r <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+      	<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">uint32_t</span> _i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> _i <span class="token operator">&lt;</span> <span class="token number">4</span><span class="token punctuation">;</span> _i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+          a <span class="token operator">=</span> <span class="token punctuation">(</span>rsdata<span class="token punctuation">[</span>t<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>i <span class="token operator">>></span> <span class="token punctuation">(</span><span class="token number">8</span><span class="token operator">*</span>_i<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0xFF</span><span class="token punctuation">;</span>
+          b <span class="token operator">=</span> <span class="token punctuation">(</span>rsdata<span class="token punctuation">[</span>t<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>i <span class="token operator">>></span> <span class="token punctuation">(</span><span class="token number">8</span><span class="token operator">*</span>_i<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0xFF</span><span class="token punctuation">;</span>
+          r <span class="token operator">+=</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword">int32_t</span><span class="token operator">></span></span></span><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword">int32_t</span><span class="token operator">></span></span></span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        rddata<span class="token punctuation">[</span>t<span class="token punctuation">]</span><span class="token punctuation">.</span>i <span class="token operator">=</span> r<span class="token punctuation">;</span>  
       <span class="token punctuation">&#125;</span>
       rd_write <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
     <span class="token punctuation">&#125;</span> <span class="token keyword">break</span><span class="token punctuation">;</span>
   <span class="token punctuation">&#125;</span> <span class="token keyword">break</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ul>
 <p>更新 func_unit.cpp 中的 AluUnit::tick() 函数，以实现 VX_DOT8 的时序。假设点积运算的执行延迟为 2 个周期。</p>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">case</span> AluType<span class="token double-colon punctuation">::</span>DOT8<span class="token operator">:</span>
- <span class="token comment">// TODO:</span>
- <span class="token keyword">break</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+    <span class="token comment">// TODO: 时延 + 2</span>
+    output<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>trace<span class="token punctuation">,</span> <span class="token number">2</span><span class="token operator">+</span>delay<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ 	<span class="token keyword">break</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="步骤-4-测试"><a class="markdownIt-Anchor" href="#步骤-4-测试"></a> 步骤 4 测试</h3>
 <p>你将在回归代码库下将新的加速 dot8 程序与现有的 sgemmx 内核进行比较。你将使用 N=128、(warps=4,threads=4) 和 (Warps=16,threads=16) 分别对应 1 核和 4 核。绘制总执行周期图以观察性能提升。</p>
 
