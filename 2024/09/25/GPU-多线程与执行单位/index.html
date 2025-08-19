@@ -459,7 +459,7 @@
 <p>线程块是 GPU 中组织线程的一个基本单元。一个线程块由多个线程组成，通常可以有 32 到 1024 个线程，具体取决于硬件的支持。线程块的线程可以共享局部内存（称为 <strong>共享内存 (shared memory)</strong>），并可以通过线程同步原语（如 <code>__syncthreads()</code>）进行协作。</p>
 <p>线程块是被分配到 <strong>流式多处理器 (Streaming Multiprocessor, SM)</strong> 上执行的。每个线程块中的线程可以在同一个 SM 上共享资源。线程块内的线程执行时并行处理，并且在同一块中的线程可以协作计算。</p>
 <h3 id="4-网格-grid"><a class="markdownIt-Anchor" href="#4-网格-grid"></a> 4. <strong>网格 (Grid)</strong></h3>
-<p>一个网格由多个线程块组成。GPU 在执行任务时，会将一个网格中的所有线程块分配到可用的流式多处理器上并行执行。每个线程块相互独立，但可以通过全局内存进行通信。<strong>和 Kernel 的关系</strong>：一个 Kernel 对应一个 Grid，即每次调用 Kernel 时，会生成一个唯一的 Grid 来管理所有线程的执行</p>
+<p>一个网格由多个线程块组成。GPU 在执行任务时，会将一个网格中的所有线程块分配到可用的流式多处理器上并行执行。每个线程块相互独立，但可以通过全局内存进行通信。<strong>和 kernel 的关系</strong>：一个 kernel 对应一个 grid，即每次调用 kernel 时，会生成一个唯一的 grid 来管理所有线程的执行</p>
 <h3 id="5-核-kernel"><a class="markdownIt-Anchor" href="#5-核-kernel"></a> 5. <strong>核 (Kernel)</strong></h3>
 <p>在 GPU 编程中，尤其是 CUDA 和 OpenCL 编程中，kernel 是一个非常重要的概念。它是指在 GPU 上执行的函数，负责处理数据并执行并行计算。具体来说，kernel 可以看作是在 GPU 上被所有线程执行的代码。</p>
 <p>在 GPU 编程中，尤其是 CUDA 和 OpenCL 编程中，<strong>kernel</strong> 是一个非常重要的概念。它是指在 GPU 上执行的函数，负责处理数据并执行并行计算。具体来说，<strong>kernel</strong> 可以看作是在 GPU 上被所有线程执行的代码。</p>
