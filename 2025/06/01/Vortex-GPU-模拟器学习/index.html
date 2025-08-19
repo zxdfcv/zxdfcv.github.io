@@ -459,7 +459,7 @@
 <p>然后出现了 <code>libtinfo</code> 的报错（error while loading shared libraries: libtinfo.so.5: cannot open shared object file: No such file or directory），可以通过下面的<a target="_blank" rel="noopener" href="https://github.com/vortexgpgpu/vortex/issues/61">方法</a>解决：</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> libncurses5 <span class="token comment"># 经测试对 22.04 版本有效</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p><img src="/2025/06/01/Vortex-GPU-%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%AD%A6%E4%B9%A0/pass.png" alt="测试 benchmark 运行效果"></p>
-<h2 id="assignment-6-点积加速simx"><a class="markdownIt-Anchor" href="#assignment-6-点积加速simx"></a> Assignment 6 点积加速（SimX）</h2>
+<h2 id="assignment-5-点积加速simx"><a class="markdownIt-Anchor" href="#assignment-5-点积加速simx"></a> Assignment 5 点积加速（SimX）</h2>
 <p>这项作业介绍了基础的 GPU 指令集的扩展方法，用以加速硬件中的 kernel。你将添加一条用于计算整数点积新的 RISC-V 自定义指令集：VX_DOT8。你还将在 SimX 这一周期精确模拟器中实现此指令。</p>
 <h3 id="步骤-1-isa-扩展"><a class="markdownIt-Anchor" href="#步骤-1-isa-扩展"></a> 步骤 1 ISA 扩展</h3>
 <p>VX_DOT8 计算两个由 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">4 \times 4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">4</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span></span></span></span> int8 整数组成的向量的点积。</p>
@@ -642,6 +642,23 @@ OPTS <span class="token operator">?=</span> -n128
  	<span class="token keyword">break</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="步骤-4-测试"><a class="markdownIt-Anchor" href="#步骤-4-测试"></a> 步骤 4 测试</h3>
 <p>你将在回归代码库下将新的加速 dot8 程序与现有的 sgemmx 内核进行比较。你将使用 N=128、(warps=4,threads=4) 和 (Warps=16,threads=16) 分别对应 1 核和 4 核。绘制总执行周期图以观察性能提升。</p>
+<p>现在的任务是要让编写的 kernel 运行起来。</p>
+<p>首先需要在每次进入项目时执行：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">source</span> /ci/toolchain_env.sh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>可以将这一命令添加到 <code>.bashrc</code> 中。</p>
+<p>然后重新进行设置和编译。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">..</span>/configure <span class="token comment"># 设置</span>
+<span class="token function">make</span> <span class="token parameter variable">-s</span> <span class="token comment"># 编译</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>可以使用下面的命令：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">./ci/blackbox.sh <span class="token parameter variable">--cores</span><span class="token operator">=</span><span class="token number">2</span> <span class="token parameter variable">--app</span><span class="token operator">=</span>vxdot8 <span class="token parameter variable">--debug</span><span class="token operator">=</span><span class="token number">3</span> <span class="token comment"># debug level 从 1 到 3 逐渐详细</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="debug-指南"><a class="markdownIt-Anchor" href="#debug-指南"></a> Debug 指南</h2>
+<h3 id="simx-debugging"><a class="markdownIt-Anchor" href="#simx-debugging"></a> SimX Debugging</h3>
+<p>SimX 周期模拟器可以更快地调试 Vortex 内核的执行。启用调试的推荐方法是在运行程序时将 <code>--debug=&lt;level&gt;</code> 标志传递给 <code>blackbox</code> 工具。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">// Running demo program on SimX <span class="token keyword">in</span> debug mode
+$ ./ci/blackbox.sh <span class="token parameter variable">--driver</span><span class="token operator">=</span>simx <span class="token parameter variable">--app</span><span class="token operator">=</span>demo <span class="token parameter variable">--debug</span><span class="token operator">=</span><span class="token number">1</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>程序执行期间，当前目录中会生成一个调试跟踪文件 <code>run.log</code>。该文件包含模拟处理器的重要状态（解码指令、寄存器状态、流水线状态等）。你可以通过更改调试级别来增加跟踪的详细程度。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">// 使用最详细的第 <span class="token number">3</span> 层级 debug
+$ ./ci/blackbox.sh <span class="token parameter variable">--driver</span><span class="token operator">=</span>simx <span class="token parameter variable">--app</span><span class="token operator">=</span>demo <span class="token parameter variable">--debug</span><span class="token operator">=</span><span class="token number">3</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
                 
             </div>
