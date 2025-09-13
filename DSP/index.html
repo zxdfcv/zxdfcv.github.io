@@ -1,0 +1,1265 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+    <meta name="keywords" content="计算机科学, 北航, 体系结构, 算法">
+    <meta name="description" content="这是张翼翔的个人网站">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>Yixiang&#39;s Blog</title>
+    <link rel="icon" type="image/png" href="/go.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+
+<body>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/go.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Yixiang&#39;s Blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>Index</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>Tags</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>Categories</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>Archives</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>About</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>Contact</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/CO" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>CO</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/DSP" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>DSP心肌病</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="Search" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/go.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Yixiang&#39;s Blog</div>
+        <div class="logo-desc">
+            
+            这是张翼翔的个人网站
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			Index
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			Tags
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			Categories
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			Archives
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			About
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			Contact
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/CO" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			CO
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/DSP" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			DSP心肌病
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/zxdfcv/zxdfcv.github.io" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/zxdfcv/zxdfcv.github.io" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title"></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        <span class="chip bg-color">No tag</span>
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2025-09-13
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <pre class="line-numbers language-mermaid" data-language="mermaid"><code class="language-mermaid"><span class="token keyword">graph</span> TD
+    A<span class="token text string">[Episodic Myocarditis]</span> <span class="token arrow operator">--></span><span class="token label property">|底层机制|</span> B<span class="token text string">[DSP Haploinsufficiency / NMD， NFκB Signaling]</span>
+    B <span class="token arrow operator">--></span><span class="token label property">|机制研究|</span> D<span class="token text string">[DSP Fibrotic Inflammatory]</span>
+    D <span class="token arrow operator">--></span><span class="token label property">|表型定义|</span> E<span class="token text string">[Myocarditis-like Episodes]</span>
+    E <span class="token arrow operator">--></span><span class="token label property">|系统综述|</span> G<span class="token text string">[DSP stratification and Outcomes]</span>
+    G <span class="token arrow operator">--></span><span class="token label property">|遗传亚型对比|</span> J<span class="token text string">[DSP Clinical Features]</span>
+    J <span class="token arrow operator">--></span><span class="token label property">|预后分析|</span> K<span class="token text string">[DSP Diagnostic Criteria / CMR, Genetic Test, LGE]</span>
+    K <span class="token arrow operator">--></span><span class="token label property">|诊断标准制定|</span> M<span class="token text string">[Prognostic Myocarditis / Recurrent Myocarditis Mgmt]</span>
+    M <span class="token arrow operator">--></span><span class="token label property">|治疗关联|</span> Q<span class="token text string">[DSP Immunosuppression, gluecorticoids, AZT, MMF, anakinra]</span>
+    
+    <span class="token comment">%% 核心机制关联</span>
+    B <span class="token arrow operator">--></span><span class="token label property">|炎症通路|</span> M
+    D <span class="token arrow operator">--></span><span class="token label property">|表型基础|</span> K<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="dsp基因突变与疾病机制"><a class="markdownIt-Anchor" href="#dsp基因突变与疾病机制"></a> <strong>DSP基因突变与疾病机制</strong></h2>
+<ul>
+<li>[1] Desmoplakin Haploinsufficiency Underlies Cell-Cell Adhesion Failure in DSP Cardiomyopathy and is Rescued by Transcriptional Activation. <a target="_blank" rel="noopener" href="https://365.kdocs.cn/l/cvPPVnwYq9ua">(PDF)</a>
+<ul>
+<li>该研究揭示了DSP单倍体不足是DSP心肌病中细胞-细胞粘附失败的核心机制，并提出CRISPR-Cas9靶向转录激活是潜在的治疗策略。<br>
+<img src="/DSP/index/%E7%AC%AC25%E9%A1%B5-1.PNG" alt="第25页-1"></li>
+</ul>
+</li>
+<li>[2] NFκB signaling drives myocardial injury via CCR2+ macrophages in a preclinical model of arrhythmogenic cardiomyopathy. <a target="_blank" rel="noopener" href="https://365.kdocs.cn/l/cus0nAqjtewa%5B">(PDF)</a>
+<ul>
+<li>该论文探讨了NFκB信号通路在心肌损伤中的作用，以及CCR2+巨噬细胞的参与，为DSP心肌病的炎症机制提供了深层见解。</li>
+</ul>
+</li>
+</ul>
+<h2 id="dsp心肌病特征与鉴别"><a class="markdownIt-Anchor" href="#dsp心肌病特征与鉴别"></a> <strong>DSP心肌病特征与鉴别</strong></h2>
+<ul>
+<li>[3] Desmoplakin Cardiomyopathy, a Fibrotic and Inflammatory Form of Cardiomyopathy Distinct From Typical Dilated or Arrhythmogenic Right Ventricular Cardiomyopathy. <a target="_blank" rel="noopener" href="https://365.kdocs.cn/l/ciEiYNTxJV6R">(PDF)</a>
+<ul>
+<li>强调了DSP心肌病是一种独特的纤维化和炎症性心肌病，不同于典型的扩张型心肌病或ARVC，尤其指出其左心室受累的普遍性。该研究发现，DSP心肌病患者中左心室受累占51% (52/103)，而右心室受累仅占14% (14/103)。</li>
+</ul>
+</li>
+<li>[4] Desmoplakin and clinical manifestations of desmoplakin cardiomyopathy. <a target="_blank" rel="noopener" href="https://365.kdocs.cn/l/cml8r4xk2aBH">(PDF)</a>
+<ul>
+<li>综述了DSP心肌病的机制和临床表现，强调其与ARVC和左心室非致密化心肌病（LVNC）在概念上并行，均属于致心律失常性心肌病（ACM）范畴。</li>
+</ul>
+</li>
+</ul>
+<h2 id="心肌炎样发作及其临床意义"><a class="markdownIt-Anchor" href="#心肌炎样发作及其临床意义"></a> <strong>心肌炎样发作及其临床意义</strong></h2>
+<ul>
+<li>
+<p>[5] A case series of desmoplakin cardiomyopathy: a mimic of viral myocarditis. <a target="_blank" rel="noopener" href="https://365.kdocs.cn/l/cso9tCYUGonm">(PDF)</a></p>
+<ul>
+<li>该病例系列报告了DSP心肌病如何模仿病毒性心肌炎，提示临床诊断需注意鉴别。例如，有病例最初被诊断为COVID-19心肌炎，但基因检测后发现DSP基因突变。</li>
+</ul>
+</li>
+<li>
+<p>[6] Episodic Myocarditis in Arrhythmogenic Cardiomyopathy. <a target="_blank" rel="noopener" href="https://365.kdocs.cn/l/cvVy4AVUa7Bi">(PDF)</a></p>
+<ul>
+<li>讨论了间歇性心肌炎在致心律失常性心肌病中的重要作用，提出这可能是一个新的治疗靶点。</li>
+</ul>
+</li>
+<li>
+<p>[7] Prognostic Role of Myocarditis-Like Episodes and Their Treatment in Patients With Pathogenic Desmoplakin Variants. <a target="_blank" rel="noopener" href="https://365.kdocs.cn/l/cexAtEcjptZd">(PDF)</a></p>
+<ul>
+<li>
+<p>深入研究了心肌炎样发作对DSP心肌病患者预后的影响。研究发现，经历炎症性心肌损伤的DSP致病性变异携带者发生室性心律失常（VA）、心力衰竭（HF）和复发性心肌损伤的风险显著升高。</p>
+</li>
+<li>
+<p>系统研究总结了免疫抑制剂对 DSP 心肌病心肌炎样发作的治疗作用。免疫抑制治疗能够使得室性心率失常和心力衰竭的风险大大降低。</p>
+</li>
+<li>
+<p>通过绘制随时间变化的患病率曲线，比较了观察值（蓝线）与预期值（红线）在以下患者群体中的差异：(A) 无心肌炎发作史、(B) 单次心肌炎发作、© 反复心肌炎发作以及(D) 达到VA/HF终点的患者。该模型已针对心肌炎发作期间的免疫抑制治疗和一级预防进行了调整。</p>
+<p><img src="/DSP/index/%E7%AC%AC6%E9%A1%B5-3.PNG" alt="6页-3"></p>
+</li>
+<li>
+<p>各终点事件（即复发性心肌炎、室性心律失常或心力衰竭发作）的生存曲线（图A）、室性心律失常（图B）、心力衰竭（图C）以及复发性心肌炎（图D）在未治疗组（蓝线）、免疫抑制剂治疗组（红线）、秋水仙碱治疗组（黄线）和非甾体抗炎药治疗组（绿线）中的表现。p值通过对数秩检验计算得出。具有统计学意义的组间比较包括：（1）免疫抑制剂组对比秋水仙碱组在所有终点事件（p&lt;0.001）、室性心律失常（p&lt;0.001）和心力衰竭住院（p&lt;0.001）方面；（2）免疫抑制剂组对比非甾体抗炎药组在所有终点事件（p=0.003）和室性心律失常（p&lt;0.001）方面；（3）秋水仙碱组对比未治疗组在所有终点事件（p=0.01）方面；（4）秋水仙碱组对比非甾体抗炎药组在所有终点事件（p=0.03）方面。非甾体抗炎药组与未治疗组之间未发现显著差异。免疫抑制剂组与未治疗组的详细比较结果见主文稿图2。</p>
+<p><img src="/DSP/index/%E7%AC%AC6%E9%A1%B5-3-1757681710843-4.PNG" alt="第6页-3"></p>
+</li>
+<li>
+<p>各终点事件（即复发性心肌炎、室性心律失常或心力衰竭发作）的生存曲线（图A）、室性心律失常（图B）、心力衰竭（图C）以及复发性心肌炎（图D）在患者未接受治疗（蓝线）、接受免疫抑制剂治疗（红线）、<strong>第二次</strong>心肌炎样发作时接受秋水仙碱/非甾体抗炎药治疗（黄线）的情况对比。p值通过对数秩检验计算得出。具有统计学意义的组间比较包括：（1）免疫抑制剂治疗组与未治疗组在室性心律失常（p=0.04）、心力衰竭住院（p=0.008）和复发性心肌炎（p=0.01）方面的差异；（2）免疫抑制剂治疗组与NSAID/秋水仙碱治疗组在复发性心肌炎方面的差异（p=0.001）；（3）NSAID/秋水仙碱治疗组与未治疗组在复发性心肌炎方面的差异（p=0.02）。</p>
+<p><img src="/DSP/index/%E7%AC%AC8%E9%A1%B5-4.PNG" alt="第8页-4"></p>
+</li>
+<li>
+<p>推荐的激素用量</p>
+<ul>
+<li>醋酸泼尼松 1mg/kg/d<br>
+<img src="/DSP/index/image-20250912210235547.png" alt="image-20250912210235547"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>[8] Myocarditis-like Episodes in Patients with Arrhythmogenic Cardiomyopathy: A Systematic Review on the So-Called Hot-Phase of the Disease. <a target="_blank" rel="noopener" href="https://365.kdocs.cn/l/cv0wCnLCqz36">(PDF)</a></p>
+<ul>
+<li>系统性回顾了致心律失常性心肌病患者的“热相”现象，指出在胸痛发作期间，心电图可能显示ST段异常，提示急性冠脉综合征或急性心肌炎。</li>
+</ul>
+</li>
+</ul>
+<h2 id="治疗策略"><a class="markdownIt-Anchor" href="#治疗策略"></a> <strong>治疗策略</strong></h2>
+<ul>
+<li>[9] Management of Recurrent Myocarditis Due to Desmoplakin Cardiomyopathy. <a target="_blank" rel="noopener" href="https://365.kdocs.cn/l/ciWUVutziQce">(PDF)</a>
+<ul>
+<li>指出了DSP心肌病相关复发性心肌炎的治疗方案尚未完全统一，但糖皮质激素和霉酚酸酯治疗可改善症状和肌钙蛋白水平。</li>
+</ul>
+</li>
+<li>[10] Desmoplakin Cardiomyopathy Presenting With Recurrent Myopericarditis Responsive to Interleukin-1 Blockade. <a target="_blank" rel="noopener" href="https://365.kdocs.cn/l/cgpFXIR3ACfa">(PDF)</a>
+<ul>
+<li>报告了一例使用白细胞介素-1（IL-1）阻断剂Rilonacept成功治疗复发性心肌心包炎的DSP心肌病患者，症状显著改善，肌钙蛋白水平正常化。</li>
+</ul>
+</li>
+<li>[11] Desmoplakin Cardiomyopathy Presenting as Recurrent Myocarditis Treated With Immunosuppression. <a target="_blank" rel="noopener" href="https://365.kdocs.cn/l/ceKovZsSzV4N">(PDF)</a>
+<ul>
+<li>提出了一种管理DSP心肌病的治疗算法，包括对亲属进行预测性检测、心肌炎症的免疫抑制治疗、猝死风险分层和心力衰竭治疗。</li>
+</ul>
+</li>
+<li>[12] Recurrent immunosuppressive-responsive myocarditis in a patient with desmoplakin cardiomyopathy: a case report. <a target="_blank" rel="noopener" href="https://365.kdocs.cn/l/chozCYFyIJeZ">(PDF)</a>
+<ul>
+<li>强调了对难治性或复发性心肌炎患者进行心脏磁共振成像（cMRI）和基因检测的重要性，并指出免疫抑制治疗在控制DSP心肌病炎症成分中的关键作用。</li>
+</ul>
+</li>
+</ul>
+<h2 id="诊断与风险分层"><a class="markdownIt-Anchor" href="#诊断与风险分层"></a> <strong>诊断与风险分层</strong></h2>
+<ul>
+<li>
+<p>[13] Clinical features and outcomes in carriers of pathogenic desmoplakin variants. <a target="_blank" rel="noopener" href="https://365.kdocs.cn/l/cdDr58qi8ZOS">(PDF)</a></p>
+<ul>
+<li>分析了800名DSP致病性变异携带者的临床特征和预后。在3.7年的随访期间，室性心律失常和心力衰竭的发生率分别为3.9%/年和1.8%/年。主要风险特征包括既往非持续性或持续性室性心动过速、心电图3个以上导联T波倒置、左心室射血分数≤50%和心肌炎发作。</li>
+</ul>
+</li>
+<li>
+<p>[14] Clinical characteristics and risk stratification of desmoplakin cardiomyopathy. <a target="_blank" rel="noopener" href="https://365.kdocs.cn/l/cpGpcHryy83V">(PDF)</a></p>
+<p><img src="/DSP/index/%E7%AC%AC7%E9%A1%B5-4.PNG" alt="第7页-4"></p>
+<ul>
+<li>详细阐述了DSP心肌病的临床特征和风险分层。该研究发现，心肌损伤与持续性室性心律失常（HR 2.53，95% CI：1.05-6.11）和心力衰竭（HR 7.53，95% CI：3.10-18.26）显著相关。</li>
+</ul>
+</li>
+<li>
+<p>[15] Diagnostic Criteria and Disease Staging for Desmoplakin Cardiomyopathy. <a target="_blank" rel="noopener" href="https://365.kdocs.cn/l/ca2hMuwPJX6B">(PDF)</a></p>
+<ul>
+<li>提出了DSP心肌病的特异性诊断标准和疾病分期方法，旨在更精确地识别和管理患者。研究纳入了605例完成全面诊断检测的患者，发现PVCs &gt;500/24h (66%)、NSVT (29%)、LV LGE (53%) 和LVEF降低 (44%) 是最常见的疾病特征。</li>
+</ul>
+</li>
+<li>
+<p>[16] China Multi-Center Cohort Study on Risk Evaluation of Arrhythmogenic Cardiomyopathy. <a target="_blank" rel="noopener" href="https://365.kdocs.cn/l/crSZuWRfF0dH">(PDF)</a></p>
+<ul>
+<li>聚焦中国人群的致心律失常性心肌病风险评估，旨在建立针对中国患者的预后模型。截至2024年9月，该注册研究已招募622名参与者，其中88.7%为先证者，11.3%为携带ACM相关变异的家庭成员。</li>
+</ul>
+</li>
+</ul>
+<h2 id="综合性回顾"><a class="markdownIt-Anchor" href="#综合性回顾"></a> <strong>综合性回顾</strong></h2>
+<ul>
+<li>[17] Desmoplakin Cardiomyopathy: Comprehensive Review of an Increasingly Recognized Entity. <a target="_blank" rel="noopener" href="https://365.kdocs.cn/l/cnkwrISBN8xr">(PDF)</a>
+<ul>
+<li>对DSP心肌病进行了全面回顾，指出其“热相”发生率在14%至22%之间。</li>
+</ul>
+</li>
+</ul>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        Author:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Yixiang Zhang</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        Link:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://zxdfcv.github.io/DSP/index.html">http://zxdfcv.github.io/DSP/index.html</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        Reprint policy:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    All articles in this blog are used except for special statements
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    reprint policy. If reproduced, please indicate source
+                    <a href="/about" target="_blank">Yixiang Zhang</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>Copied successfully, please follow the reprint policy of this article</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">more</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                    <div class="article-tag">
+                        <span class="chip bg-color">No tag</span>
+                    </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+    <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '745f152f39e12e38b015',
+        clientSecret: '4fcac922f40bb86196bf94a04399292edba69dbf',
+        repo: 'zxdfcv.github.io',
+        owner: 'zxdfcv',
+        admin: ["zxdfcv"],
+        id: '2025-09-13T11-24-01',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
+            <div class="card">
+                <a href="/DSP/index.html">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
+                        
+                        <span class="card-title"></span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-09-13
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Yixiang Zhang
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Current&nbsp;<i class="far fa-dot-circle"></i>
+            </div>
+            <div class="card">
+                <a href="/DSP/index.html">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
+                        
+                        <span class="card-title"></span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-09-13
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Yixiang Zhang
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="8076669983"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2023-2025</span>
+            
+            <a href="/about" target="_blank">Yixiang Zhang</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;Total visits:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;Total visitors:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:21371055@buaa.edu.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+    <a href="https://twitter.com/Yixiang96412220" class="tooltipped" target="_blank" data-tooltip="关注我的Twitter: https://twitter.com/Yixiang96412220" data-position="top" data-delay="50">
+        <i class="fab fa-twitter"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1079109002" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1079109002" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://weibo.com/7643997574" class="tooltipped" target="_blank" data-tooltip="关注我的微博: https://weibo.com/7643997574" data-position="top" data-delay="50">
+        <i class="fab fa-weibo"></i>
+    </a>
+
+
+
+    <a href="https://www.zhihu.com/people/zhang-yi-xiang-4-42" class="tooltipped" target="_blank" data-tooltip="关注我的知乎: https://www.zhihu.com/people/zhang-yi-xiang-4-42" data-position="top" data-delay="50">
+        <i class="fab fa-zhihu1">知</i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+
+</body>
+
+</html>
