@@ -436,19 +436,20 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <pre class="line-numbers language-mermaid" data-language="mermaid"><code class="language-mermaid"><span class="token keyword">graph</span> TD
-    A<span class="token text string">[Episodic Myocarditis]</span> <span class="token arrow operator">--></span><span class="token label property">|底层机制|</span> B<span class="token text string">[DSP Haploinsufficiency / NMD， NFκB Signaling]</span>
-    B <span class="token arrow operator">--></span><span class="token label property">|机制研究|</span> D<span class="token text string">[DSP Fibrotic Inflammatory]</span>
-    D <span class="token arrow operator">--></span><span class="token label property">|表型定义|</span> E<span class="token text string">[Myocarditis-like Episodes]</span>
-    E <span class="token arrow operator">--></span><span class="token label property">|系统综述|</span> G<span class="token text string">[DSP stratification and Outcomes]</span>
-    G <span class="token arrow operator">--></span><span class="token label property">|遗传亚型对比|</span> J<span class="token text string">[DSP Clinical Features]</span>
-    J <span class="token arrow operator">--></span><span class="token label property">|预后分析|</span> K<span class="token text string">[DSP Diagnostic Criteria / CMR, Genetic Test, LGE]</span>
-    K <span class="token arrow operator">--></span><span class="token label property">|诊断标准制定|</span> M<span class="token text string">[Prognostic Myocarditis / Recurrent Myocarditis Mgmt]</span>
-    M <span class="token arrow operator">--></span><span class="token label property">|治疗关联|</span> Q<span class="token text string">[DSP Immunosuppression, gluecorticoids, AZT, MMF, anakinra]</span>
+                <pre class="mermaid">graph TD
+    A[Episodic Myocarditis] -->|底层机制| B[DSP Haploinsufficiency / NMD， NFκB Signaling]
+    B -->|机制研究| D[DSP Fibrotic Inflammatory]
+    D -->|表型定义| E[Myocarditis-like Episodes]
+    E -->|系统综述| G[DSP stratification and Outcomes]
+    G -->|遗传亚型对比| J[DSP Clinical Features]
+    J -->|预后分析| K[DSP Diagnostic Criteria / CMR, Genetic Test, LGE]
+    K -->|诊断标准制定| M[Prognostic Myocarditis / Recurrent Myocarditis Mgmt]
+    M -->|治疗关联| Q[DSP Immunosuppression, gluecorticoids, AZT, MMF, anakinra]
     
-    <span class="token comment">%% 核心机制关联</span>
-    B <span class="token arrow operator">--></span><span class="token label property">|炎症通路|</span> M
-    D <span class="token arrow operator">--></span><span class="token label property">|表型基础|</span> K<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+    %% 核心机制关联
+    B -->|炎症通路| M
+    D -->|表型基础| K</pre>
 <h2 id="dsp基因突变与疾病机制"><a class="markdownIt-Anchor" href="#dsp基因突变与疾病机制"></a> <strong>DSP基因突变与疾病机制</strong></h2>
 <ul>
 <li>[1] Desmoplakin Haploinsufficiency Underlies Cell-Cell Adhesion Failure in DSP Cardiomyopathy and is Rescued by Transcriptional Activation. <a target="_blank" rel="noopener" href="https://365.kdocs.cn/l/cvPPVnwYq9ua">(PDF)</a>
@@ -692,7 +693,7 @@
         repo: 'zxdfcv.github.io',
         owner: 'zxdfcv',
         admin: ["zxdfcv"],
-        id: '2025-09-13T11-24-01',
+        id: '2025-09-13T11-39-49',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
